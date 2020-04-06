@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>C＃进阶系列第一章_委托 | Hexo</title>
+  <title>1-嵌入式系统芯片启动 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#C#系列之委托 ##什么是委托？ ​        委托，也叫做匿名方法。我们知道，面向对象语言的三大特点其中一个就是封闭性，用户不需要知道函数内部是怎么实现的，只需要调用函数、传入参数就可以直接使用。所以，我们对于一些功能类似，实现方法相同的语句块，我们可以将其作为参数传入。  ##为什么要用委托？ 首先，我们看一个例子： 写一个返回最大值的方法 12345678910111213141516">
+  <meta name="description" content="BIOS启动过程详细解析1.修改BIOS各步骤的意义①cpu.h包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36) ②mcu.h为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。 重定向的意义在于 ⑴提取共性，最小程度的减少移植其他芯片的代价 ⑵为了顾名思义，最大程度提高代码的可读性 ③链接文件主要为了划分各部分">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C＃进阶系列第一章_委托">
-<meta property="og:url" content="http://yoursite.com/2019/07/16/C＃进阶系列第一章-委托/index.html">
+<meta property="og:title" content="1-嵌入式系统芯片启动">
+<meta property="og:url" content="http://yoursite.com/2020/04/06/嵌入式系统/1-嵌入式系统芯片启动/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="#C#系列之委托 ##什么是委托？ ​        委托，也叫做匿名方法。我们知道，面向对象语言的三大特点其中一个就是封闭性，用户不需要知道函数内部是怎么实现的，只需要调用函数、传入参数就可以直接使用。所以，我们对于一些功能类似，实现方法相同的语句块，我们可以将其作为参数传入。  ##为什么要用委托？ 首先，我们看一个例子： 写一个返回最大值的方法 12345678910111213141516">
+<meta property="og:description" content="BIOS启动过程详细解析1.修改BIOS各步骤的意义①cpu.h包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36) ②mcu.h为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。 重定向的意义在于 ⑴提取共性，最小程度的减少移植其他芯片的代价 ⑵为了顾名思义，最大程度提高代码的可读性 ③链接文件主要为了划分各部分">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-16T14:50:14.221Z">
+<meta property="og:updated_time" content="2020-04-06T14:11:36.415Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C＃进阶系列第一章_委托">
-<meta name="twitter:description" content="#C#系列之委托 ##什么是委托？ ​        委托，也叫做匿名方法。我们知道，面向对象语言的三大特点其中一个就是封闭性，用户不需要知道函数内部是怎么实现的，只需要调用函数、传入参数就可以直接使用。所以，我们对于一些功能类似，实现方法相同的语句块，我们可以将其作为参数传入。  ##为什么要用委托？ 首先，我们看一个例子： 写一个返回最大值的方法 12345678910111213141516">
+<meta name="twitter:title" content="1-嵌入式系统芯片启动">
+<meta name="twitter:description" content="BIOS启动过程详细解析1.修改BIOS各步骤的意义①cpu.h包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36) ②mcu.h为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。 重定向的意义在于 ⑴提取共性，最小程度的减少移植其他芯片的代价 ⑵为了顾名思义，最大程度提高代码的可读性 ③链接文件主要为了划分各部分">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -154,69 +154,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-C＃进阶系列第一章-委托" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-嵌入式系统/1-嵌入式系统芯片启动" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      C＃进阶系列第一章_委托
+      1-嵌入式系统芯片启动
     </h1>
   
 
         
-        <a href="/2019/07/16/C＃进阶系列第一章-委托/" class="archive-article-date">
-  	<time datetime="2019-07-16T14:06:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
+        <a href="/2020/04/06/嵌入式系统/1-嵌入式系统芯片启动/" class="archive-article-date">
+  	<time datetime="2020-04-06T14:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#<strong><em>C#系列之委托</em></strong></p>
-<p>##<strong>什么是委托？</strong></p>
-<p>​        委托，也叫做匿名方法。我们知道，面向对象语言的三大特点其中一个就是封闭性，用户不需要知道函数内部是怎么实现的，只需要调用函数、传入参数就可以直接使用。所以，我们对于一些功能类似，实现方法相同的语句块，我们可以将其作为参数传入。</p>
-<hr>
-<p>##<strong>为什么要用委托？</strong></p>
-<p>首先，我们看一个例子：</p>
-<p>写一个返回最大值的方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">static int Max(List&lt;int&gt; nums)</span><br><span class="line">&#123;</span><br><span class="line">	int max = nums[0];</span><br><span class="line">	foreach(var num in nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(num &gt; max)</span><br><span class="line">       		max = num;</span><br><span class="line">	&#125;</span><br><span class="line">	return max;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;));//输出最大值</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="BIOS启动过程详细解析"><a href="#BIOS启动过程详细解析" class="headerlink" title="BIOS启动过程详细解析"></a>BIOS启动过程详细解析</h1><h2 id="1-修改BIOS各步骤的意义"><a href="#1-修改BIOS各步骤的意义" class="headerlink" title="1.修改BIOS各步骤的意义"></a>1.修改BIOS各步骤的意义</h2><h3 id="①cpu-h"><a href="#①cpu-h" class="headerlink" title="①cpu.h"></a>①cpu.h</h3><p>包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36)</p>
+<h3 id="②mcu-h"><a href="#②mcu-h" class="headerlink" title="②mcu.h"></a>②mcu.h</h3><p>为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。</p>
+<p><strong>重定向的意义在于</strong></p>
+<p><strong>⑴提取共性，最小程度的减少移植其他芯片的代价</strong></p>
+<p><strong>⑵为了顾名思义，最大程度提高代码的可读性</strong></p>
+<h3 id="③链接文件"><a href="#③链接文件" class="headerlink" title="③链接文件"></a>③链接文件</h3><p>主要为了划分各部分功能（动态命令、构件链表、构件函数）所用的区域，实现各个功能的跳转工作。</p>
+<h3 id="④启动文件"><a href="#④启动文件" class="headerlink" title="④启动文件"></a>④启动文件</h3><p>启动文件的修改主要是将bss段的清零程序删除。删除这段是为了上电复位的时候不清除部分全局变量以达到触碰6次才返回BIOS的效果。</p>
+<h3 id="⑤user-h"><a href="#⑤user-h" class="headerlink" title="⑤user.h"></a>⑤user.h</h3><p>主要为了重定向各模块的串口、模块号或者对应的原中断处理程序名。</p>
+<h3 id="⑥基础构建标准化"><a href="#⑥基础构建标准化" class="headerlink" title="⑥基础构建标准化"></a>⑥基础构建标准化</h3><p>主要为了提取共性，实现多芯片的统一。</p>
+<h2 id="2-BIOS的启动过程"><a href="#2-BIOS的启动过程" class="headerlink" title="2.BIOS的启动过程"></a>2.BIOS的启动过程</h2><p><strong>–&gt;        初始化堆栈</strong></p>
+<p><strong>–&gt;        复位程序地址赋给PC寄存器</strong></p>
+<p><strong>–&gt;        取出PC寄存器中的地址并执行</strong></p>
+<p><strong>–&gt;        将Flash中的data段的数据复制到RAM</strong></p>
+<p><strong>–&gt;        调用系统初始化函数进行芯片部分初始化</strong></p>
+<p><strong>–&gt;        调用main函数进入BIOS主程序</strong></p>
+<p><strong>–&gt;        从BIOS中转向USER区域</strong></p>
+<h1 id="mbed操作系统启动过程"><a href="#mbed操作系统启动过程" class="headerlink" title="mbed操作系统启动过程"></a>mbed操作系统启动过程</h1><p>(1)芯片上电复位后，芯片内部机制首先从 Flash 的起始地址中，取出第一个表项的内容（即 RAM 最大地址+1），赋给内核堆栈指针寄存器 SP，实际上是使用 MSP，完成堆栈指针初始化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.section .FlashConfig, &quot;a&quot;</span><br><span class="line">.long 0xFFFFFFFF</span><br><span class="line">.long 0xFFFFFFFF</span><br><span class="line">.long 0xFFFFFFFF</span><br><span class="line">.long 0xFFFFFFFE</span><br></pre></td></tr></table></figure>
 
-<p>​        那怎么写一个返回最小值的方法呢,我们只需要把num &gt; max 这个判断条件改为num &lt; max(max只是个名字而已，不用纠结含义),但每次去修改函数就破坏了封装性，那么我们最开始想到的方法就是枚举。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">enum 返回值</span><br><span class="line">&#123;</span><br><span class="line">	max,</span><br><span class="line">	min,</span><br><span class="line">&#125;</span><br><span class="line">static int Max(List&lt;int&gt; nums,返回值 retType)</span><br><span class="line">&#123;</span><br><span class="line">	int max = nums[0];</span><br><span class="line">	foreach(var num in nums)</span><br><span class="line">	&#123;</span><br><span class="line">		switch(retType)</span><br><span class="line">		&#123;</span><br><span class="line">			case 返回值.max:</span><br><span class="line">			if(num &gt;max)</span><br><span class="line">				max = num;</span><br><span class="line">			break;</span><br><span class="line">			case 返回值.min:</span><br><span class="line">			if(num &lt;max)</span><br><span class="line">			max = num;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return max;	</span><br><span class="line">&#125;</span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;,返回值.min));	</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(2)芯片内部机制将第二个表项（即复位处理程序 Reset_Handler 的首地址），赋给内核寄存器 PC（程序计数器）。</p>
+<p>(3)芯片内部机制从程序计数器 PC 中取出地址，再从该地址取出机器码，这个机器码就是芯片复位后执行的第一个指令，也就是说，芯片从此开始运行程序了。直观理解就是从“startup_xxx.S”文件中的 Reset_Handler 函数开始程序的运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Reset_Handler:</span><br><span class="line">    cpsid   i          </span><br><span class="line">#ifndef __NO_SYSTEM_INIT</span><br><span class="line">    bl SystemInit</span><br><span class="line">#endif</span><br><span class="line">    cpsie   i</span><br></pre></td></tr></table></figure>
 
-<p>​        但这种方法还是有问题，如果我们要增加平均值函数，我们就又需要修改函数中的代码。<br>​        我们知道面向对象编程其中一个特点就是封闭性，而我们每次新增功能都需要修改函数中的代码，这样就破坏了函数的封闭性。</p>
-<p>再看一个例子</p>
-<p>比如，遍历List，挑选出&gt;=10的元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums)</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(num &gt;= 10)</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(4)将 data 段的数据（已赋值且不为 0 的全局变量和静态变量）从 Flash 中复制到 RAM 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ldr    r1, =__etext</span><br><span class="line">ldr    r2, =__data_start__</span><br><span class="line">ldr    r3, =__data_end__</span><br><span class="line"></span><br><span class="line">subs    r3, r2</span><br><span class="line">ble     .LC0</span><br><span class="line">		</span><br><span class="line">.LC1:</span><br><span class="line">subs    r3, 4</span><br><span class="line">ldr    r0, [r1,r3]</span><br><span class="line">str    r0, [r2,r3]</span><br><span class="line">bgt    .LC1</span><br><span class="line">.LC0:</span><br></pre></td></tr></table></figure>
 
-<p>如果增加一个功能，遍历一下偶数<br>那就是把num &gt;= 10 改为 num % 2 == 0</p>
-<p>num &gt;= 10 和 num % 2 == 0有什么共同点？<br> <strong>1.两者返回值都是bool值</strong><br> <strong>2.两者只需要传入一个参数num</strong></p>
-<p>那么我们可以尝试把这个函数写成function(num)<br>static bool function(int num)<br>{<br>        return num &gt;= 10;<br>}<br>但是这种方法依旧没有封装住，为什么？<br>        因为这个函数不是作为函数参数传入进来，而是作为函数调用传入进来，这样每次功能需求变化的时候，我们每次都要修改function里面的内容，或者另外写function2(num),无论哪种方法都无法封装住，那么我们每次需要增加新功能时都需要修改代码，当代码工程量比较大时，代码维护工作量很大。那么我们是不是可以用一个匿名函数(也就是每次不需要修改名字)，就可以避免修改函数中的代码来达到封装的效果呢？那么，委托就可以如此。</p>
-<hr>
-<p>##<strong>委托要怎么做呢？</strong></p>
-<p>委托需要以下三步：<br>声明委托类型：delegate bool Function(int num);<br>修改形参列表：static  List<int> Traverse(List<int> nums,Function function)<br>传入委托：var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, GreaterThan10);</int></int></int></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">delegate bool Function(int num);//声明委托类型</span><br><span class="line">static Function GreaterThan10 = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line">static Function IsEven = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line"></span><br><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums,Function function)//修改形参列表</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(function(num))</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	var list = Traverse(new List&lt;int&gt;() &#123;1,2,3,4,5,6,7&#125;, GreaterThan10);//传入委托</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;,返回值.min));</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(5)清零未初始化 bss（Block Started by Symbol） 数据段（<strong>赋值为</strong> <strong>0</strong> <strong>或未初始化的全局变量和静态变量</strong>） </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#define __STARTUP_CLEAR_BSS</span><br><span class="line">#ifdef __STARTUP_CLEAR_BSS</span><br><span class="line">    ldr r1, =__bss_start__</span><br><span class="line">    ldr r2, =__bss_end__</span><br><span class="line">    </span><br><span class="line">    subs    r2, r1</span><br><span class="line">    ble .LC3</span><br><span class="line">    movs    r0, 0</span><br><span class="line"></span><br><span class="line">.LC2:</span><br><span class="line">    str r0, [r1, r2]</span><br><span class="line">    subs    r2, 4</span><br><span class="line">    bge .LC2</span><br><span class="line"></span><br><span class="line">.LC3:</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
 
-<hr>
-<p>##<strong>Lambda是对委托的化简写法</strong></p>
-<p>###<strong>语句Lambda</strong><br>(type var,…) =&gt;{ … }<br>(var, …) =&gt; { … }<br>Var =&gt; { … }<br>() =&gt; { … }</p>
-<p>###<strong>表达式Lambda</strong><br>没有{},但是只能有一条语句</p>
-<p>既然GreaterThan10 = delegate(int num) { return num &gt;= 10;}<br>那我们直接可以把<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>GreaterThan10</strong>)写成：<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>delegate(int num) { return num &gt;= 10;}</strong>);</int></int></p>
-<p>继续化简<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>(int num) =&gt; { return num &gt;= 10;}</strong>);<br>再继续化简<br>既然申明delegate bool Function(int num)时已经声明num为int类型，那我们为什么还要再写int num？<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7},<strong>(num) =&gt; { return num &gt;= 10;}</strong>);<br>当需要且仅需要一个参数时，我们连括号都可以省了<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>num =&gt; { return num &gt;= 10;}</strong>);<br>当只有一个参数，一条语句时<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>num =&gt; return num &gt;= 10</strong>);<br>当没有参数时<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>() =&gt; { return num &gt;= 10;}</strong>);</int></int></int></int></int></p>
-<hr>
-<p>##<strong>系统自带的泛型委托</strong></p>
-<p>Action<t>  例 List<t>.ForEach()<br>Func<t>     例 List<t>.Sum()<br>Predicate<t>  例 List<t>.FindAll()<br>                          例 List<t>.Find()</t></t></t></t></t></t></t></p>
-<p>###<strong>Action泛型委托</strong></p>
-<p>Action是无返回值的委托</p>
-<p>Action action = delegate void xx();<br>public delegate void Action<t1>(T1 t);<br>list.ForEach(i =&gt;Console.WriteLine(i));<br>list.ForEach(i =&gt;{Console.WriteLine(i)});</t1></p>
-<p>###<strong>Func泛型委托</strong></p>
-<p>Func是有返回值的委托<br>list.Sum(n =&gt; {if(n &lt;= 0) return 0; else return n)}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">static Func&lt;int,bool&gt; GreaterThan10 = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line">static Func&lt;int,bool&gt; IsEven = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line"></span><br><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums,Func&lt;int,bool&gt; function)</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(function(num))</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>###<strong>Predicate 谓词—返回bool值的委托</strong></p>
-<p>list.FindAll(n =&gt; n &lt; 0);</p>
+<p>(6)调用系统初始化函数 SystemInit 进行芯片部分初始化设置（在本样例程序中，完 成系统时钟初始化，即将内核和总线时钟都设置为 48MHZ）。 </p>
+<p>(7)调用静态构造函数__libc_init_array 完成对 C ++对象的初始化。 </p>
+<p>(8)最后调用 main 函数进入用户主程序执行。</p>
+<p><strong>–&gt;        初始化堆栈</strong></p>
+<p><strong>–&gt;        复位程序地址赋给PC寄存器</strong></p>
+<p><strong>–&gt;        取出PC寄存器中的地址并执行</strong></p>
+<p><strong>–&gt;        将Flash中的data段的数据复制到RAM</strong></p>
+<p><strong>–&gt;        清零并初始化BSS段</strong></p>
+<p><strong>–&gt;        调用系统初始化函数进行芯片部分初始化</strong></p>
+<p><strong>–&gt;        (调用__libc_init_array完成对 C ++对象的初始化)</strong></p>
+<p><strong>–&gt;        调用main函数进入用户主程序</strong></p>
+<p><strong>注意：</strong></p>
+<p><strong>1.BIOS的操作中去除了清零并初始化BSS段的操作</strong></p>
+<p><strong>2.(__libc_init_array)内为增加操作系统所需要加的操作</strong></p>
 
       
 
@@ -247,6 +247,17 @@
       
       
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/嵌入式系统//" class="article-tag-list-link color1">嵌入式系统</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -296,7 +307,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/16/C＃进阶系列第一章-委托/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/04/06/嵌入式系统/1-嵌入式系统芯片启动/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -310,18 +321,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/16/JS-HTML-CSS初学第一章/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          JS+HTML+CSS初学第一章
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/15/Arduino第一章-程序安装/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Arduino第一章_程序安装</div>
+    <a href="/2019/07/16/网页相关知识/JS-HTML-CSS初学第一章/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS+HTML+CSS初学第一章</div>
       <i class="icon-circle-right"></i>
     </a>
   
