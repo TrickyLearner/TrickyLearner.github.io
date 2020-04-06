@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>1-嵌入式系统芯片启动 | Hexo</title>
+  <title>1-芯片启动过程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="BIOS启动过程详细解析1.修改BIOS各步骤的意义①cpu.h包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36) ②mcu.h为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。 重定向的意义在于 ⑴提取共性，最小程度的减少移植其他芯片的代价 ⑵为了顾名思义，最大程度提高代码的可读性 ③链接文件主要为了划分各部分">
 <meta property="og:type" content="article">
-<meta property="og:title" content="1-嵌入式系统芯片启动">
-<meta property="og:url" content="http://yoursite.com/2020/04/06/嵌入式系统/1-嵌入式系统芯片启动/index.html">
+<meta property="og:title" content="1-芯片启动过程">
+<meta property="og:url" content="http://yoursite.com/2020/04/06/嵌入式系统/1-芯片启动过程/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="BIOS启动过程详细解析1.修改BIOS各步骤的意义①cpu.h包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36) ②mcu.h为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。 重定向的意义在于 ⑴提取共性，最小程度的减少移植其他芯片的代价 ⑵为了顾名思义，最大程度提高代码的可读性 ③链接文件主要为了划分各部分">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-06T14:11:36.415Z">
+<meta property="og:updated_time" content="2020-04-06T14:24:42.968Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="1-嵌入式系统芯片启动">
+<meta name="twitter:title" content="1-芯片启动过程">
 <meta name="twitter:description" content="BIOS启动过程详细解析1.修改BIOS各步骤的意义①cpu.h包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36) ②mcu.h为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。 重定向的意义在于 ⑴提取共性，最小程度的减少移植其他芯片的代价 ⑵为了顾名思义，最大程度提高代码的可读性 ③链接文件主要为了划分各部分">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -154,19 +154,19 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-嵌入式系统/1-嵌入式系统芯片启动" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-嵌入式系统/1-芯片启动过程" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      1-嵌入式系统芯片启动
+      1-芯片启动过程
     </h1>
   
 
         
-        <a href="/2020/04/06/嵌入式系统/1-嵌入式系统芯片启动/" class="archive-article-date">
+        <a href="/2020/04/06/嵌入式系统/1-芯片启动过程/" class="archive-article-date">
   	<time datetime="2020-04-06T14:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-06</time>
 </a>
         
@@ -307,7 +307,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/04/06/嵌入式系统/1-嵌入式系统芯片启动/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/04/06/嵌入式系统/1-芯片启动过程/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -320,6 +320,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2020/04/06/嵌入式系统/2-BIOS&mbedOS启动过程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          2-BIOS&amp;mbedOS启动过程
+        
+      </div>
+    </a>
   
   
     <a href="/2019/07/16/网页相关知识/JS-HTML-CSS初学第一章/" id="article-nav-older" class="article-nav-link-wrap">
