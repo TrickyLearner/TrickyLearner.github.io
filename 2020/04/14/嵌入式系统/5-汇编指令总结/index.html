@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head><meta name="generator" content="Hexo 3.9.0">
@@ -158,7 +157,7 @@
     </script>
     
     <script defer type="text/javascript" src="/js/custom.js"></script>
-    <title>标签 | LEARNING NOTES</title>
+    <title>5-汇编指令总结 | LEARNING NOTES</title>
   </head>
   <body itemscope itemtype="http://schema.org/WebPage" lang="zh_CN" data-spy="scroll" data-target=".list-group">
     
@@ -185,7 +184,7 @@
         
         <li role="menuitem"><a href="/categories/"><i class="fas fa-th-list"></i><span class="menu-text">分类</span></a></li>
         
-        <li role="menuitem"><a href="/tags/" class="current"><i class="fas fa-tags"></i><span class="menu-text">标签</span></a></li>
+        <li role="menuitem"><a href="/tags/"><i class="fas fa-tags"></i><span class="menu-text">标签</span></a></li>
         
         <li role="menuitem"><a href="/about/"><i class="fas fa-user-edit"></i><span class="menu-text">关于</span></a></li>
         
@@ -200,23 +199,121 @@
         <div class="main-container">
           <div class="content">
             
-<div id="tags" class="tags page">
-  <article class="article post card">
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/嵌入式系统/5-汇编指令总结/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+       <meta itemprop="description" content="学IT中骑车最快的">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
     <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">标签</h1>
-    </header>
-    <main class="post-main">
-      <h2 class="page-counter">
+      <h1 class="post-title" itemprop="name headline">5-汇编指令总结</h1>
+      <div class="post-meta">
         
-        你已经创建了 3 个标签！
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-04-14T14:35:50+08:00">2020-04-14 14:35:50</time></span>
+        </span>
         
-      </h2>
-      <div class="tags-cloud">
-        <a href="/tags/编程语言/" style="font-size: 16px; color: #777">编程语言</a> <a href="/tags/芯片分析/" style="font-size: 32px; color: #111">芯片分析</a> <a href="/tags/随笔/" style="font-size: 32px; color: #111">随笔</a>
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
       </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="1-伪指令"><a href="#1-伪指令" class="headerlink" title="1. 伪指令"></a>1. 伪指令</h2><p>1.1 指令概念</p>
+<p>​        指令是指指令系统的各条指令，<strong>每一条指令在源程序汇编时都要产生可供计算机执行的指令代码</strong>（即目标代码），每一条指令语句是表示计算机具有的一个基本能力。</p>
+<p>1.2 伪指令概念</p>
+<p>​        伪指令是用于对汇编过程进行控制的指令，<strong>该类指令并不是可执行指令，没有机器代码，只用于汇编过程中为汇编程序提供汇编信息</strong>。例如，提供如下信息：哪些是指令、哪些是数据及数据的字长、程序的起始地址和结束地址等。伪指令有2个特点：</p>
+<p>（1）由于是伪<strong>“指令”</strong>，因而它只存在于汇编语言中。高级语言中不叫指令，叫语句；</p>
+<p>（2）由于是<strong>“伪”</strong>指令，也即“假”指令，因而不是可执行指令，不会产生机器代码，不会占用ROM空间，只用于汇编过程中为汇编程序提供汇编信息。</p>
+<p>1.3 常用指令总结</p>
+<p>​        在嵌入式开发中，汇编程序常常用于非常关键的地方，比如<strong>系统启动时初始化，进出中断时的环境保护，恢复</strong>等对性能有要求的地方。</p>
+<p>​        ARM指令集可分为六大类，分别是数据处理指令、Load/Store指令、跳转指令、程序状态寄存器处理指令、协处理器指令和异常产生指令。</p>
+<p>​        ARM的寻址方式可分为立即寻址、寄存器寻址、寄存器间接寻址、基址加偏址寻址、堆栈寻址、块拷贝寻址、相对寻址。</p>
+<p>1.3.1 相对跳转指令：B、BL</p>
+<p>（1）B与BL指令的作用是什么？</p>
+<p>​        B与BL指令的作用： 实现程序跳转，也就是调用子程序。</p>
+<p>（2）B与BL指令的区别是什么？</p>
+<p>​        B指令： 简单的程序跳转，跳转到目标号处执行。</p>
+<p>​        BL指令：带链接程序跳转，也就是要带返回地址。在发生跳转前，将当前PC-4保存到R14中。</p>
+<p>​                         也就是将返回地址存在R14中，所以可以在子程序返回时只要MOV PC，LR即可</p>
+<p>（3）B{条件} &lt;地址&gt;</p>
+<p>​        B—Branch</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b funa</span><br><span class="line">....</span><br><span class="line">funa:</span><br><span class="line">	b funb</span><br><span class="line">....</span><br><span class="line">funb:</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+
+<p>（4）BL{条件}&lt;地址&gt;</p>
+<p>​        BL—Branch withLink</p>
+<p>（5）BX{条件}&lt;地址&gt;</p>
+<p>​        BX—Branch and eXchange_Instructions(计算机中一般不用E，例如执行权限EXE，用X代表)</p>
+<p>​        BX用法：</p>
+<p>​        BX  Rn</p>
+<p>​        BX是跳转指令，Rn是寄存器，如果Rn的位0为1，则进入Thumb状态；如果Rn的位为0，这进入ARM状态。（原因：ARM指令的后两位始终为0，而Thumb指令的后一位始终为0，因此采用位0来表示ARM指令与Thumb指令的切换标志位。）</p>
+<p>​        1、ARM状态：32位，ARM状态执行字对齐的32位ARM指令。</p>
+<p>​        2、Thumb状态，16位，执行半字对齐的16位指令。</p>
+<p>​        3、用BX Rn指令来进行两种状态的切换：</p>
+<p>​        注：1、ARM和Thumb两种状态之间的切换不影响处理器的工作模式和寄存器的内容。</p>
+<p>​                2、ARM处理器在处理异常时，不管处理器处于什么状态，则都将切换到ARM状态。</p>
+<p>1.3.2 数据传送指令mov，地址读取伪指令ldr</p>
+<p>​        mov指令可以把一个寄存器的值赋给另外一个寄存器，或者把一个常数赋给寄存器。</p>
+<p>​        mov  r1,  r2</p>
+<p>​        mov  r1,  #1024</p>
+<p>​        mov传送的常数必须能用立即数表示。当不能用立即数表示时，可以用ldr命令来赋值。Tips：ldr时伪命令，不是真实存在的指令，编译器会把他扩展成真正的指令；如果该常数能用“立即数”来表示，则使用mov指令，否则编译时将该常数保存在某个位置，使用内存读取指令把它读出来。</p>
+<p>1.3.3 内存访问指令ldr、str、ldm、stm</p>
+<p>1.3.4 加减指令</p>
+<p>​        add  r1,  r2,  #1</p>
+<p>​        sub  r1,  r2,  #1</p>
+<p>1.3.5 程序状态寄存器的访问指令msr，mrs</p>
+<p>1.3.6 异常中断指令</p>
+<p>1.3.7 其他伪指令</p>
+<p>​    （1）.extern main</p>
+<p>​        ‘.extern’定义一个外部符号（可以是变量也可以是函数），上面的代码表示文本文件中引用的main是一个外部函数。</p>
+<p>​    （2）.text</p>
+<p>​        ‘.text’表示下面的语句都属于代码段</p>
+<p>​    （3）.global _start</p>
+<p>​              _start:</p>
+<p>​        ‘.global’将本文件中的某个程序标号定义为全局的，如’_start’就是个全局函数</p>
+
     </main>
-    <footer class="post-footer"></footer>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/编程语言/" rel="tag"><i class="fas fa-tags"></i>编程语言</a>
+        
+      </div>
+      
+    </footer>
   </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2020/04/14/嵌入式系统/4-启动文件分析/" rel="next" title="4-启动文件分析"><i class="fas fa-angle-left"></i><span class="nav-title">4-启动文件分析</span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2020/04/18/随笔/1-同心同德/" rel="prev" title="1-同心同德"><span class="nav-title">1-同心同德</span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
 </div>
 
           </div>
@@ -276,6 +373,17 @@
 
 
   <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>文章目录</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-1"><a class="list-group-item toc-link" href="#基础知识"><span class="toc-text">基础知识</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#1-伪指令"><span class="toc-text">1. 伪指令</span></a></li></ol></li></ol></div>
+    </div>
+    
     
     
     <hr>
@@ -349,5 +457,3 @@
 
   </body>
 </html>
-
-
