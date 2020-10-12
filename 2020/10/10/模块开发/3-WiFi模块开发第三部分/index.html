@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="LEARNING NOTES" type="application/atom+xml">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title>3-WiFi模块开发第三部分 | LEARNING NOTES</title>
+  </head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh_CN" data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">LEARNING NOTES</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="切换导航栏"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">首页</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">归档</span></a></li>
+        
+        <li role="menuitem"><a href="/categories/"><i class="fas fa-th-list"></i><span class="menu-text">分类</span></a></li>
+        
+        <li role="menuitem"><a href="/tags/"><i class="fas fa-tags"></i><span class="menu-text">标签</span></a></li>
+        
+        <li role="menuitem"><a href="/about/"><i class="fas fa-user-edit"></i><span class="menu-text">关于</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/模块开发/3-WiFi模块开发第三部分/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+       <meta itemprop="description" content="学IT中骑车最快的">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">3-WiFi模块开发第三部分</h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T11:39:57+08:00">2020-10-10 11:39:57</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块开发/" itemprop="url" rel="index"><span itemprop="name">模块开发</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h1 id="WiFi主要使用函数"><a href="#WiFi主要使用函数" class="headerlink" title="WiFi主要使用函数"></a>WiFi主要使用函数</h1><h2 id="1-连接WiFi"><a href="#1-连接WiFi" class="headerlink" title="1.连接WiFi"></a>1.连接WiFi</h2><p>​        通过发送AT指令让EMW3072连接WiFi，WiFi连接成功后，EMW3072芯片会回发”STATION_UP”，收到这个回发信息后，芯片就设定已经连接上WiFi。</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_linktossid</span></span><br><span class="line"><span class="comment">//功能概要：接入指定wifi接入点</span></span><br><span class="line"><span class="comment">//参数说明：ssid:接入点名称,password:密码</span></span><br><span class="line"><span class="comment">//函数返回：接入是否成功=0成功，=1错误，=2无返回数据</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_linktossid(<span class="keyword">uint8_t</span>* ssid,<span class="keyword">uint8_t</span>* password)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="keyword">uint8_t</span> cmd[<span class="number">40</span>],flag;</span><br><span class="line">	<span class="comment">//2.设置帧尾</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"STATION_UP"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"ERROR"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,<span class="string">"AT+WJAP="</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)ssid);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">","</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)password);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"\r"</span>);</span><br><span class="line">	<span class="comment">//3.发送指令</span></span><br><span class="line">	flag=wifi_send_cmd(cmd);</span><br><span class="line">	<span class="keyword">if</span>(flag==WIFI_NORESPONSE)</span><br><span class="line">		wifi_send_cmd((<span class="keyword">uint8_t</span>*)<span class="string">"AT+WJAP=?\r"</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strstr</span>((<span class="keyword">char</span>*)WIFI_CMD,<span class="string">"STATION_UP"</span>)!=<span class="literal">NULL</span>)</span><br><span class="line">		flag=WIFI_OK;</span><br><span class="line">	<span class="keyword">if</span>(flag==WIFI_OK)</span><br><span class="line">		WIFI_AP_STATE=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> (flag);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-连接服务器"><a href="#2-连接服务器" class="headerlink" title="2.连接服务器"></a>2.连接服务器</h2><p>​        连接WiFi成功后，芯片通过发送AT指令让EMW3072连接服务器，连接服务器成功后，EMW3072芯片会回发”SERVER,CONNECTED”</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_con_srv</span></span><br><span class="line"><span class="comment">//功能概要：与服务器建立连接</span></span><br><span class="line"><span class="comment">//参数说明：ip:服务器IP地址,port:端口号（均为字符串格式）,</span></span><br><span class="line"><span class="comment">//       格式"xxx.xxx.xxx.xxx",xxx取值范围0-255</span></span><br><span class="line"><span class="comment">//函数返回：=0连接成功,=1连接失败,=2处于发送模式</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_con_srv(<span class="keyword">uint8_t</span>* ip,<span class="keyword">uint8_t</span>* port)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="keyword">uint8_t</span> flag,cmd[<span class="number">100</span>];</span><br><span class="line">	<span class="comment">//1.检测wifi模块当前状态是否处于发送模式</span></span><br><span class="line">	<span class="keyword">if</span>(WIFI_SEND_STATE==<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">	<span class="comment">//2.检测输入的ip地址是否合法</span></span><br><span class="line">	<span class="keyword">if</span>(!wifi_check_ip(ip))</span><br><span class="line">		<span class="keyword">return</span> WIFI_ERROR;</span><br><span class="line">	<span class="comment">//3.检测输入的port值是否合法</span></span><br><span class="line">	<span class="keyword">if</span>(!wifi_check_port(port))</span><br><span class="line">	    <span class="keyword">return</span> WIFI_ERROR;</span><br><span class="line">	<span class="comment">//4.设置帧尾</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"SERVER,CONNECTED"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"\r\nERROR"</span>);</span><br><span class="line">	<span class="comment">//5.断开已有连接</span></span><br><span class="line">	wifi_disconnect();</span><br><span class="line">	<span class="comment">//6.拼接指令</span></span><br><span class="line"></span><br><span class="line">	port[<span class="number">5</span>]=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//AT+CIPSTART=1,tcp_client,192.168.31.244,8888\r</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)WIFI_START);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"1,tcp_client,"</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)(ip));</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">","</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)(port));</span><br><span class="line">	<span class="built_in">strcat</span>(((<span class="keyword">char</span>*)cmd),<span class="string">"\r"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//7.发送指令</span></span><br><span class="line">	flag=wifi_send_cmd(cmd);</span><br><span class="line">	<span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-接收返回信息"><a href="#3-接收返回信息" class="headerlink" title="3.接收返回信息"></a>3.接收返回信息</h2><p>​        接收返回信息函数是每个AT指令发送后都需要用到的函数，根据发出的命令存储不同的返回信息供芯片判断发送指令成功与否。</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_int_re</span></span><br><span class="line"><span class="comment">//功能概要：中断接收字符</span></span><br><span class="line"><span class="comment">//参数说明：ch:要接受的字符，*dataLen:存储接收到的数据长度，</span></span><br><span class="line"><span class="comment">//      *data:将接收到的数据存放到该数组中;</span></span><br><span class="line"><span class="comment">//函数返回：无</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">wifi_int_re</span><span class="params">(<span class="keyword">uint8_t</span> ch,<span class="keyword">uint16_t</span> *dataLen, <span class="keyword">uint8_t</span> *data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="comment">//1.WIFI_ACKSTOP大于零时接收指令回信</span></span><br><span class="line">	<span class="keyword">switch</span>(WIFI_RECVSTOP)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="comment">//数据接收模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">0</span>:uecom_recv(ch,dataLen,data);</span><br><span class="line">	    	<span class="keyword">break</span>;</span><br><span class="line">	    <span class="comment">//命令返回接收模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">1</span>:<span class="keyword">if</span>(WIFI_CMDLENGTH&lt;<span class="number">400</span>)</span><br><span class="line">               &#123;</span><br><span class="line"> 	               wifi_returncheck(ch);</span><br><span class="line"> 	               WIFI_CMD[WIFI_CMDLENGTH+<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">               &#125;</span><br><span class="line">	    	   <span class="keyword">break</span>;</span><br><span class="line">	    <span class="comment">//重启模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">2</span>:WIFI_BOOTFLAG = wifi_rebootcheck(ch);</span><br><span class="line">	           <span class="keyword">if</span>(WIFI_BOOTFLAG)</span><br><span class="line">	        	   WIFI_RECVSTOP = <span class="number">0</span>;</span><br><span class="line">	           <span class="keyword">break</span>;                        <span class="comment">//重启等待</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">	    <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-发送消息"><a href="#4-发送消息" class="headerlink" title="4. 发送消息"></a>4. 发送消息</h2><p>​        芯片通过这个函数发送消息，函数会将你想要发送的消息进行二次组帧以确保信息的稳定性和安全性。</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_sendN</span></span><br><span class="line"><span class="comment">//功能概要：连接建立后，向服务器发送N个字符,如果是第一次发送,会开启发送模式,开启</span></span><br><span class="line"><span class="comment">//发送模式后部分函数会不可用,具体请看各函数说明</span></span><br><span class="line"><span class="comment">//参数说明：data:需要发送的字符,length:数据长度,IMSI:本机的IMSI号</span></span><br><span class="line"><span class="comment">//函数返回：发送是否成功=0成功,=1开启发送模式失败</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_sendN(<span class="keyword">uint8_t</span>* data,<span class="keyword">uint16_t</span> length,<span class="keyword">uint8_t</span>* IMSI)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">uint8_t</span> buf[<span class="number">400</span>], cmd[<span class="number">20</span>], strlength[<span class="number">5</span>];</span><br><span class="line">	<span class="keyword">if</span>(WIFI_SEND_STATE==<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//3.拼接发送请求帧尾</span></span><br><span class="line">		<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"OK"</span>);</span><br><span class="line">		<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"ERROR"</span>);</span><br><span class="line">		WIFI_SEND_STATE=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	wifi_frameEncode(IMSI,data,length,buf,&amp;length);</span><br><span class="line">	<span class="comment">//5.发送内容</span></span><br><span class="line">	itoa(length,(<span class="keyword">char</span>*)strlength,<span class="number">10</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,<span class="string">"AT+CIPSEND=1,"</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)strlength);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"\r"</span>);</span><br><span class="line">	uart_send_string(UART_WIFI,(<span class="keyword">uint8_t</span>*)cmd);</span><br><span class="line">	uart_sendN(UART_WIFI,length,buf);</span><br><span class="line">	<span class="keyword">return</span> WIFI_OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/模块开发/" rel="tag"><i class="fas fa-tags"></i>模块开发</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2020/10/10/模块开发/2-WiFi模块开发第二部分/" rel="next" title="2-WiFi模块开发第二部分"><i class="fas fa-angle-left"></i><span class="nav-title">2-WiFi模块开发第二部分</span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2020/10/10/模块开发/4-WiFi模块开发第四部分/" rel="prev" title="4-WiFi模块开发第四部分"><span class="nav-title">4-WiFi模块开发第四部分</span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="搜索" class="form-control">
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="奥特曼&猪猪侠&闪电小子&葫芦娃">
+  
+  <h1 class="author-name">奥特曼&猪猪侠&闪电小子&葫芦娃</h1>
+  <h2 class="author-description">学IT中骑车最快的</h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">归档</div>
+      <div><a href="/archives/">23</a></div>
+    </div>
+    
+    
+    
+    <div class="categories-count count-block">
+      <div class="site-count-title">分类</div>
+      <div><a href="/categories/">9</a></div>
+    </div>
+    
+    
+    
+    <div class="tags-count count-block">
+      <div class="site-count-title">标签</div>
+      <div><a href="/tags/">8</a></div>
+    </div>
+    
+    
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>文章目录</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-1"><a class="list-group-item toc-link" href="#WiFi主要使用函数"><span class="toc-text">WiFi主要使用函数</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#1-连接WiFi"><span class="toc-text">1.连接WiFi</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#2-连接服务器"><span class="toc-text">2.连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#3-接收返回信息"><span class="toc-text">3.接收返回信息</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#4-发送消息"><span class="toc-text">4. 发送消息</span></a></li></ol></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>社交链接<p></p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>友情链接</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="回到顶部"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">奥特曼&猪猪侠&闪电小子&葫芦娃</span><span class="year"><i class="far fa-copyright"></i>2020</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="站点点击量" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="站点用户数" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="页面点击量" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>

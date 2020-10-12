@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="LEARNING NOTES" type="application/atom+xml">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title>6-STM32链接文件各部分解析 | LEARNING NOTES</title>
+  </head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh_CN" data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">LEARNING NOTES</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="切换导航栏"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">首页</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">归档</span></a></li>
+        
+        <li role="menuitem"><a href="/categories/"><i class="fas fa-th-list"></i><span class="menu-text">分类</span></a></li>
+        
+        <li role="menuitem"><a href="/tags/"><i class="fas fa-tags"></i><span class="menu-text">标签</span></a></li>
+        
+        <li role="menuitem"><a href="/about/"><i class="fas fa-user-edit"></i><span class="menu-text">关于</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/08/嵌入式系统/6-STM32链接文件各部分解析/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+       <meta itemprop="description" content="学IT中骑车最快的">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">6-STM32链接文件各部分解析</h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-08T15:05:57+08:00">2020-10-08 15:05:57</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h2 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h2><figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/* Entry Point */</span><br><span class="line">ENTRY(Reset_Handler)</span><br><span class="line"></span><br><span class="line">/* Highest address of the user mode stack */</span><br><span class="line">_estack = 0x20010000;	/* end of &quot;RAM&quot; Ram type memory【1】-0x2000ffff */</span><br><span class="line"></span><br><span class="line">_Min_Heap_Size = 0x200 ;	/* required amount of heap  */</span><br><span class="line">_Min_Stack_Size = 0x400 ;	/* required amount of stack */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MCU_SECTORSIZE =2048; </span><br><span class="line"></span><br><span class="line">MCU_FLASH_ADDR_START = 0x8000000;    /*STM32L432RC的FLASH起始地址*/</span><br><span class="line">GEC_USER_SECTOR_START  =0;          /* 26=USER程序开始扇区号，0=自启动【2】-26 */  </span><br><span class="line">GEC_USER_SECTOR_END =127;            /*USER程序结束扇区号 */</span><br><span class="line">GEC_USER_RAM_START =0x20000000;      /*USER RAM区域起始地址  【3】-0x20002000*/</span><br><span class="line">GEC_USER_RAM_END  =0x20010000;       /*USER RAM区域结束地址  */</span><br></pre></td></tr></table></figure>
+
+<p>ENTRY(Reset_Handler)</p>
+<p>—–指定入口地址</p>
+<p>_estack = 0x20010000 </p>
+<p>—–指定RAM的结束地址（起始地址为0x20000000，说明RAM区大小为64K）</p>
+<p>_Min_Heap_Size = 0x200 </p>
+<p>—–指定堆的大小为512B</p>
+<p>_Min_Stack_Size = 0x400 </p>
+<p>—–指定栈的大小为1KB</p>
+<p>MCU_SECTORSIZE =2048</p>
+<p>—–指定扇区大小</p>
+<p>MCU_FLASH_ADDR_START = 0x8000000</p>
+<p>—–指定Flash起始地址</p>
+<p>GEC_USER_SECTOR_START  =0</p>
+<p>—–指定用户区起始扇区号</p>
+<p>GEC_USER_SECTOR_END =127</p>
+<p>—–指定用户区结束扇区号</p>
+<p>GEC_USER_RAM_START =0x20000000</p>
+<p>—–指定用户RAM开始地址</p>
+<p>GEC_USER_RAM_END  =0x20010000</p>
+<p>—–指定用户RAM结束地址</p>
+<h2 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h2><figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">	/*USER程序放置处。*/</span><br><span class="line">	USER_INTVEC(rx) : ORIGIN =MCU_FLASH_ADDR_START + MCU_SECTORSIZE * GEC_USER_SECTOR_START , LENGTH = MCU_SECTORSIZE</span><br><span class="line">    </span><br><span class="line">    FLASH (rx) : ORIGIN = MCU_FLASH_ADDR_START + MCU_SECTORSIZE * (GEC_USER_SECTOR_START + 1) , LENGTH = MCU_SECTORSIZE * (GEC_USER_SECTOR_END - GEC_USER_SECTOR_START )</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    /*USER的RAM空间。*/</span><br><span class="line">    /* RAM  (rwx) : ORIGIN = GEC_USER_RAM_START , LENGTH = GEC_USER_RAM_END - GEC_USER_RAM_START */</span><br><span class="line">    RAM  (rwx) : ORIGIN = GEC_USER_RAM_START + 0x188, LENGTH = GEC_USER_RAM_END - GEC_USER_RAM_START - 0x188  /*【4】*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>MEMORY给出了地址的划分</strong></p>
+<p>这里的名字USER_INTVEC，FLASH，USER指的是一段地址，ORIGIN是起始地址，LENGTH是该段地址的长度。仔细观察可以发现，在下一部分SECTIONS中每段结束后会有 &gt;USER_INTVEC，&gt;FLASH，&gt;USER，这个意思是将程序的各个内容放在USER_INTVEC，FLASH，USER所指的地址中。</p>
+<h2 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h2><figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">  /* The startup code into &quot;FLASH&quot; Rom type memory */</span><br><span class="line">  .isr_vector :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(8);</span><br><span class="line">    KEEP(*(.isr_vector)) /* Startup code */</span><br><span class="line">    . = ALIGN(8);</span><br><span class="line">  &#125; &gt;USER_INTVEC</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>SECTIONS实际上指定了程序的各个内容该如何放置在FLASH或者RAM中。</strong></p>
+<p>. = ALIGN(8);</p>
+<p>—–  .表示当前地址，. = ALIGN(8)表示从<strong>当前地址开始后面的存储进行8字节对齐</strong></p>
+<p>KEEP(*(.isr_vector))</p>
+<p>—– KEEP防止所有.isr_vector段被过滤掉，防止被优化</p>
+<p>&gt;USER_INTVEC</p>
+<p>—– 将.isr_vector段的内容放置在USER_INTVEC中</p>
+<p>一般的程序中包含常见的几个段：</p>
+<p>text(存放程序)</p>
+<p>rodata(存放被初始化的数据)</p>
+<p>data(表示初始化不为0的变量)</p>
+<p>bss(表示初始化值为默认的全局变量)</p>
+<p>text,rodata放在flash中，data中的初始化值作为rodata放在flash中</p>
+<p>变量在ram中占有空间，bss占ram空间</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.malloc :</span><br><span class="line">&#123;</span><br><span class="line">. = ALIGN(4);</span><br><span class="line">__MALLOC_SYMBOLS = .;       /* create a global symbol at ccmram start */</span><br><span class="line">*(.malloc)</span><br><span class="line">*(.malloc*)</span><br><span class="line"></span><br><span class="line">. = ALIGN(4);</span><br><span class="line">__EMALLOC_SYMBOLS = .;       /* create a global symbol at ccmram end */</span><br><span class="line">&#125; &gt;MALLOC AT&gt; FLASH</span><br><span class="line">/*结尾跳过*/</span><br></pre></td></tr></table></figure>
+
+<p>段可以自定义，如上面写的malloc段，由于编译obj过程中不会生成用户自定义的段，因此在源码中需要指定需要特殊处理的段</p>
+<p>结尾的<code>&gt;MALLOC</code>指上面花括号内的内容都放在第二部分中定义的MALLOC空间中。如果没有<code>AT&gt; FLASH</code>，那么编译bin文件时地址是连续的</p>
+
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/嵌入式系统/" rel="tag"><i class="fas fa-tags"></i>嵌入式系统</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2020/09/28/会议总结/20200928会议总结/" rel="next" title="20200928会议总结"><i class="fas fa-angle-left"></i><span class="nav-title">20200928会议总结</span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2020/10/09/嵌入式系统/7-链接文件作用时间及原理/" rel="prev" title="7-链接文件作用时间及原理"><span class="nav-title">7-链接文件作用时间及原理</span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="搜索" class="form-control">
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="奥特曼&猪猪侠&闪电小子&葫芦娃">
+  
+  <h1 class="author-name">奥特曼&猪猪侠&闪电小子&葫芦娃</h1>
+  <h2 class="author-description">学IT中骑车最快的</h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">归档</div>
+      <div><a href="/archives/">23</a></div>
+    </div>
+    
+    
+    
+    <div class="categories-count count-block">
+      <div class="site-count-title">分类</div>
+      <div><a href="/categories/">9</a></div>
+    </div>
+    
+    
+    
+    <div class="tags-count count-block">
+      <div class="site-count-title">标签</div>
+      <div><a href="/tags/">8</a></div>
+    </div>
+    
+    
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>文章目录</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#第一部分"><span class="toc-text">第一部分</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#第二部分"><span class="toc-text">第二部分</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#第三部分"><span class="toc-text">第三部分</span></a></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>社交链接<p></p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>友情链接</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="回到顶部"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">奥特曼&猪猪侠&闪电小子&葫芦娃</span><span class="year"><i class="far fa-copyright"></i>2020</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="站点点击量" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="站点用户数" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="页面点击量" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>

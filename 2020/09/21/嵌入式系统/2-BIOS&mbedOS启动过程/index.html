@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="LEARNING NOTES" type="application/atom+xml">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title>2-BIOS&mbedOS启动过程 | LEARNING NOTES</title>
+  </head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh_CN" data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">LEARNING NOTES</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="切换导航栏"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">首页</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">归档</span></a></li>
+        
+        <li role="menuitem"><a href="/categories/"><i class="fas fa-th-list"></i><span class="menu-text">分类</span></a></li>
+        
+        <li role="menuitem"><a href="/tags/"><i class="fas fa-tags"></i><span class="menu-text">标签</span></a></li>
+        
+        <li role="menuitem"><a href="/about/"><i class="fas fa-user-edit"></i><span class="menu-text">关于</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/21/嵌入式系统/2-BIOS&mbedOS启动过程/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+       <meta itemprop="description" content="学IT中骑车最快的">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">2-BIOS&mbedOS启动过程</h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-09-21T22:18:56+08:00">2020-09-21 22:18:56</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h1 id="芯片启动后转向用户程序、操作系统的过程"><a href="#芯片启动后转向用户程序、操作系统的过程" class="headerlink" title="芯片启动后转向用户程序、操作系统的过程"></a>芯片启动后转向用户程序、操作系统的过程</h1><p>上一章介绍了芯片启动后的过程,芯片上电后开始启动执行到无操作系统主函数main(07_NosPrg\main.cpp)前。那么针对于BIOS最小系统和mbedOS的跳转过程如下：</p>
+<h2 id="1-BIOS最小系统的跳转"><a href="#1-BIOS最小系统的跳转" class="headerlink" title="1. BIOS最小系统的跳转"></a>1. BIOS最小系统的跳转</h2><p>BIOS的main函数如下：</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//（1）======启动部分（开头）============================================</span></span><br><span class="line"><span class="comment">//（1.1）声明main函数使用的局部变量（声明时不准赋值）</span></span><br><span class="line">        uint_8  muFlag;     <span class="comment">//更新状态标志</span></span><br><span class="line">        uint_32 mCount;     <span class="comment">//延时计数变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.2）【不变】关总中断</span></span><br><span class="line">        DISABLE_INTERRUPTS;</span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.3）给全局变量及主函数使用的局部变量赋初值</span></span><br><span class="line">        muFlag=<span class="number">0</span>;          <span class="comment">//更新状态标志=0，默认进入User</span></span><br><span class="line">        mCount=<span class="number">0</span>;          <span class="comment">//延时计数变量</span></span><br><span class="line">        <span class="keyword">if</span> (IS_POWERON_RESET)      <span class="comment">//若是冷复位，给有关全局变量赋初值</span></span><br><span class="line">        &#123;</span><br><span class="line">                gFunFlag = <span class="number">0</span>;      <span class="comment">//更新操作提示初始化</span></span><br><span class="line">                gCount=<span class="number">0</span>;          <span class="comment">//500ms计数单元  </span></span><br><span class="line">                gTime=<span class="number">0</span>;           <span class="comment">//全局时间戳,复位计时初始化</span></span><br><span class="line">                Rst_Count = <span class="number">0</span>;     <span class="comment">//按“复位键”的次数</span></span><br><span class="line">                <span class="built_in">memcpy</span>((<span class="keyword">void</span>*)gcUpdateFlag,<span class="string">"POWSTART\0"</span>,<span class="number">9</span>); <span class="comment">//初始化字符串，默认进入User</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.4）初始化外设模块</span></span><br><span class="line">        gpio_init(LIGHT_GREEN,GPIO_OUTPUT,LIGHT_OFF);    <span class="comment">//初始化BIOS运行指示灯</span></span><br><span class="line">        emuart_init(UART_UPDATE,<span class="number">115200</span>);      <span class="comment">//初始化BIOS程序更新串口</span></span><br><span class="line">        timer_init(TIMER_BIOS,<span class="number">20</span>);            <span class="comment">//初始化BIOS定时器</span></span><br><span class="line">        flash_init();                         <span class="comment">//初始化Flash构件</span></span><br><span class="line">        shakeDataInit();                      <span class="comment">//初始化握手数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.5）使能模块中断</span></span><br><span class="line">        uart_enable_re_int(UART_UPDATE);   <span class="comment">//使能UART_UPDATE模块中断</span></span><br><span class="line">        timer_enable_int(TIMER_BIOS);      <span class="comment">//使能BIOS定时器中断</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.6）【不变】开总中断</span></span><br><span class="line">        ENABLE_INTERRUPTS;                 <span class="comment">//开总中断</span></span><br><span class="line"><span class="comment">//（1.7）按键复位判断</span></span><br><span class="line">        pin_reset_judge();   <span class="comment">//如果短时间发生了多次按键复位，则不进入用户程序</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.8）判断是否需要进行更新操作</span></span><br><span class="line">        muFlag = updateJudge();</span><br><span class="line">        <span class="keyword">if</span>(muFlag != <span class="number">0</span>) gFunFlag = <span class="number">1</span>;                   <span class="comment">//需进行更新提示操作</span></span><br><span class="line">        <span class="keyword">else</span> gcRecvLen = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//（1）======启动部分（结尾）============================================</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（2）======主循环部分（开头）==========================================</span></span><br><span class="line">        <span class="keyword">for</span>(;;)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">switch</span>(gFunFlag)   <span class="comment">//根据gFunFlag跳转执行</span></span><br><span class="line">                &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">0</span>:  <span class="comment">//无需更新数据，跳转User程序执行</span></span><br><span class="line">                        gpio_set(LIGHT_GREEN,LIGHT_OFF);  <span class="comment">//关闭绿灯</span></span><br><span class="line">                        uart_send_string (UART_UPDATE,<span class="string">"  【BIOS提示信息】：USER程序开始运行...\r\n"</span>);</span><br><span class="line">                        user_reset(GEC_USERBASE);   <span class="comment">//跳转User程序</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:  <span class="comment">//需进行更新提示操作</span></span><br><span class="line">                        gFunFlag = <span class="number">10</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:  <span class="comment">//其他情况，绿灯闪烁，提示处于BIOS程序</span></span><br><span class="line">                        mCount++;</span><br><span class="line">                        <span class="keyword">if</span>(mCount &gt; <span class="number">0x5fffff</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                                mCount = <span class="number">0</span>;</span><br><span class="line">                                gpio_reverse(LIGHT_GREEN);</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//（2）======主循环部分（结尾）==========================================</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么，在上述代码中，有两处关键代码 <strong>pin_reset_judge();</strong> 和 <strong>user_reset(GEC_USERBASE);</strong></p>
+<p><strong>pin_reset_judge();</strong> </p>
+<p>代码进行的是复位引脚被触碰了几次，本例子中以6次为限，触碰6次则程序返回BIOS中。</p>
+<p>那么上一章所提的BSS段被注释掉就是希望芯片启动后不清楚某些全局变量的状态，如果芯片复位标志被置位，说明已触碰6次，那么就不会跳转到GEC_USERBASE用户区。反之，芯片启动后会直接跳转到用户区。具体流程见后续章节。</p>
+<p><strong>user_reset(GEC_USERBASE);</strong></p>
+<p>这段代码会让芯片直接跳转到用户区，GEC_USERBASE是用户区的首地址。</p>
+<h2 id="2-mbedOS的跳转"><a href="#2-mbedOS的跳转" class="headerlink" title="2. mbedOS的跳转"></a>2. mbedOS的跳转</h2><p>​        main 函数开始 mbedOS 的启动，我们把 mbedOS 启动过程梳理到一个函数中运行，由 main 函数来调用，这个函数原型为：</p>
+<figure class="hljs highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mbedOS_start(osThreadId_t &amp;thd, <span class="keyword">void</span> (*func)(<span class="keyword">void</span>))。</span><br><span class="line"><span class="comment">//该函数有两个参数</span></span><br><span class="line"><span class="comment">//thd 为将要运行的主线程控制块的引用</span></span><br><span class="line"><span class="comment">//func为主线程执行的实际函数</span></span><br><span class="line"><span class="comment">//实际调用时为 mbedOS_start(thd_main,*app_init)。</span></span><br></pre></td></tr></table></figure>
+
+<p>​        mbedOS 进入 main 函数之后，调用 mbedOS 的启动函数，mbedOS 就开始启动，并无休无止地开始运行，进行任务调度。</p>
+<p>mbedOS_start 函数是 mbedOS 启动过程函数</p>
+<p><strong>其主要任务是：</strong></p>
+<p><strong>1.设置 mbedOS 堆栈区</strong></p>
+<p><strong>2.重定向中断向量表</strong></p>
+<p><strong>3.完成内核初始化</strong></p>
+<p><strong>4.建立互斥信号</strong></p>
+<p><strong>5.创建主线程和启动内核</strong></p>
+<p>类似于BIOS，在main函数中会直接调用mbedOS_start这个函数跳转到mbedOS的首地址处。</p>
+<p>当内核启动成功后，函数 svcRtxKernelStart 执行完成返回到 SVC 中断中，进行上下文切换，返回到定时器线程中执行。定时器线程 osRtxInfo.timer.thread 运行后会进入阻塞状态，此时 mbedOS 会选择就绪队列中优先级最高的线程，即主线程 main_thread，使其进入激活态。</p>
+<p>主线程被调度运行时，其执行函数 app_init主要负责完成初始化外设模块、初始化全局变量、使能中断模块、创建并启动其他用户线程、阻塞主线程的功能，之后的线程运行和切换都由 mbedOS 调度完成</p>
+
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2020/09/18/嵌入式系统/1-芯片启动过程/" rel="next" title="1-芯片启动过程"><i class="fas fa-angle-left"></i><span class="nav-title">1-芯片启动过程</span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2020/09/22/模块开发/1-WiFi模块开发第一部分/" rel="prev" title="1-WiFi模块开发第一部分"><span class="nav-title">1-WiFi模块开发第一部分</span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="搜索" class="form-control">
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="奥特曼&猪猪侠&闪电小子&葫芦娃">
+  
+  <h1 class="author-name">奥特曼&猪猪侠&闪电小子&葫芦娃</h1>
+  <h2 class="author-description">学IT中骑车最快的</h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">归档</div>
+      <div><a href="/archives/">23</a></div>
+    </div>
+    
+    
+    
+    <div class="categories-count count-block">
+      <div class="site-count-title">分类</div>
+      <div><a href="/categories/">9</a></div>
+    </div>
+    
+    
+    
+    <div class="tags-count count-block">
+      <div class="site-count-title">标签</div>
+      <div><a href="/tags/">8</a></div>
+    </div>
+    
+    
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>文章目录</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-1"><a class="list-group-item toc-link" href="#芯片启动后转向用户程序、操作系统的过程"><span class="toc-text">芯片启动后转向用户程序、操作系统的过程</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#1-BIOS最小系统的跳转"><span class="toc-text">1. BIOS最小系统的跳转</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#2-mbedOS的跳转"><span class="toc-text">2. mbedOS的跳转</span></a></li></ol></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>社交链接<p></p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>友情链接</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="回到顶部"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">奥特曼&猪猪侠&闪电小子&葫芦娃</span><span class="year"><i class="far fa-copyright"></i>2020</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="站点点击量" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="站点用户数" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="页面点击量" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>

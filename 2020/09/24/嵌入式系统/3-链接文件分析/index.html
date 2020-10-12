@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="LEARNING NOTES" type="application/atom+xml">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title>3-链接文件分析 | LEARNING NOTES</title>
+  </head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh_CN" data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">LEARNING NOTES</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="切换导航栏"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">首页</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">归档</span></a></li>
+        
+        <li role="menuitem"><a href="/categories/"><i class="fas fa-th-list"></i><span class="menu-text">分类</span></a></li>
+        
+        <li role="menuitem"><a href="/tags/"><i class="fas fa-tags"></i><span class="menu-text">标签</span></a></li>
+        
+        <li role="menuitem"><a href="/about/"><i class="fas fa-user-edit"></i><span class="menu-text">关于</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/24/嵌入式系统/3-链接文件分析/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+       <meta itemprop="description" content="学IT中骑车最快的">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">3-链接文件分析</h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-09-24T14:18:00+08:00">2020-09-24 14:18:00</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h1 id="链接文件分析"><a href="#链接文件分析" class="headerlink" title="链接文件分析"></a>链接文件分析</h1><h2 id="一、链接文件基础知识"><a href="#一、链接文件基础知识" class="headerlink" title="一、链接文件基础知识"></a>一、链接文件基础知识</h2><h3 id="什么是链接文件？有何作用？"><a href="#什么是链接文件？有何作用？" class="headerlink" title="什么是链接文件？有何作用？"></a>什么是链接文件？有何作用？</h3><p>​        当我们编写了多个C文件时，我们需要将它们编译链接成一个可执行的文件xxx.exe，此时就需要用到链接文件（.ld）。链接文件的主要功能就是：将多个目标文件（.o）和库文件（.a）链接成一个可执行文件。</p>
+<p><strong>链接脚本文件主要有什么内容？</strong></p>
+<ol>
+<li><p><strong>链接配置（可不配置）</strong></p>
+<p>如一些符号变量的定义、入口地址、输出格式等</p>
+</li>
+</ol>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">STACK_SIZE = 0X200</span><br><span class="line">OUTPUT_FORMAT(elf32-littlearm)</span><br><span class="line">OUTPUT_ARCH(arm)</span><br><span class="line">ENTRY(_start)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><strong>内存布局定义</strong></p>
+<p>链接文件中以<strong>MEMORY命令</strong>定义了存储空间，其中以<strong>ORIGIN</strong>定义地址空间的起始地址，<strong>LENGTH</strong>定义地址空间的长度</p>
+</li>
+</ol>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">FLASH (rx) : ORIGIN = 0, LENGTH = 64K</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p><strong>段链接定义</strong></p>
+<p>链接文件中以<strong>SECTIONS命令</strong>定义一些段（<strong>text、data、bss段</strong>等）链接分布</p>
+</li>
+</ol>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">	.text:</span><br><span class="line">	&#123;</span><br><span class="line">	  *(.text*)</span><br><span class="line">	&#125; &gt; FLASH</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>.text段即代码段， *(.text*)指示将工程中所有目标文件的.text段链接到FLASH中</p>
+<h2 id="二、常用关键字、命令"><a href="#二、常用关键字、命令" class="headerlink" title="二、常用关键字、命令"></a>二、常用关键字、命令</h2><ol>
+<li><p><strong>MEMORY命令</strong></p>
+<p>1.1 使用MEMORY来定义内存如下：</p>
+</li>
+</ol>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">NAME [(ATTR)] : ORIGIN = ORIGIN1, LENGTH = LEN1</span><br><span class="line">NAME [(ATTR)] : ORIGIN = ORIGIN2, LENGTH = LEN2</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    1.2 参数介绍</p>
+<p>NAME :  存储区域的名字 。（命名无要求）</p>
+<p>ATTR ：定义改存储区域的属性（权限）。ATTR属性内可以出现以下7个字符（可出现多个）：</p>
+<p><strong>·</strong> R  只读section</p>
+<p><strong>·</strong> W 读/写section</p>
+<p><strong>·</strong> X  可执行section</p>
+<p><strong>·</strong> A  可分配的section</p>
+<p><strong>·</strong> I   初始化了的section</p>
+<p><strong>·</strong> L  与I相同</p>
+<p><strong>·</strong> ！ 除该字符以外的任何一个属性的section</p>
+<p>ORIGIN（关键字） : 区域的开始地址，可简写成org或o</p>
+<p>LENGTH（关键字） : 区域的大小，可简写成len或l</p>
+<p>​    1.3  KL36——BIOS示例：</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/* 定义内存区域的起始地址和长度 */</span><br><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">  /*中断向量区*/</span><br><span class="line">  m_interrupts     (RX)  : ORIGIN = MCU_SECTORSIZE * GEC_BIOS_SECTOR_START +0x00000000, LENGTH = 0x00000100</span><br><span class="line">  /*配置区*/</span><br><span class="line">  m_flash_config   (RX)  : ORIGIN = MCU_SECTORSIZE * GEC_BIOS_SECTOR_START +0x00000400, LENGTH = 0x00000010</span><br><span class="line">  /*Flash代码区*/</span><br><span class="line">  m_text           (RX)  : ORIGIN = MCU_SECTORSIZE * GEC_BIOS_SECTOR_START +0x00000410, LENGTH = MCU_SECTORSIZE *(GEC_BIOS_SECTOR_END +0x01) - MCU_SECTORSIZE * GEC_BIOS_SECTOR_START - 0x0410 </span><br><span class="line">  /*统命令代码放置处。*/</span><br><span class="line">  DY_CMD           (RX)  : ORIGIN = MCU_SECTORSIZE * GEC_DYNAMIC_START, LENGTH =MCU_SECTORSIZE * ( GEC_DYNAMIC_END - GEC_DYNAMIC_START + 1 )</span><br><span class="line">  /*函数列表放置处。*/</span><br><span class="line">  CPT_LST          (RX)  : ORIGIN = MCU_SECTORSIZE * GEC_COMPONENT_LST_START, LENGTH =MCU_SECTORSIZE * ( GEC_COMPONENT_LST_END - GEC_COMPONENT_LST_START + 1 )</span><br><span class="line">  /*函数代码放置处。*/</span><br><span class="line">  CPT_FUN          (RX)  : ORIGIN = MCU_SECTORSIZE * GEC_COMPONENT_FUN_START, LENGTH =MCU_SECTORSIZE * ( GEC_COMPONENT_FUN_END - GEC_COMPONENT_FUN_START + 1 )</span><br><span class="line">  /*RAM区*/    </span><br><span class="line">  m_data           (RW)  : ORIGIN = GEC_BIOS_RAM_START, LENGTH = GEC_BIOS_RAM_END - GEC_BIOS_RAM_START</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><strong>SECTIONS命令</strong></p>
+<p>2.1 SECTIONS基本的命令语法如下</p>
+</li>
+</ol>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">       ...</span><br><span class="line">      secname start BLOCK(align) (NOLOAD) : AT ( ldadr )</span><br><span class="line">      &#123; </span><br><span class="line">        contents </span><br><span class="line">      &#125; &gt;region :phdr =fill</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 这么多参数，secname和contents是必须的，即可简写成： */</span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">       ...</span><br><span class="line">      secname :</span><br><span class="line">      &#123; </span><br><span class="line">        contents </span><br><span class="line">      &#125; </span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    </p>
+<p>​    2.2 参数解析</p>
+<p>链接脚本本质就是描述输入和输出。</p>
+<p>secname表示输出文件的段，即输出文件中有那些段。</p>
+<p>contents描述输出文件的这个段从哪些文件里抽取出来，即输入文件，一般就是目标文件。</p>
+<p>​    2.3 示例</p>
+<p>如下，将<strong>目标文件的数据段</strong>链接到<strong>输出文件的数据段</strong>（段名可以自己定义，段名前后必须要有空格）</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">       ...</span><br><span class="line">      .data : /*输出文件中的data*/</span><br><span class="line">      &#123; </span><br><span class="line">        main.o（.data）  /*输入文件中的data*/</span><br><span class="line">        *(.data)</span><br><span class="line">      &#125; </span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 *(.data) 表示将所有的目标的.data段链接到输出文件.data段中， 特别注意的是，之前链接的就不会再链接，这样做的目的是可以将某些特殊的目标文件链接到地址前面。</p>
+<p>​    2.4 其他参数的介绍</p>
+<p><strong>·</strong> start： 表示将某个段强制链接到的地址</p>
+<p><strong>·</strong> AT（addr） ： 实现存放地址和加载地址不一致的功能，AT表示在文件中存放的位置，而在内存里呢，按照普通方式存储。</p>
+<p><strong>·</strong> region：这个region就是前面说的MEMORY命令定义的位置信息。</p>
+<p>​    2.5 KL36——BIOS示例</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br></pre></td><td class="code"><pre><span class="line">/* Define output sections */</span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">  /* The startup code goes first into internal flash */</span><br><span class="line">  .interrupts :</span><br><span class="line">  &#123;</span><br><span class="line">    __VECTOR_TABLE = .;</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">    isr_vector在start.S中定义：.section .isr_vector, &quot;a&quot;，按照MEMORY命令说明，</span><br><span class="line">    isr_vector由于没有指定输出section,因此会创建与输入section同名的输出section，且会按照</span><br><span class="line">    isr_vector的属性放到合适的内存区域，此处KEEP是保证isr_vector的输出section不会被删除</span><br><span class="line">    */</span><br><span class="line">    KEEP(*(.isr_vector))     /* Startup code */</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">  &#125; &gt; m_interrupts</span><br><span class="line"></span><br><span class="line">  .flash_config :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">    KEEP(*(.FlashConfig))    /* Flash Configuration Field (FCF) */</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">  &#125; &gt; m_flash_config</span><br><span class="line"></span><br><span class="line">  /* The program code and other data goes into internal flash */</span><br><span class="line">  .text :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">    *(.text)                 /* .text sections (code) */</span><br><span class="line">    *(.text*)                /* .text* sections (code) */</span><br><span class="line">    *(.rodata)               /* .rodata sections (constants, strings, etc.) */</span><br><span class="line">    *(.rodata*)              /* .rodata* sections (constants, strings, etc.) */</span><br><span class="line">    *(.glue_7)               /* glue arm to thumb code */</span><br><span class="line">    *(.glue_7t)              /* glue thumb to arm code */</span><br><span class="line">    *(.eh_frame)</span><br><span class="line">    KEEP (*(.init))</span><br><span class="line">    KEEP (*(.fini))</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line"></span><br><span class="line">  .ARM.extab :</span><br><span class="line">  &#123;</span><br><span class="line">    *(.ARM.extab* .gnu.linkonce.armextab.*)</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line"></span><br><span class="line">  .ARM :</span><br><span class="line">  &#123;</span><br><span class="line">    __exidx_start = .;</span><br><span class="line">    *(.ARM.exidx*)</span><br><span class="line">    __exidx_end = .;</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line"></span><br><span class="line"> .ctors :</span><br><span class="line">  &#123;</span><br><span class="line">    __CTOR_LIST__ = .;</span><br><span class="line">    /* gcc uses crtbegin.o to find the start of</span><br><span class="line">       the constructors, so we make sure it is</span><br><span class="line">       first.  Because this is a wildcard, it</span><br><span class="line">       doesn&apos;t matter if the user does not</span><br><span class="line">       actually link against crtbegin.o; the</span><br><span class="line">       linker won&apos;t look for a file to match a</span><br><span class="line">       wildcard.  The wildcard also means that it</span><br><span class="line">       doesn&apos;t matter which directory crtbegin.o</span><br><span class="line">       is in.  */</span><br><span class="line">    KEEP (*crtbegin.o(.ctors))</span><br><span class="line">    KEEP (*crtbegin?.o(.ctors))</span><br><span class="line">    /* We don&apos;t want to include the .ctor section from</span><br><span class="line">       from the crtend.o file until after the sorted ctors.</span><br><span class="line">       The .ctor section from the crtend file contains the</span><br><span class="line">       end of ctors marker and it must be last */</span><br><span class="line">    KEEP (*(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors))</span><br><span class="line">    KEEP (*(SORT(.ctors.*)))</span><br><span class="line">    KEEP (*(.ctors))</span><br><span class="line">    __CTOR_END__ = .;</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line"></span><br><span class="line">  .dtors :</span><br><span class="line">  &#123;</span><br><span class="line">    __DTOR_LIST__ = .;</span><br><span class="line">    KEEP (*crtbegin.o(.dtors))</span><br><span class="line">    KEEP (*crtbegin?.o(.dtors))</span><br><span class="line">    KEEP (*(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors))</span><br><span class="line">    KEEP (*(SORT(.dtors.*)))</span><br><span class="line">    KEEP (*(.dtors))</span><br><span class="line">    __DTOR_END__ = .;</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line"></span><br><span class="line">  .preinit_array :</span><br><span class="line">  &#123;</span><br><span class="line">    PROVIDE_HIDDEN (__preinit_array_start = .);</span><br><span class="line">    KEEP (*(.preinit_array*))</span><br><span class="line">    PROVIDE_HIDDEN (__preinit_array_end = .);</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line"></span><br><span class="line">  .init_array :</span><br><span class="line">  &#123;</span><br><span class="line">    PROVIDE_HIDDEN (__init_array_start = .);</span><br><span class="line">    KEEP (*(SORT(.init_array.*)))</span><br><span class="line">    KEEP (*(.init_array*))</span><br><span class="line">    PROVIDE_HIDDEN (__init_array_end = .);</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line"></span><br><span class="line">  .fini_array :</span><br><span class="line">  &#123;</span><br><span class="line">    PROVIDE_HIDDEN (__fini_array_start = .);</span><br><span class="line">    KEEP (*(SORT(.fini_array.*)))</span><br><span class="line">    KEEP (*(.fini_array*))</span><br><span class="line">    PROVIDE_HIDDEN (__fini_array_end = .);</span><br><span class="line">  &#125; &gt; m_text</span><br><span class="line">  </span><br><span class="line">  .dynamic_command :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(1);</span><br><span class="line">    KEEP(*(.dynamic_command))</span><br><span class="line">    . = ALIGN(1);</span><br><span class="line">  &#125; &gt; DY_CMD</span><br><span class="line"></span><br><span class="line">  	.component_list :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(1);</span><br><span class="line">    KEEP(*(.component_list))</span><br><span class="line">    . = ALIGN(1);</span><br><span class="line">  &#125; &gt; CPT_LST</span><br><span class="line"></span><br><span class="line">  /* Flash中的构件函数区 */</span><br><span class="line">  	.component_fun :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(1);</span><br><span class="line">    KEEP(*(.component_fun))</span><br><span class="line">    . = ALIGN(1);</span><br><span class="line">  &#125; &gt; CPT_FUN</span><br><span class="line">  __etext = .;    /* define a global symbol at end of code */</span><br><span class="line">  __DATA_ROM = .; /* Symbol is used by startup for data initialization */</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  /* RAM中的变量区 */ </span><br><span class="line">  .data : AT(__DATA_ROM)     /*存储在FLASH中，上电后拷贝至RAM区*/</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">    __DATA_RAM = .;</span><br><span class="line">    __data_start__ = .;      /* create a global symbol at data start */</span><br><span class="line">    *(.data)                 /* .data sections */</span><br><span class="line">    *(.data*)                /* .data* sections */</span><br><span class="line">    KEEP(*(.jcr*))</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">    __data_end__ = .;        /* define a global symbol at data end */</span><br><span class="line">  &#125; &gt; m_data</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  __DATA_END = __DATA_ROM + (__data_end__ - __data_start__);</span><br><span class="line">  .bss :</span><br><span class="line">  &#123;</span><br><span class="line">    /* This is used by the startup in order to initialize the .bss section */</span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">    __START_BSS = .;</span><br><span class="line">    __bss_start__ = .;</span><br><span class="line">    *(.bss)</span><br><span class="line">    *(.bss*)</span><br><span class="line">    *(COMMON) </span><br><span class="line">    . = ALIGN(4);</span><br><span class="line">    __bss_end__ = .;</span><br><span class="line">    __END_BSS = .;</span><br><span class="line">  &#125; &gt; m_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  .heap :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(8);</span><br><span class="line">    __end__ = .;</span><br><span class="line">    PROVIDE(end = .);</span><br><span class="line">    __HeapBase = .;</span><br><span class="line">    __HeapLimit = .;</span><br><span class="line">  &#125; &gt; m_data</span><br><span class="line"></span><br><span class="line">  .stack :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(8);</span><br><span class="line">  &#125; &gt; m_data</span><br><span class="line"></span><br><span class="line">  /* Initializes stack on the end of block */</span><br><span class="line">  __StackTop   = ORIGIN(m_data) + LENGTH(m_data);</span><br><span class="line"></span><br><span class="line">  PROVIDE(__stack = __StackTop);</span><br><span class="line"></span><br><span class="line">  .ARM.attributes 0 : &#123; *(.ARM.attributes) &#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p><strong>各关键字</strong></p>
+<p>3.1 定位符号’.’的使用</p>
+<p>‘.’表示当前地址，它可以被赋值也可以赋值给某个变量。</p>
+</li>
+</ol>
+<p>​        如下为将当前地址赋值给某个变量（链接器链接是按照SECTIONS里的段顺序排列的，前面的排列完之后就能计算出当前地址）—我们可以看到上述SECTIONS中频繁出现  . = ALIGN(x)或者 xxx = .;那么这个.的地址是会不断更新的。比如上一段.的地址 为 0x80，上一段大小有20，那么下一段的时候.的地址则为0x100</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/*将.赋值给RAM_START*/</span><br><span class="line">RAM_START = .;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    . = 0×10000;/*将0x10000赋值给.*/</span><br><span class="line">    .text : </span><br><span class="line">    &#123; </span><br><span class="line">        *(.text)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    . = 0×8000000;/*将0x8000000赋值给.*/</span><br><span class="line">    .data : </span><br><span class="line">    &#123; </span><br><span class="line">        *(.data) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        “. = 0×10000;”该语句表示将当前地址设置为0x10000。如上代码中，意思是将所有目标文件的text段从0x10000地址开始存放。</p>
+<p>​        3.2 PROVIDE关键字</p>
+<p>​        该关键字定义一个（目标文件内被引用但没定义）符号。相当于定义一个全局变量的符号表，其他C文件可以通过该符号来操作对应的存储内存。</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    .text :</span><br><span class="line">    &#123;</span><br><span class="line">        *(.text)</span><br><span class="line">        _etext = .;</span><br><span class="line">        PROVIDE(etext = .);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        如上，在链接脚本中声明了_etext 符号。特别注意的是_etext 只是一个符号，没有存储内存，并不是一个变量，该符对应（映射）的是一个地址，，其地址为.text section之后的第一个字节的地址。C文件中引用用法如下。</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int main（）</span><br><span class="line">&#123;</span><br><span class="line">    //引用该变量</span><br><span class="line">    extern char  _etext;</span><br><span class="line">    char *p = &amp;_etext;</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若在链接脚本中 “ _etext = 0x100; “，即表示符号_etext对应的地址为0X100， 此时 &amp; _etext的值为 0x100， char a= *p；表示为 从0X100地址取值存储的值赋值给变量a。</p>
+<p>​            </p>
+<p>​        3.3 KEEP关键字</p>
+<p>​        在连接命令行内使用了选项–gc-sections后，连接器可能将某些它认为没用的section过滤掉，此时就有必要强制连接器保留一些特定的 section，可用KEEP()关键字达此目的。如KEEP(* (.text))或KEEP(SORT(*)(.text))。说的通俗易懂就是：防止被优化。</p>
+<p>​            </p>
+<p>​        3.4 ALIGN关键字</p>
+<p>​        表示字节对齐， 如 “ . = ALIGN(4);”表示从该地址开始后面的存储进行4字节对齐。</p>
+<h1 id="后续解析具体实例"><a href="#后续解析具体实例" class="headerlink" title="后续解析具体实例"></a>后续解析具体实例</h1>
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/芯片分析/" rel="tag"><i class="fas fa-tags"></i>芯片分析</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2020/09/22/模块开发/1-WiFi模块开发第一部分/" rel="next" title="1-WiFi模块开发第一部分"><i class="fas fa-angle-left"></i><span class="nav-title">1-WiFi模块开发第一部分</span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2020/09/24/嵌入式系统/4-启动文件分析/" rel="prev" title="4-启动文件分析"><span class="nav-title">4-启动文件分析</span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="搜索" class="form-control">
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="奥特曼&猪猪侠&闪电小子&葫芦娃">
+  
+  <h1 class="author-name">奥特曼&猪猪侠&闪电小子&葫芦娃</h1>
+  <h2 class="author-description">学IT中骑车最快的</h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">归档</div>
+      <div><a href="/archives/">23</a></div>
+    </div>
+    
+    
+    
+    <div class="categories-count count-block">
+      <div class="site-count-title">分类</div>
+      <div><a href="/categories/">9</a></div>
+    </div>
+    
+    
+    
+    <div class="tags-count count-block">
+      <div class="site-count-title">标签</div>
+      <div><a href="/tags/">8</a></div>
+    </div>
+    
+    
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>文章目录</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-1"><a class="list-group-item toc-link" href="#链接文件分析"><span class="toc-text">链接文件分析</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#一、链接文件基础知识"><span class="toc-text">一、链接文件基础知识</span></a><ol class="list-group toc-child"><li class="toc-item toc-level-3"><a class="list-group-item toc-link" href="#什么是链接文件？有何作用？"><span class="toc-text">什么是链接文件？有何作用？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#二、常用关键字、命令"><span class="toc-text">二、常用关键字、命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="list-group-item toc-link" href="#后续解析具体实例"><span class="toc-text">后续解析具体实例</span></a></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>社交链接<p></p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>友情链接</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="回到顶部"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">奥特曼&猪猪侠&闪电小子&葫芦娃</span><span class="year"><i class="far fa-copyright"></i>2020</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="站点点击量" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="站点用户数" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="页面点击量" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>
