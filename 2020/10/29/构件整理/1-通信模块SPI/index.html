@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#33363b">
+    <meta name="msapplication-TileColor" content="#33363b">
+    
+    
+    
+    
+    <meta name="keywords" content="Life, ARIA, Hexo">
+    
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    
+    
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#33363b">
+    
+    
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    
+    
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    
+    
+    <link rel="alternate" href="/atom.xml" title="LEARNING NOTES" type="application/atom+xml">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    
+    <link rel="stylesheet" type="text/css" href="/css/sidebar.css">
+    
+    
+<link rel="stylesheet" type="text/css" href="/css/page.css">
+<link rel="stylesheet" type="text/css" href="/css/post.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/atom-one-dark.css">
+    <link rel="stylesheet" type="text/css" href="/css/lightgallery.min.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/js/util.js"></script>
+    <script defer type="text/javascript" src="/js/clipboard.min.js"></script>
+    <script defer type="text/javascript" src="/js/scrollspy.js"></script>
+    <script defer type="text/javascript" src="/js/fontawesome-all.min.js"></script>
+    <script defer type="text/javascript" src="/js/lightgallery.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-fullscreen.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-hash.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-pager.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-thumbnail.min.js"></script>
+    <script defer type="text/javascript" src="/js/lg-zoom.min.js"></script>
+    
+    <script defer src="/js/busuanzi.pure.mini.js"></script>
+    
+    
+    <script defer type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var searchPath = "search.xml";
+      if (searchPath.length === 0) {
+        searchPath = "search.xml";
+      }
+      var path = "/" + searchPath;
+      searchFunc(path, "search-input", "search-result");
+    });
+    </script>
+    
+    
+    <script defer type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      var cb = null;
+      var els = $(".post figure.highlight");
+      if (els.length) {
+        // Enabled Hexo highlight line number.
+        $(els).each(function (i, e) {
+          // $(e).before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling.firstChild.firstChild.firstChild.lastChild.firstChild.firstChild;
+          }
+        });
+      } else {
+        // Disabled Hexo highlight line number.
+        els = $(".post pre code");
+        $(els).each(function (i, e) {
+          // Add button before pre, not code.
+          // $(e).parent().before("<button class=\"copy button\">复制</button>");
+          $(e).before([
+            "<div class=\"code-titlebar\">",
+              "<div class=\"titlebar-left\">",
+                "<button class=\"copy\" aria-label=\"复制\"><i class=\"far fa-copy\"></i></button>",
+              "</div>",
+              "<div class=\"titlebar-center\">",
+                "code",
+              "</div>",
+              "<div class=\"titlebar-right\">",
+                "<button class=\"button-dot dot-minimize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-maximize\" aria-label=\"Decoration\"></button>",
+                "<button class=\"button-dot dot-close\" aria-label=\"Decoration\"></button>",
+              "</div>",
+            "</div>"
+          ].join(""));
+        });
+        cb = new ClipboardJS("button.copy", {
+          "target": function (trigger) {
+              // Get target element by DOM API.
+              return trigger.parentNode.parentNode.nextElementSibling;
+          }
+        });
+      }
+      cb.on("success", function (e) {
+        e.clearSelection();
+        var trigger = e.trigger;
+        // Change button text as a user tip.
+        trigger.innerHTML = "<i class=\"far fa-check-square\"></i>";
+        $(trigger).addClass("copied");
+        // Change button text back;
+        setTimeout(function () {
+          trigger.innerHTML = "<i class=\"far fa-copy\"></i>";
+          $(trigger).removeClass("copied");
+        }, 1500);
+      });
+    });
+    </script>
+    
+    <script defer type="text/javascript" src="/js/custom.js"></script>
+    <title>1-通信模块SPI | LEARNING NOTES</title>
+  </head>
+  <body itemscope itemtype="http://schema.org/WebPage" lang="zh_CN" data-spy="scroll" data-target=".list-group">
+    
+<header id="header" class="header" style="background: #33363b;">
+  <div class="container">
+    <div class="header-container">
+      <div class="header-title">
+        <h1 class="title"><a href="/">LEARNING NOTES</a></h1>
+        <h2 class="subtitle"></h2>
+      </div>
+      
+      <div class="logo">
+        <img src="/images/logo.png" alt="logo">
+      </div>
+      
+    </div>
+    <nav id="nav" class="nav">
+      <a id="nav-toggle" class="nav-toggle" aria-hidden="true"><i class="fas fa-bars" aria-label="切换导航栏"></i></a>
+      <ul id="menu" role="menubar" aria-hidden="false">
+        
+        <li role="menuitem"><a href="/"><i class="fas fa-home"></i><span class="menu-text">首页</span></a></li>
+        
+        <li role="menuitem"><a href="/archives/"><i class="fas fa-archive"></i><span class="menu-text">归档</span></a></li>
+        
+        <li role="menuitem"><a href="/categories/"><i class="fas fa-th-list"></i><span class="menu-text">分类</span></a></li>
+        
+        <li role="menuitem"><a href="/tags/"><i class="fas fa-tags"></i><span class="menu-text">标签</span></a></li>
+        
+        <li role="menuitem"><a href="/about/"><i class="fas fa-user-edit"></i><span class="menu-text">关于</span></a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main id="main" class="main">
+      <div class="container">
+        <div class="main-container">
+          <div class="content">
+            
+<div id="post" class="page">
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/29/构件整理/1-通信模块SPI/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+       <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+       <meta itemprop="description" content="学IT中骑车最快的">
+       <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+       <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">1-通信模块SPI</h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-29T22:11:07+08:00">2020-10-29 22:11:07</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构件整理/" itemprop="url" rel="index"><span itemprop="name">构件整理</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      <h2 id="SPI的组成"><a href="#SPI的组成" class="headerlink" title="SPI的组成"></a>SPI的组成</h2><p>​        SPI系统中四根线为<strong>串行时钟引脚SCK</strong>、<strong>从机选择引脚SS(Slave Select)</strong>、<strong>主出从入引脚MOSI</strong>、<strong>主入从出引脚MISO</strong>，如果从机不需要向主机发送消息的情况下，可以不需要主入从出引脚MISO。</p>
+<p>​    1.串行时钟引脚SCK</p>
+<p>​            SCK用于控制主机和从机之间的数据传输。时钟信号由主机提供，从主机的SCK引脚输出给从机的SCK引脚，由主机控制传输的速度。一次传输中，从主机SCK引脚中输出自动产生的8个时钟周期信号，SCK信号的一个沿跳变进行一位数据移位传输。</p>
+<p>​    2.从机选择引脚SS</p>
+<p>​            在主机方式下工作，引脚SS为高电平；在从机方式下工作，引脚SS设置为低，则表示主机选中了该从机，引脚SS设置为高，表示主机未选中该从机。</p>
+<p>​            在一个主MCU带多个从属MCU的系统中，主MCU的引脚SS直接接高电平，从机MCU的引脚SS接主机的IO口，由主机输出低/高电平表明主机是/否选中该从机。</p>
+<p>​    3.主出从入引脚MOSI</p>
+<p>​            主机发出启动信号开始，主机将要传送的数据装入8位移位寄存器，同时产生8个时钟信号依次从SCK引脚送出，在SCK信号的控制下，主机中的8位移位寄存器中的数据依次从MOSI引脚送出到从机的MOSI引脚再送到从机的8位移位寄存器。</p>
+<p>​    4.主入从出引脚MISO</p>
+<p>​            主机发出启动信号开始，从机收到启动信号后，从机将要传送的数据装入8位寄存器，根据主机发过来的时钟信号，在SCK信号的控制下，从机中的8位移位寄存器中的数据依次从MISO引脚送出到主机的MISO引脚再送到主机的8位寄存器。</p>
+<h2 id="SPI的时序"><a href="#SPI的时序" class="headerlink" title="SPI的时序"></a>SPI的时序</h2><p>​        由于SPI的数据传输是在时钟信号SCK(同步信号)的控制下完成的，就会产生不取数的时候空闲电平的选择以及什么时候去取数的问题。空闲电平为低，那么SPI的时钟极性CPOL就为0，空闲电平为高，那么SPI的时钟极性CPOL就为1。当数据采样是在第一个边沿，时钟相位则为0，数据采样在第二个边沿时，时钟相位为1。根据这两个性质的选择，就会有4种可能情况。</p>
+<p>​    1.CPOL  = 0，CPHA = 0</p>
+<p><img src="C:%5CUsers%5CEMBEDDED_JJL%5CDesktop%5CSPI%E6%97%B6%E5%BA%8F.gif" alt="SPI时序图"></p>
+<p>​        平时处于低电平，在数据上线半个周期后，处于稳定状态时，接收方此时开始采集数据，再半个周期后，时钟信号又达低电平，此时可以更换数据，在半个小时后的上升沿时又采集一次数据，以此类推。这种模式决定接收方会在时钟的上升沿时取数。</p>
+<p>​        </p>
+<p>​        2.CPOL = 1，CPHA = 0</p>
+<p>​        与第一种的区别是，该情况下平时处于高电平，同样接收方会在数据上线半个周期后开始取数。这种模式决定接收方会在时钟的下降沿时取数。</p>
+<p>​        3.CPOL = 0，CPHA = 1</p>
+<p>​        与第一种的区别时，该情况下接收方会在第二个跳变沿开始取数，那么此时数据不需要提前上线，由于平时是低电平，第一次跳变沿为上升沿，第二次跳变沿为下降沿。所以这种模式决定接收方会在时钟的下降沿时取数。</p>
+<p>​        4.CPOL = 1， CPHA = 1</p>
+<p>​        与第一种模式相反，平时处于高电平，接收方会在第二个跳变沿开始取数，数据不提前上线，第二个跳变沿为上升沿。这种模式就会决定接收方会在时钟的上升沿时取数。</p>
+<h2 id="SPI构件设计"><a href="#SPI构件设计" class="headerlink" title="SPI构件设计"></a>SPI构件设计</h2><p>​        SPI构件主要有初始化SPI_init，发送一字节数据SPI_send1，发送多个字节数据SPI_sendN，接收一字节数据SPI_receive1，接收多个字节数据SPI_receiveN，打开SPI接收中断SPI_enable_re_int，关闭SPI接收中断SPI_disable_re_int。</p>
+<p>​        在从机不回发的情况下，主机主要使用到的函数有SPI_init，SPI_sendN(N*SPI_send1)。</p>
+<p>​                                                  从机主要使用到的函数有SPI_init，SPI_receiveN(N*SPI_receive1)，SPI_enable_re_int，SPI_disable_re_int。</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//For Example</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//【*】将芯片中SPI0作为主机进行数据发送，SPI1作为从机进行数据接收，会有如下代码。</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//【1】初始化SPI0为主机模式，波特率6000，时钟极性0，时钟相位0</span></span><br><span class="line">    SPI_init(SPI_0,<span class="number">1</span>,<span class="number">6000</span>,<span class="number">0</span>,<span class="number">0</span>);  <span class="comment">//第一个1代表是主机模式，第二个6000代表波特率为6000，第三个0代表时钟极性为0，第四个0代表时钟相位为0</span></span><br><span class="line">    <span class="comment">//【2】初始化SPI1为从机模式，波特率6000，时钟极性0，时钟相位0</span></span><br><span class="line">    SPI_init(SPI_1,<span class="number">0</span>,<span class="number">6000</span>,<span class="number">0</span>,<span class="number">0</span>);  <span class="comment">//第一个0代表是从机模式，第二个6000代表波特率为6000，第三个0代表时钟极性为0，第四个0代表时钟相位为0</span></span><br><span class="line">    <span class="comment">//【3】打开SPI1的接收中断</span></span><br><span class="line">    SPI_enable_re_int(SPI_1);</span><br><span class="line">    <span class="comment">//【4】主循环通过SPI发送一个数据</span></span><br><span class="line">    <span class="keyword">for</span>(;;)</span><br><span class="line">    &#123;</span><br><span class="line">        SPI_send1(SPI_0,TransferTemp);</span><br><span class="line">        TransferTemp++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Handler</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//【*】当有数据发送过来时，会产生中断，此时接收一个数据即可</span></span><br><span class="line">    </span><br><span class="line">    uint_8 redata;</span><br><span class="line">    redata = SPI_receive1(SPI_1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>各函数主要功能设计如下：</p>
+<p>SPI_init</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_init</span><span class="params">(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> MSTR, <span class="keyword">uint16_t</span> BaudRate, <span class="keyword">uint8_t</span> CPOL, <span class="keyword">uint8_t</span> CPHA)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> BaudRate_High;</span><br><span class="line">    <span class="keyword">uint8_t</span> BaudRate_Low;</span><br><span class="line">    <span class="keyword">uint8_t</span> BaudRate_Mode;</span><br><span class="line">    <span class="comment">//【1】根据传入的No的值选择对应的模块/引脚组</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(No &lt; <span class="number">0</span> || No &gt; <span class="number">1</span>)</span><br><span class="line">        No = <span class="number">0</span>;		<span class="comment">//如果通道号传错，则强制选择0号模块，提高检错能力</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(No == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【1】打开SPI0模块时钟</span></span><br><span class="line">        BSET(SIM_SCGC4_SPI0_SHIFT,SIM_SCGC4);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【2】根据引脚组的不同将对应引脚组复用为SPI0功能</span></span><br><span class="line">        <span class="meta">#<span class="meta-keyword">if</span>(SPI_0_GROUP == 1)</span></span><br><span class="line">        PORTD_PCR0 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTD_PCR1 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTD_PCR2 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTD_PCR3 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        <span class="meta">#<span class="meta-keyword">if</span>(SPI_0_GROUP == 2)</span></span><br><span class="line">        PORTA_PCR14 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTA_PCR15 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTA_PCR16 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTA_PCR17 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        <span class="meta">#<span class="meta-keyword">if</span>(SPI_0_GROUP == 3)</span></span><br><span class="line">        PORTC_PCR4 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTC_PCR5 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTC_PCR6 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTC_PCR7 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【3】将SPI控制寄存器1清零</span></span><br><span class="line">        SPI0_C1 = <span class="number">0x00</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【4】对SPI控制寄存器1的相应位进行赋值进行功能选择</span></span><br><span class="line">        <span class="comment">//【4.1】对使能位赋值使能SPI模块</span></span><br><span class="line">        BSET(SPI_C1_SPE_SHIFT, SPI0_C1);</span><br><span class="line">        <span class="comment">//【4.2】对主从机选择位赋值进行主从机的选择</span></span><br><span class="line">        (MSTR == <span class="number">1</span>)?BSET(SPI_C1_MSTR_SHIFT, SPI0_C1):BSET(SPI_C1_SPIE_SHIFT, SPI0_C1);<span class="comment">//主机置1，从机则打开中断准备接收数据</span></span><br><span class="line">        <span class="comment">//【4.3】对时钟极性位赋值进行时钟极性的选择</span></span><br><span class="line">        (CPOL == <span class="number">0</span>)?BCLR(SPI_C1_CPOL_SHIFT, SPI0_C1):BSET(SPI_C1_CPOL_SHIFT, SPI0_C1);<span class="comment">//极性为0则赋值为0，极性为1则赋值为1</span></span><br><span class="line">        <span class="comment">//【4.4】对时钟相位位赋值进行时钟相位的选择</span></span><br><span class="line">        (CPHA == <span class="number">0</span>)?BCLR(SPI_C1_CPHA_SHIFT, SPI0_C1):BSET(SPI_C1_CPHA_SHIFT, SPI0_C1);<span class="comment">//相位为0则赋值为0，相位为1则赋值为1</span></span><br><span class="line">        <span class="comment">//【4.5】对选择输出使能位进行赋值配置模块输出方式</span></span><br><span class="line">        BSET(SPI_C1_SSOE_SHIFT, SPI0_C1);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【5】将SPI控制寄存器2清零</span></span><br><span class="line">        SPI0_C2 = <span class="number">0x00</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【6】对SPI控制寄存器2的相应位进行赋值进行功能选择</span></span><br><span class="line">        <span class="keyword">if</span>(MSTR == <span class="number">1</span>) BSET(SPI_C2_MODFEN_SHIFT, SPI0_C2);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【7】清空波特率寄存器</span></span><br><span class="line">        SPI_BR = <span class="number">0x00</span>U;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【8】重新设置波特率</span></span><br><span class="line">        BaudRate_High = <span class="number">0</span>;</span><br><span class="line">        BaudRate_Low = <span class="number">0</span>;</span><br><span class="line">        BaudRate_Mode = <span class="number">12000</span>/BaudRate;</span><br><span class="line">        <span class="keyword">while</span>(BaudRate_Mode%<span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            BaudRate_Mode = BaudRate_Mode/<span class="number">2</span>;</span><br><span class="line">            BaudRate_Low++;</span><br><span class="line">        &#125;</span><br><span class="line">        BaudRate_High = --BaudRate_Mode;</span><br><span class="line">        SPI0_BR = BaudRate_High&lt;&lt;<span class="number">4</span>;</span><br><span class="line">        SPI0_BR |= BaudRate_Low;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【*】与上面类似， 从SPI_0的设置变为对SPI_1的设置</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_send1</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">uint_8 <span class="title">SPI_send1</span><span class="params">(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> i;</span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    <span class="comment">//【2】判断状态寄存器中的发送区状态，有数据状态为1，无数据状态为0。此时等待状态为0</span></span><br><span class="line">    <span class="keyword">while</span>(!(SPI_S_REG(baseadd)&amp;SPI_S_SPTEF_MASK));</span><br><span class="line">    <span class="comment">//【3】将数据放入数据寄存器</span></span><br><span class="line">    SPI_D_REG(baseadd) = data;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">0xFFF0</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>((SPI_S_REG(baseadd)&amp;SPI_S_SPTEF_MASK))		<span class="comment">//放入数据后状态发送区状态为1，即代表成功。</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_sendN</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_sendN</span><span class="params">(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> n, <span class="keyword">uint8_t</span> data[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> k; </span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(k = <span class="number">0</span>; k &lt; n; k++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【*】重复步骤：Step1.判断发送区状态		Step2.放入数据		Step3.清除发送区状态</span></span><br><span class="line">        <span class="keyword">while</span>(!(SPI_S_REG(baseadd)&amp;SPI_S_SPTEF_MASK));		<span class="comment">//Step1</span></span><br><span class="line">        SPI_D_REG(baseadd) = data[k];		<span class="comment">//Step2</span></span><br><span class="line">        SPI_S_REG(baseadd) != SPI_S_SPTEF_MASK;		<span class="comment">//Step3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_receive1</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint8_t</span> SPI_receive1(<span class="keyword">uint8_t</span> No)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    <span class="comment">//【2】判断接收区寄存器状态，有数据状态为1，无数据状态为0。</span></span><br><span class="line">    <span class="keyword">while</span>(!(SPI_S_REG(baseadd) &amp; SPI_S_SPRF_MASK));</span><br><span class="line">    <span class="comment">//【3】数据寄存器取数后，接收区状态从1被修改为0</span></span><br><span class="line">    <span class="keyword">return</span> SPI_D_REG(baseadd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_receiveN</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint8_t</span> SPI_receive1(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> n, <span class="keyword">uint8_t</span> data[])</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    <span class="keyword">uint32_t</span> m = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(m &lt; n)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【*】重复步骤：Step1.判断接收区区状态		Step2.取出数据(取出数据后接收区状态会变成0)</span></span><br><span class="line">        <span class="keyword">if</span>(SPI_S_REG(baseadd) &amp; SPI_S_SPRF_MASK)</span><br><span class="line">        &#123;</span><br><span class="line">            data[m] = SPI_D_REG(baseadd);</span><br><span class="line">            m++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SPI寄存器"><a href="#SPI寄存器" class="headerlink" title="SPI寄存器"></a>SPI寄存器</h2><p>​        SPI需要用到6个8位寄存器，其中含有两个控制寄存器，一个波特率寄存器，一个状态寄存器，一个数据寄存器，一个匹配寄存器。</p>
+<p>​            1.<strong>两个控制寄存器SPIx_C1，SPIx_C2</strong>中，SPIx_C1主要负责SPI使能控制、中断使能和配置选项(主从模式选择、时钟极性位选择、时钟相位位选择、移位器方向选择)。SPIx_C2。。。。。。</p>
+<p>​            2.<strong>波特率寄存器SPIx_BR</strong>。该寄存器用于位一个SPI主机设定标器和位速率分频因子。该寄存器的8位分别为D7(保留位)，D6-D4(SPPR-SPI波特率预分频系数)，通过这三位位段可以得到SPI波特率预分频系数。SPPR[2:0]所表示的十进制数为x(0-7)，则预分频系数SPPR=x+1(1-8)。输入为总线速率时钟(BUSCLK)，输出驱动SPI波特率系数的输入。以及D3-D0(SPR-SPI波特率系数)，通过这四位位段可以得到波特率系数。SPR[3:0]所表示的十进制数为y(0-7)，则波特率系数SPR=2^(y+1)(2-256)。其输入来自SPI波特率预分频器，输出是主模式的SPI波特率时钟。</p>
+<p>​            SPI主模式波特率 =  f_BUSCLK /(SPPR×SPR)，其中f_BUSCLK为总线时钟，SPPR和SPR可分别由SPI波特率预分频系数和SPI波特率系数得出。</p>
+<p>​            3.<strong>状态寄存器SPIx_S</strong>。该寄存器主要用于SPI发送和接收缓存区满空的判断和设置，其中4个只读状态位(D7-D4)。D7位<em>SPRF(SPI Receive Flag)为SPI接收缓冲器满标志</em>。在一次SPI传输完成时，SPRF被置位，表明接收到的数据可以从SPI数据寄存器(SPI_D)读取。当SPRF被置位时，通过读SPRF，然后读取SPI数据寄存器，可将其清除。<em>D6位SPMF(SPI Match Flag)为SPI匹配标志</em>。表明接收数据缓冲区的值是否与匹配寄存器中的值相同，硬件值与软件值进行比对。<em>D5位SPTEF(SPI Transmit Empty Flag)位SPI发送缓冲器空标志</em>。表明发送缓冲区是否为空。通过读取SPIx_S,可将其清除。并且在向SPIx_D写数据之前，需要清SPTEF位，否则写入无效。在DMA方式下，产生DMA请求后，SPTEF自动清除0。<em>D4位MODF为主模式故障标志</em>。。。。。。</p>
+<p>​            4.<strong>数据寄存器SPIx_D</strong>。读取该寄存器将返回从接收数据缓冲器中读取的数据。写该寄存器将会把数据写入发送数据缓冲器。当SPI被设置为主模式时，写入数据到传输数据缓冲器发起一次SPI传输。除非SPI发送缓冲器空标志(SPTEF)被置位，数据不应被写入到发送数据缓冲器，表明发送缓冲器内有空间来排列一个新的发送字节。在SPRF置位后且另以传输完成之前的任意时刻，数据都可以从SPID中被读取。在一个新的传输完成前，从接收数据缓冲器读出数据失败，将会引起一个接收丢包状态，并且新传输的数据也会丢失。</p>
+<p>​            5.<strong>匹配寄存器SPIx_M</strong>。此寄存器存储硬件比较值，用来与SPI接收数据缓冲区中的值进行比较。当SPI接收数据缓冲区收到的值等于此硬件比较值时，<em>SPI匹配标志(SPMF)</em>置位。</p>
+<h2 id="GPIO模拟SPI"><a href="#GPIO模拟SPI" class="headerlink" title="GPIO模拟SPI"></a>GPIO模拟SPI</h2><p>​        利用GPIO模拟SPI主要通过对使用四个GPIO引脚分别对应SS引脚、SCLK引脚、MOSI引脚、MISO引脚，利用延时函数模拟时钟周期，进行对SPI通信的模拟</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	SS		GPIO0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SCLK	GPIO1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOSI	GPIO2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MISO	GPIO3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OUTPUT		1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INPUT		0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Set_GPIO_Direction(SS, OUTPUT);</span><br><span class="line">    Set_GPIO_Direction(SCLK, OUTPUT);</span><br><span class="line">    Set_GPIO_Direction(MOSI, OUTPUT);</span><br><span class="line">    Set_GPIO_Direction(MISO, INPUT);</span><br><span class="line">    </span><br><span class="line">    Set_GPIO_Value(SCLK, <span class="number">0</span>);</span><br><span class="line">    Set_GPIO_Value(MOSI, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SS_Enable</span><span class="params">(<span class="keyword">int</span> enable)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(enable)	Set_GPIO_Value(SS, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">else</span>		Set_GPIO_Value(SS, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Write1</span><span class="params">(<span class="keyword">uint8_t</span> ch)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">7</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">0</span>);</span><br><span class="line">        Set_GPIO_Value(MOSI, ch&amp;(<span class="number">1</span>&lt;&lt;i));</span><br><span class="line">        Delay();</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">1</span>);</span><br><span class="line">        Delay();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> SPI_Read1()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">uint8_t</span> ch;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">0</span>);</span><br><span class="line">        Delay();</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">1</span>);</span><br><span class="line">        ch = (ch&lt;&lt;<span class="number">1</span>) | Get_GPIO_Value(MISO);</span><br><span class="line">        Delay();</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">return</span> ch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Write</span><span class="params">(<span class="keyword">uint8_t</span>* buf, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    SS_Enable(<span class="number">1</span>);</span><br><span class="line">    Delay();  </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) SPI_Write1(buf[i]);</span><br><span class="line">    Delay();</span><br><span class="line">    SS_Enable(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Read</span><span class="params">(<span class="keyword">uint8_t</span>* buf, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    SS_Enable(<span class="number">1</span>);</span><br><span class="line">    Delay();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) buf[i] = SPI_Read1();</span><br><span class="line">    Delay();</span><br><span class="line">    SS_Enable(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  
+  <nav class="page-nav">
+    <div class="page-nav-next page-nav-item">
+      
+      <a href="/2020/10/12/会议总结/20201012会议总结/" rel="next" title="20201012会议总结"><i class="fas fa-angle-left"></i><span class="nav-title">20201012会议总结</span></a>
+      
+    </div>
+    <div class="page-nav-prev page-nav-item">
+      
+      <a href="/2020/11/17/构件整理/2-通信模块IIC/" rel="prev" title="2-通信模块IIC"><span class="nav-title">2-通信模块IIC</span><i class="fas fa-angle-right"></i></a>
+      
+    </div>
+  </nav>
+  
+  
+</div>
+
+          </div>
+          
+          
+          
+<aside class="sidebar" id="sidebar" style="background: url(/images/background.png);">
+  
+  <div class="search">
+    <div class="form-group">
+      <i class="fas fa-search"></i><input type="search" id="search-input" name="q" results="0" placeholder="搜索" class="form-control">
+    </div>
+  </div>
+  <div class="search-result-box" id="search-result"></div>
+  
+  
+<div class="info sidebar-item" id="info">
+  
+  <img class="author-avatar" src="/images/avatar.png" alt="奥特曼&猪猪侠&闪电小子&葫芦娃">
+  
+  <h1 class="author-name">奥特曼&猪猪侠&闪电小子&葫芦娃</h1>
+  <h2 class="author-description">学IT中骑车最快的</h2>
+  <div class="site-count">
+    
+    
+    
+    
+    <div class="archives-count count-block">
+      <div class="site-count-title">归档</div>
+      <div><a href="/archives/">26</a></div>
+    </div>
+    
+    
+    
+    <div class="categories-count count-block">
+      <div class="site-count-title">分类</div>
+      <div><a href="/categories/">10</a></div>
+    </div>
+    
+    
+    
+    <div class="tags-count count-block">
+      <div class="site-count-title">标签</div>
+      <div><a href="/tags/">8</a></div>
+    </div>
+    
+    
+    
+    
+  </div>
+  
+  <div class="rss">
+    <a class="rss-link button sidebar-item" href="/atom.xml"><i class="fas fa-rss"></i>RSS</a>
+  </div>
+  
+</div>
+
+
+  <div class="sidebar-sticky">
+    
+    
+    
+    
+    
+    <hr>
+    <div class="post-toc sidebar-item" id="toc-div">
+      <div><i class="fas fa-list-ol"></i>文章目录</div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#SPI的组成"><span class="toc-text">SPI的组成</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#SPI的时序"><span class="toc-text">SPI的时序</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#SPI构件设计"><span class="toc-text">SPI构件设计</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#SPI寄存器"><span class="toc-text">SPI寄存器</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#GPIO模拟SPI"><span class="toc-text">GPIO模拟SPI</span></a></li></ol></div>
+    </div>
+    
+    
+    
+    <hr>
+    <div class="social-link sidebar-item">
+      <div><i class="far fa-address-card"></i>社交链接<p></p></div>
+      <ul>
+        
+        <li><i class="fas fa-envelope"></i><a href="mailto:youremail@youremailhost" target="_blank">E-Mail</a></li>
+        
+        <li><i class="fab fa-github"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fab fa-weibo"></i><a href="https://weibo.com/" target="_blank">Weibo</a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <hr>
+    <div class="blogroll sidebar-item">
+      <div><i class="fas fa-link"></i>友情链接</div>
+      <ul>
+        
+        <li><i class="fas fa-link"></i><a href="https://github.com/" target="_blank">GitHub</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://developer.mozilla.org/" target="_blank">MDN</a></li>
+        
+        <li><i class="fas fa-link"></i><a href="https://mozilla.github.io/nunjucks/" target="_blank">Nunjucks</a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</aside>
+
+
+          
+        </div>
+      </div>
+    </main>
+    
+<footer id="footer" class="footer" style="background: #33363b;">
+  <div class="container">
+    <div class="back-to-top">
+      <button id="back-to-top"><i class="fas fa-angle-double-up" aria-label="回到顶部"></i></button>
+    </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="copyright">
+          <span class="author">奥特曼&猪猪侠&闪电小子&葫芦娃</span><span class="year"><i class="far fa-copyright"></i>2020</span>
+        </div>
+        
+        <div class="busuanzi">
+          <span id="busuanzi_container_site_pv"><i class="fas fa-eye" aria-label="站点点击量" aria-hidden="false"></i><span id="busuanzi_value_site_pv"></span></span><span id="busuanzi_container_site_uv"><i class="fas fa-user" aria-label="站点用户数" aria-hidden="false"></i><span id="busuanzi_value_site_uv"></span></span><span id="busuanzi_container_page_pv"><i class="far fa-file-alt"></i><span id="busuanzi_value_page_pv" aria-label="页面点击量" aria-hidden="false"></span></span>
+        </div>
+        
+      </div>
+      <div class="footer-right">
+        <div class="custom-info">
+          
+          托管于<i class="fab fa-github-alt"></i><a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+          
+        </div>
+        <div class="powered-by">
+          由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动 | 主题 <a href="https://github.com/AlynxZhou/hexo-theme-aria/" target="_blank">ARIA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  </body>
+</html>
