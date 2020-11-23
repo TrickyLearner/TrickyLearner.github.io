@@ -204,6 +204,161 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/21/嵌入式系统/2-BIOS&mbedOS启动过程/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/09/21/嵌入式系统/2-BIOS&mbedOS启动过程/" itemprop="url">2-BIOS&mbedOS启动过程</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-09-21T22:18:56+08:00">2020-09-21 22:18:56</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="芯片启动后转向用户程序、操作系统的过程"><a href="#芯片启动后转向用户程序、操作系统的过程" class="headerlink" title="芯片启动后转向用户程序、操作系统的过程"></a>芯片启动后转向用户程序、操作系统的过程</h1><p>上一章介绍了芯片启动后的过程,芯片上电后开始启动执行到无操作系统主函数main(07_NosPrg\main.cpp)前。那么针对于BIOS最小系统和mbedOS的跳转过程如下：</p>
+<h2 id="1-BIOS最小系统的跳转"><a href="#1-BIOS最小系统的跳转" class="headerlink" title="1. BIOS最小系统的跳转"></a>1. BIOS最小系统的跳转</h2><p>BIOS的main函数如下：</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//（1）======启动部分（开头）============================================</span></span><br><span class="line"><span class="comment">//（1.1）声明main函数使用的局部变量（声明时不准赋值）</span></span><br><span class="line">        uint_8  muFlag;     <span class="comment">//更新状态标志</span></span><br><span class="line">        uint_32 mCount;     <span class="comment">//延时计数变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.2）【不变】关总中断</span></span><br><span class="line">        DISABLE_INTERRUPTS;</span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.3）给全局变量及主函数使用的局部变量赋初值</span></span><br><span class="line">        muFlag=<span class="number">0</span>;          <span class="comment">//更新状态标志=0，默认进入User</span></span><br><span class="line">        mCount=<span class="number">0</span>;          <span class="comment">//延时计数变量</span></span><br><span class="line">        <span class="keyword">if</span> (IS_POWERON_RESET)      <span class="comment">//若是冷复位，给有关全局变量赋初值</span></span><br><span class="line">        &#123;</span><br><span class="line">                gFunFlag = <span class="number">0</span>;      <span class="comment">//更新操作提示初始化</span></span><br><span class="line">                gCount=<span class="number">0</span>;          <span class="comment">//500ms计数单元  </span></span><br><span class="line">                gTime=<span class="number">0</span>;           <span class="comment">//全局时间戳,复位计时初始化</span></span><br><span class="line">                Rst_Count = <span class="number">0</span>;     <span class="comment">//按“复位键”的次数</span></span><br><span class="line">                <span class="built_in">memcpy</span>((<span class="keyword">void</span>*)gcUpdateFlag,<span class="string">"POWSTART\0"</span>,<span class="number">9</span>); <span class="comment">//初始化字符串，默认进入User</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.4）初始化外设模块</span></span><br><span class="line">        gpio_init(LIGHT_GREEN,GPIO_OUTPUT,LIGHT_OFF);    <span class="comment">//初始化BIOS运行指示灯</span></span><br><span class="line">        emuart_init(UART_UPDATE,<span class="number">115200</span>);      <span class="comment">//初始化BIOS程序更新串口</span></span><br><span class="line">        timer_init(TIMER_BIOS,<span class="number">20</span>);            <span class="comment">//初始化BIOS定时器</span></span><br><span class="line">        flash_init();                         <span class="comment">//初始化Flash构件</span></span><br><span class="line">        shakeDataInit();                      <span class="comment">//初始化握手数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.5）使能模块中断</span></span><br><span class="line">        uart_enable_re_int(UART_UPDATE);   <span class="comment">//使能UART_UPDATE模块中断</span></span><br><span class="line">        timer_enable_int(TIMER_BIOS);      <span class="comment">//使能BIOS定时器中断</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.6）【不变】开总中断</span></span><br><span class="line">        ENABLE_INTERRUPTS;                 <span class="comment">//开总中断</span></span><br><span class="line"><span class="comment">//（1.7）按键复位判断</span></span><br><span class="line">        pin_reset_judge();   <span class="comment">//如果短时间发生了多次按键复位，则不进入用户程序</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（1.8）判断是否需要进行更新操作</span></span><br><span class="line">        muFlag = updateJudge();</span><br><span class="line">        <span class="keyword">if</span>(muFlag != <span class="number">0</span>) gFunFlag = <span class="number">1</span>;                   <span class="comment">//需进行更新提示操作</span></span><br><span class="line">        <span class="keyword">else</span> gcRecvLen = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//（1）======启动部分（结尾）============================================</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（2）======主循环部分（开头）==========================================</span></span><br><span class="line">        <span class="keyword">for</span>(;;)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">switch</span>(gFunFlag)   <span class="comment">//根据gFunFlag跳转执行</span></span><br><span class="line">                &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">0</span>:  <span class="comment">//无需更新数据，跳转User程序执行</span></span><br><span class="line">                        gpio_set(LIGHT_GREEN,LIGHT_OFF);  <span class="comment">//关闭绿灯</span></span><br><span class="line">                        uart_send_string (UART_UPDATE,<span class="string">"  【BIOS提示信息】：USER程序开始运行...\r\n"</span>);</span><br><span class="line">                        user_reset(GEC_USERBASE);   <span class="comment">//跳转User程序</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:  <span class="comment">//需进行更新提示操作</span></span><br><span class="line">                        gFunFlag = <span class="number">10</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:  <span class="comment">//其他情况，绿灯闪烁，提示处于BIOS程序</span></span><br><span class="line">                        mCount++;</span><br><span class="line">                        <span class="keyword">if</span>(mCount &gt; <span class="number">0x5fffff</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                                mCount = <span class="number">0</span>;</span><br><span class="line">                                gpio_reverse(LIGHT_GREEN);</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//（2）======主循环部分（结尾）==========================================</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么，在上述代码中，有两处关键代码 <strong>pin_reset_judge();</strong> 和 <strong>user_reset(GEC_USERBASE);</strong></p>
+<p><strong>pin_reset_judge();</strong> </p>
+<p>代码进行的是复位引脚被触碰了几次，本例子中以6次为限，触碰6次则程序返回BIOS中。</p>
+<p>那么上一章所提的BSS段被注释掉就是希望芯片启动后不清楚某些全局变量的状态，如果芯片复位标志被置位，说明已触碰6次，那么就不会跳转到GEC_USERBASE用户区。反之，芯片启动后会直接跳转到用户区。具体流程见后续章节。</p>
+<p><strong>user_reset(GEC_USERBASE);</strong></p>
+<p>这段代码会让芯片直接跳转到用户区，GEC_USERBASE是用户区的首地址。</p>
+<h2 id="2-mbedOS的跳转"><a href="#2-mbedOS的跳转" class="headerlink" title="2. mbedOS的跳转"></a>2. mbedOS的跳转</h2><p>​        main 函数开始 mbedOS 的启动，我们把 mbedOS 启动过程梳理到一个函数中运行，由 main 函数来调用，这个函数原型为：</p>
+<figure class="hljs highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mbedOS_start(osThreadId_t &amp;thd, <span class="keyword">void</span> (*func)(<span class="keyword">void</span>))。</span><br><span class="line"><span class="comment">//该函数有两个参数</span></span><br><span class="line"><span class="comment">//thd 为将要运行的主线程控制块的引用</span></span><br><span class="line"><span class="comment">//func为主线程执行的实际函数</span></span><br><span class="line"><span class="comment">//实际调用时为 mbedOS_start(thd_main,*app_init)。</span></span><br></pre></td></tr></table></figure>
+
+<p>​        mbedOS 进入 main 函数之后，调用 mbedOS 的启动函数，mbedOS 就开始启动，并无休无止地开始运行，进行任务调度。</p>
+<p>mbedOS_start 函数是 mbedOS 启动过程函数</p>
+<p><strong>其主要任务是：</strong></p>
+<p><strong>1.设置 mbedOS 堆栈区</strong></p>
+<p><strong>2.重定向中断向量表</strong></p>
+<p><strong>3.完成内核初始化</strong></p>
+<p><strong>4.建立互斥信号</strong></p>
+<p><strong>5.创建主线程和启动内核</strong></p>
+<p>类似于BIOS，在main函数中会直接调用mbedOS_start这个函数跳转到mbedOS的首地址处。</p>
+<p>当内核启动成功后，函数 svcRtxKernelStart 执行完成返回到 SVC 中断中，进行上下文切换，返回到定时器线程中执行。定时器线程 osRtxInfo.timer.thread 运行后会进入阻塞状态，此时 mbedOS 会选择就绪队列中优先级最高的线程，即主线程 main_thread，使其进入激活态。</p>
+<p>主线程被调度运行时，其执行函数 app_init主要负责完成初始化外设模块、初始化全局变量、使能中断模块、创建并启动其他用户线程、阻塞主线程的功能，之后的线程运行和切换都由 mbedOS 调度完成</p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/18/嵌入式系统/1-芯片启动过程/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/09/18/嵌入式系统/1-芯片启动过程/" itemprop="url">1-芯片启动过程</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-09-18T22:11:07+08:00">2020-09-18 22:11:07</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="BIOS启动过程详细解析"><a href="#BIOS启动过程详细解析" class="headerlink" title="BIOS启动过程详细解析"></a>BIOS启动过程详细解析</h1><h2 id="1-修改BIOS各步骤的意义"><a href="#1-修改BIOS各步骤的意义" class="headerlink" title="1.修改BIOS各步骤的意义"></a>1.修改BIOS各步骤的意义</h2><h3 id="①cpu-h"><a href="#①cpu-h" class="headerlink" title="①cpu.h"></a>①cpu.h</h3><p>包含各芯片本身的信息。如core_cm0plus.h, core_cmFunc.h, core_cmInstr.h(KL36)</p>
+<h3 id="②mcu-h"><a href="#②mcu-h" class="headerlink" title="②mcu.h"></a>②mcu.h</h3><p>为了重定向芯片中的中断信息相关宏常数及宏函数及复位相关函数。</p>
+<p><strong>重定向的意义在于</strong></p>
+<p><strong>⑴提取共性，最小程度的减少移植其他芯片的代价</strong></p>
+<p><strong>⑵为了顾名思义，最大程度提高代码的可读性</strong></p>
+<h3 id="③链接文件"><a href="#③链接文件" class="headerlink" title="③链接文件"></a>③链接文件</h3><p>主要为了划分各部分功能（动态命令、构件链表、构件函数）所用的区域，实现各个功能的跳转工作。</p>
+<h3 id="④启动文件"><a href="#④启动文件" class="headerlink" title="④启动文件"></a>④启动文件</h3><p>启动文件的修改主要是将bss段的清零程序删除。删除这段是为了上电复位的时候不清除部分全局变量以达到触碰6次才返回BIOS的效果。</p>
+<h3 id="⑤user-h"><a href="#⑤user-h" class="headerlink" title="⑤user.h"></a>⑤user.h</h3><p>主要为了重定向各模块的串口、模块号或者对应的原中断处理程序名。</p>
+<h3 id="⑥基础构建标准化"><a href="#⑥基础构建标准化" class="headerlink" title="⑥基础构建标准化"></a>⑥基础构建标准化</h3><p>主要为了提取共性，实现多芯片的统一。</p>
+<h2 id="2-BIOS的启动过程"><a href="#2-BIOS的启动过程" class="headerlink" title="2.BIOS的启动过程"></a>2.BIOS的启动过程</h2><p><strong>–&gt;        初始化堆栈</strong></p>
+<p><strong>–&gt;        复位程序地址赋给PC寄存器</strong></p>
+<p><strong>–&gt;        取出PC寄存器中的地址并执行</strong></p>
+<p><strong>–&gt;        将Flash中的data段的数据复制到RAM</strong></p>
+<p><strong>–&gt;        调用系统初始化函数进行芯片部分初始化</strong></p>
+<p><strong>–&gt;        调用main函数进入BIOS主程序</strong></p>
+<p><strong>–&gt;        从BIOS中转向USER区域</strong></p>
+<h1 id="mbed操作系统启动过程"><a href="#mbed操作系统启动过程" class="headerlink" title="mbed操作系统启动过程"></a>mbed操作系统启动过程</h1><p>(1)芯片上电复位后，芯片内部机制首先从 Flash 的起始地址中，取出第一个表项的内容（即 RAM 最大地址+1），赋给内核堆栈指针寄存器 SP，实际上是使用 MSP，完成堆栈指针初始化。</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.section .FlashConfig, &quot;a&quot;</span><br><span class="line">.long 0xFFFFFFFF</span><br><span class="line">.long 0xFFFFFFFF</span><br><span class="line">.long 0xFFFFFFFF</span><br><span class="line">.long 0xFFFFFFFE</span><br></pre></td></tr></table></figure>
+
+<p>(2)芯片内部机制将第二个表项（即复位处理程序 Reset_Handler 的首地址），赋给内核寄存器 PC（程序计数器）。</p>
+<p>(3)芯片内部机制从程序计数器 PC 中取出地址，再从该地址取出机器码，这个机器码就是芯片复位后执行的第一个指令，也就是说，芯片从此开始运行程序了。直观理解就是从“startup_xxx.S”文件中的 Reset_Handler 函数开始程序的运行。</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Reset_Handler:</span><br><span class="line">    cpsid   i          </span><br><span class="line">#ifndef __NO_SYSTEM_INIT</span><br><span class="line">    bl SystemInit</span><br><span class="line">#endif</span><br><span class="line">    cpsie   i</span><br></pre></td></tr></table></figure>
+
+<p>(4)将 data 段的数据（已赋值且不为 0 的全局变量和静态变量）从 Flash 中复制到 RAM 中。</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ldr    r1, =__etext</span><br><span class="line">ldr    r2, =__data_start__</span><br><span class="line">ldr    r3, =__data_end__</span><br><span class="line"></span><br><span class="line">subs    r3, r2</span><br><span class="line">ble     .LC0</span><br><span class="line">		</span><br><span class="line">.LC1:</span><br><span class="line">subs    r3, 4</span><br><span class="line">ldr    r0, [r1,r3]</span><br><span class="line">str    r0, [r2,r3]</span><br><span class="line">bgt    .LC1</span><br><span class="line">.LC0:</span><br></pre></td></tr></table></figure>
+
+<p>(5)清零未初始化 bss（Block Started by Symbol） 数据段（<strong>赋值为</strong> <strong>0</strong> <strong>或未初始化的全局变量和静态变量</strong>） </p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#define __STARTUP_CLEAR_BSS</span><br><span class="line">#ifdef __STARTUP_CLEAR_BSS</span><br><span class="line">    ldr r1, =__bss_start__</span><br><span class="line">    ldr r2, =__bss_end__</span><br><span class="line">    </span><br><span class="line">    subs    r2, r1</span><br><span class="line">    ble .LC3</span><br><span class="line">    movs    r0, 0</span><br><span class="line"></span><br><span class="line">.LC2:</span><br><span class="line">    str r0, [r1, r2]</span><br><span class="line">    subs    r2, 4</span><br><span class="line">    bge .LC2</span><br><span class="line"></span><br><span class="line">.LC3:</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+
+<p>(6)调用系统初始化函数 SystemInit 进行芯片部分初始化设置（在本样例程序中，完 成系统时钟初始化，即将内核和总线时钟都设置为 48MHZ）。 </p>
+<p>(7)调用静态构造函数__libc_init_array 完成对 C ++对象的初始化。 </p>
+<p>(8)最后调用 main 函数进入用户主程序执行。</p>
+<p><strong>–&gt;        初始化堆栈</strong></p>
+<p><strong>–&gt;        复位程序地址赋给PC寄存器</strong></p>
+<p><strong>–&gt;        取出PC寄存器中的地址并执行</strong></p>
+<p><strong>–&gt;        将Flash中的data段的数据复制到RAM</strong></p>
+<p><strong>–&gt;        清零并初始化BSS段</strong></p>
+<p><strong>–&gt;        调用系统初始化函数进行芯片部分初始化</strong></p>
+<p><strong>–&gt;        (调用__libc_init_array完成对 C ++对象的初始化)</strong></p>
+<p><strong>–&gt;        调用main函数进入用户主程序</strong></p>
+<p><strong>注意：</strong></p>
+<p><strong>1.BIOS的操作中去除了清零并初始化BSS段的操作</strong></p>
+<p><strong>2.(__libc_init_array)内为增加操作系统所需要加的操作</strong></p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/07/自然语言处理/1-自然语言处理绪论/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
@@ -618,21 +773,21 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">26</a></div>
+      <div><a href="/archives/">28</a></div>
     </div>
     
     
     
     <div class="categories-count count-block">
       <div class="site-count-title">分类</div>
-      <div><a href="/categories/">10</a></div>
+      <div><a href="/categories/">11</a></div>
     </div>
     
     
     
     <div class="tags-count count-block">
       <div class="site-count-title">标签</div>
-      <div><a href="/tags/">8</a></div>
+      <div><a href="/tags/">9</a></div>
     </div>
     
     

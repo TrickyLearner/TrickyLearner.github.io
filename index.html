@@ -204,6 +204,111 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/23/算法学习/1-算法思想之分治法-棋盘覆盖问题/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/23/算法学习/1-算法思想之分治法-棋盘覆盖问题/" itemprop="url">1-算法思想之分治法-棋盘覆盖问题</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-23T16:20:58+08:00">2020-11-23 16:20:58</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法思想/" itemprop="url" rel="index"><span itemprop="name">算法思想</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="算法–分治法之棋盘覆盖"><a href="#算法–分治法之棋盘覆盖" class="headerlink" title="算法–分治法之棋盘覆盖"></a>算法–分治法之棋盘覆盖</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在一个2^k×2^k个方格组成的棋盘中，恰有一个方格与其他方格不同，称该方格为——特殊方格，且称该棋盘为——特殊棋盘。在棋盘覆盖问题中，要用图示的4种不同形态的L型骨牌覆盖给定的特殊棋盘上除特殊方格以外的所有方格，且任何2个L型骨牌不得重叠覆盖。</p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>2^k×2^k产生的棋盘中的方格数永远会是3的倍数+1，也就是说该类棋盘一定会被正好填满。对于2^k×2^k棋盘，可以被分成4个2^(k-1)×2^(k-1)棋盘，特殊方格如果出现在左上角，则L型骨牌的方向朝向右下角；如果出现在右上角，则L型骨牌的方向朝向左下角；如果出现在左下角，则L型骨牌的方向朝向右上角；如果出现在右下角，则L型骨牌的方向朝向左上角。L型骨牌放置在四个分支棋盘的交界处。</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>分析：当k&gt;0时，将2^k×2^k分割为4个2^(k-1)×2^(k-1)棋盘。特殊方法必位于4个较小子棋盘之一中，其余3个子棋盘中无特殊方格。为了将这3个无特殊方格的子棋盘转化为特殊棋盘，可以用一个L型骨牌覆盖这3个较小棋盘的会合处，从而将原问题转化为4个较小规模的棋盘覆盖问题。递归地使用这种分割，直至棋盘简化为棋盘1×1</p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><p>每次都对分割后的四个小方块进行判断，判断特殊方格是否在里面。这里的判断方法是每次先记录下整个大方块的左上角方格的行列左边，然后再与特殊方格坐标进行比较，就可以知道特殊方格是否在该块中。如果特殊方块在里面，这直接递归下去求即可，如果不在，这根据分割的四个方块的不同位置，把右下角、左下角、右上角、左上角的方格标记为特殊方块，然后继续递归。在递归函数里，还要有一个变量s来记录边的方格数，每次对方块进行划分时，边的方格数都会减半，这个变量是为了方便判断特殊方格的位置。其次还要有一个变nCount来记录L型骨牌的数量。</p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><p>实现定位需要每个棋盘左上角坐标和边的长度，所以递归函数需要5个参数，特殊方格的横坐标Special_X，纵坐标Special_Y，左上角横坐标Top_Left_X，纵坐标Top_Left_Y，棋盘边的长度Size，以此我们可以制定一个递归函数ChessBoard;</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> nCount = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> Matrix[<span class="number">100</span>][<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ChessBoard</span><span class="params">(<span class="keyword">int</span> Top_Left_X, <span class="keyword">int</span> Top_Left_Y, <span class="keyword">int</span> Special_X, <span class="keyword">int</span> Special_Y, <span class="keyword">int</span> Size)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> Size, Special_X, Special_Y;</span><br><span class="line">	<span class="built_in">memset</span>(Matrix, <span class="number">0</span>, <span class="keyword">sizeof</span>(Matrix));</span><br><span class="line">	scanf_s(<span class="string">"%d"</span>, &amp;Size);</span><br><span class="line">	scanf_s(<span class="string">"%d%d"</span>, &amp;Special_X, &amp;Special_Y);</span><br><span class="line">	ChessBoard(<span class="number">0</span>, <span class="number">0</span>, Special_X, Special_Y, Size);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Size; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; Size; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%2d "</span>, Matrix[i][j]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ChessBoard</span><span class="params">(<span class="keyword">int</span> Top_Left_X, <span class="keyword">int</span> Top_Left_Y, <span class="keyword">int</span> Special_X, <span class="keyword">int</span> Special_Y, <span class="keyword">int</span> Size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> s;		<span class="comment">//用于记录棋盘的一半长度</span></span><br><span class="line">	<span class="keyword">int</span> t;		<span class="comment">//用于显示L型骨牌的数量</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="number">1</span> == Size) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">	s = Size / <span class="number">2</span>;</span><br><span class="line">	t = ++nCount;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//【1】对左上子棋盘的处理</span></span><br><span class="line">	<span class="comment">//如果特殊点在左上子棋盘，则不需要另外加点,直接进入下一次递归</span></span><br><span class="line">	<span class="keyword">if</span> (Special_X &lt; (Top_Left_X + s) &amp;&amp; Special_Y &lt; (Top_Left_Y + s))</span><br><span class="line">	&#123;</span><br><span class="line">		ChessBoard(Top_Left_X, Top_Left_Y, Special_X, Special_Y, s);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//如果特殊点不在左上子棋盘，则需要在左上子棋盘的右下角加点，再进入下一层递归</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Matrix[Top_Left_X + s - <span class="number">1</span>][Top_Left_Y + s - <span class="number">1</span>] = t;</span><br><span class="line">		ChessBoard(Top_Left_X, Top_Left_Y, Top_Left_X + s - <span class="number">1</span>, Top_Left_Y + s - <span class="number">1</span>, s);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//【2】对右上子棋盘的处理</span></span><br><span class="line">    <span class="comment">//如果特殊点在右上子棋盘，则不需要另外加点,直接进入下一次递归</span></span><br><span class="line">	<span class="keyword">if</span> (Special_X &gt;= (Top_Left_X + s) &amp;&amp; Special_Y &lt; (Top_Left_Y + s))</span><br><span class="line">	&#123;</span><br><span class="line">		ChessBoard(Top_Left_X + s, Top_Left_Y, Special_X, Special_Y, s);</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//如果特殊点不在右上子棋盘，则需要在右上子棋盘的左下角加点，再进入下一层递归</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Matrix[Top_Left_X + s][Top_Left_Y + s - <span class="number">1</span>] = t;</span><br><span class="line">		ChessBoard(Top_Left_X + s, Top_Left_Y, Top_Left_X + s, Top_Left_Y + s - <span class="number">1</span>, s);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//【3】对左下子棋盘的处理</span></span><br><span class="line">    <span class="comment">//如果特殊点在左下子棋盘，则不需要另外加点,直接进入下一次递归</span></span><br><span class="line">	<span class="keyword">if</span> (Special_X &lt; (Top_Left_X + s) &amp;&amp; Special_Y &gt;= (Top_Left_Y + s))</span><br><span class="line">	&#123;</span><br><span class="line">		ChessBoard(Top_Left_X, Top_Left_Y + s, Special_X, Special_Y, s);</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//如果特殊点不在左下子棋盘，则需要在左下子棋盘的右上角加点，再进入下一层递归</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Matrix[Top_Left_X + s - <span class="number">1</span>][Top_Left_Y + s] = t;</span><br><span class="line">		ChessBoard(Top_Left_X, Top_Left_Y + s, Top_Left_X + s - <span class="number">1</span>, Top_Left_Y + s, s);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//【4】对右下子棋盘的处理</span></span><br><span class="line">    <span class="comment">//如果特殊点在右下子棋盘，则不需要另外加点,直接进入下一次递归</span></span><br><span class="line">	<span class="keyword">if</span> (Special_X &gt;= (Top_Left_X + s) &amp;&amp; Special_Y &gt;= (Top_Left_Y + s))</span><br><span class="line">	&#123;</span><br><span class="line">		ChessBoard(Top_Left_X + s, Top_Left_Y + s, Special_X, Special_Y, s);</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//如果特殊点不在右下子棋盘，则需要在右下子棋盘的左上角加点，再进入下一层递归</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Matrix[Top_Left_X + s][Top_Left_Y + s] = t;</span><br><span class="line">		ChessBoard(Top_Left_X + s, Top_Left_Y + s, Top_Left_X + s, Top_Left_Y + s, s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/算法思想/" rel="tag"><i class="fas fa-tags"></i>算法思想</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/23/模块开发/5-WiFi模块开发实例1/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/23/模块开发/5-WiFi模块开发实例1/" itemprop="url">5-WiFi模块开发实例1</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-23T15:50:00+08:00">2020-11-23 15:50:00</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块开发/" itemprop="url" rel="index"><span itemprop="name">模块开发</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/模块开发/" rel="tag"><i class="fas fa-tags"></i>模块开发</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/23/一百个A类问题/第三个A类问题-Arduino-UDP通信问题/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
@@ -611,66 +716,6 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/模块开发/3-WiFi模块开发第三部分/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/模块开发/3-WiFi模块开发第三部分/" itemprop="url">3-WiFi模块开发第三部分</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T11:39:57+08:00">2020-10-10 11:39:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块开发/" itemprop="url" rel="index"><span itemprop="name">模块开发</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="WiFi主要使用函数"><a href="#WiFi主要使用函数" class="headerlink" title="WiFi主要使用函数"></a>WiFi主要使用函数</h1><h2 id="1-连接WiFi"><a href="#1-连接WiFi" class="headerlink" title="1.连接WiFi"></a>1.连接WiFi</h2><p>​        通过发送AT指令让EMW3072连接WiFi，WiFi连接成功后，EMW3072芯片会回发”STATION_UP”，收到这个回发信息后，芯片就设定已经连接上WiFi。</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_linktossid</span></span><br><span class="line"><span class="comment">//功能概要：接入指定wifi接入点</span></span><br><span class="line"><span class="comment">//参数说明：ssid:接入点名称,password:密码</span></span><br><span class="line"><span class="comment">//函数返回：接入是否成功=0成功，=1错误，=2无返回数据</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_linktossid(<span class="keyword">uint8_t</span>* ssid,<span class="keyword">uint8_t</span>* password)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="keyword">uint8_t</span> cmd[<span class="number">40</span>],flag;</span><br><span class="line">	<span class="comment">//2.设置帧尾</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"STATION_UP"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"ERROR"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,<span class="string">"AT+WJAP="</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)ssid);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">","</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)password);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"\r"</span>);</span><br><span class="line">	<span class="comment">//3.发送指令</span></span><br><span class="line">	flag=wifi_send_cmd(cmd);</span><br><span class="line">	<span class="keyword">if</span>(flag==WIFI_NORESPONSE)</span><br><span class="line">		wifi_send_cmd((<span class="keyword">uint8_t</span>*)<span class="string">"AT+WJAP=?\r"</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strstr</span>((<span class="keyword">char</span>*)WIFI_CMD,<span class="string">"STATION_UP"</span>)!=<span class="literal">NULL</span>)</span><br><span class="line">		flag=WIFI_OK;</span><br><span class="line">	<span class="keyword">if</span>(flag==WIFI_OK)</span><br><span class="line">		WIFI_AP_STATE=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> (flag);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-连接服务器"><a href="#2-连接服务器" class="headerlink" title="2.连接服务器"></a>2.连接服务器</h2><p>​        连接WiFi成功后，芯片通过发送AT指令让EMW3072连接服务器，连接服务器成功后，EMW3072芯片会回发”SERVER,CONNECTED”</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_con_srv</span></span><br><span class="line"><span class="comment">//功能概要：与服务器建立连接</span></span><br><span class="line"><span class="comment">//参数说明：ip:服务器IP地址,port:端口号（均为字符串格式）,</span></span><br><span class="line"><span class="comment">//       格式"xxx.xxx.xxx.xxx",xxx取值范围0-255</span></span><br><span class="line"><span class="comment">//函数返回：=0连接成功,=1连接失败,=2处于发送模式</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_con_srv(<span class="keyword">uint8_t</span>* ip,<span class="keyword">uint8_t</span>* port)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="keyword">uint8_t</span> flag,cmd[<span class="number">100</span>];</span><br><span class="line">	<span class="comment">//1.检测wifi模块当前状态是否处于发送模式</span></span><br><span class="line">	<span class="keyword">if</span>(WIFI_SEND_STATE==<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">	<span class="comment">//2.检测输入的ip地址是否合法</span></span><br><span class="line">	<span class="keyword">if</span>(!wifi_check_ip(ip))</span><br><span class="line">		<span class="keyword">return</span> WIFI_ERROR;</span><br><span class="line">	<span class="comment">//3.检测输入的port值是否合法</span></span><br><span class="line">	<span class="keyword">if</span>(!wifi_check_port(port))</span><br><span class="line">	    <span class="keyword">return</span> WIFI_ERROR;</span><br><span class="line">	<span class="comment">//4.设置帧尾</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"SERVER,CONNECTED"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"\r\nERROR"</span>);</span><br><span class="line">	<span class="comment">//5.断开已有连接</span></span><br><span class="line">	wifi_disconnect();</span><br><span class="line">	<span class="comment">//6.拼接指令</span></span><br><span class="line"></span><br><span class="line">	port[<span class="number">5</span>]=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//AT+CIPSTART=1,tcp_client,192.168.31.244,8888\r</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)WIFI_START);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"1,tcp_client,"</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)(ip));</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">","</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)(port));</span><br><span class="line">	<span class="built_in">strcat</span>(((<span class="keyword">char</span>*)cmd),<span class="string">"\r"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//7.发送指令</span></span><br><span class="line">	flag=wifi_send_cmd(cmd);</span><br><span class="line">	<span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-接收返回信息"><a href="#3-接收返回信息" class="headerlink" title="3.接收返回信息"></a>3.接收返回信息</h2><p>​        接收返回信息函数是每个AT指令发送后都需要用到的函数，根据发出的命令存储不同的返回信息供芯片判断发送指令成功与否。</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_int_re</span></span><br><span class="line"><span class="comment">//功能概要：中断接收字符</span></span><br><span class="line"><span class="comment">//参数说明：ch:要接受的字符，*dataLen:存储接收到的数据长度，</span></span><br><span class="line"><span class="comment">//      *data:将接收到的数据存放到该数组中;</span></span><br><span class="line"><span class="comment">//函数返回：无</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">wifi_int_re</span><span class="params">(<span class="keyword">uint8_t</span> ch,<span class="keyword">uint16_t</span> *dataLen, <span class="keyword">uint8_t</span> *data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="comment">//1.WIFI_ACKSTOP大于零时接收指令回信</span></span><br><span class="line">	<span class="keyword">switch</span>(WIFI_RECVSTOP)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="comment">//数据接收模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">0</span>:uecom_recv(ch,dataLen,data);</span><br><span class="line">	    	<span class="keyword">break</span>;</span><br><span class="line">	    <span class="comment">//命令返回接收模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">1</span>:<span class="keyword">if</span>(WIFI_CMDLENGTH&lt;<span class="number">400</span>)</span><br><span class="line">               &#123;</span><br><span class="line"> 	               wifi_returncheck(ch);</span><br><span class="line"> 	               WIFI_CMD[WIFI_CMDLENGTH+<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">               &#125;</span><br><span class="line">	    	   <span class="keyword">break</span>;</span><br><span class="line">	    <span class="comment">//重启模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">2</span>:WIFI_BOOTFLAG = wifi_rebootcheck(ch);</span><br><span class="line">	           <span class="keyword">if</span>(WIFI_BOOTFLAG)</span><br><span class="line">	        	   WIFI_RECVSTOP = <span class="number">0</span>;</span><br><span class="line">	           <span class="keyword">break</span>;                        <span class="comment">//重启等待</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">	    <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-发送消息"><a href="#4-发送消息" class="headerlink" title="4. 发送消息"></a>4. 发送消息</h2><p>​        芯片通过这个函数发送消息，函数会将你想要发送的消息进行二次组帧以确保信息的稳定性和安全性。</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_sendN</span></span><br><span class="line"><span class="comment">//功能概要：连接建立后，向服务器发送N个字符,如果是第一次发送,会开启发送模式,开启</span></span><br><span class="line"><span class="comment">//发送模式后部分函数会不可用,具体请看各函数说明</span></span><br><span class="line"><span class="comment">//参数说明：data:需要发送的字符,length:数据长度,IMSI:本机的IMSI号</span></span><br><span class="line"><span class="comment">//函数返回：发送是否成功=0成功,=1开启发送模式失败</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_sendN(<span class="keyword">uint8_t</span>* data,<span class="keyword">uint16_t</span> length,<span class="keyword">uint8_t</span>* IMSI)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">uint8_t</span> buf[<span class="number">400</span>], cmd[<span class="number">20</span>], strlength[<span class="number">5</span>];</span><br><span class="line">	<span class="keyword">if</span>(WIFI_SEND_STATE==<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//3.拼接发送请求帧尾</span></span><br><span class="line">		<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"OK"</span>);</span><br><span class="line">		<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"ERROR"</span>);</span><br><span class="line">		WIFI_SEND_STATE=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	wifi_frameEncode(IMSI,data,length,buf,&amp;length);</span><br><span class="line">	<span class="comment">//5.发送内容</span></span><br><span class="line">	itoa(length,(<span class="keyword">char</span>*)strlength,<span class="number">10</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,<span class="string">"AT+CIPSEND=1,"</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)strlength);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"\r"</span>);</span><br><span class="line">	uart_send_string(UART_WIFI,(<span class="keyword">uint8_t</span>*)cmd);</span><br><span class="line">	uart_sendN(UART_WIFI,length,buf);</span><br><span class="line">	<span class="keyword">return</span> WIFI_OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/模块开发/" rel="tag"><i class="fas fa-tags"></i>模块开发</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/模块开发/4-WiFi模块开发第四部分/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
@@ -776,71 +821,6 @@
     </footer>
   </article>
   
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/09/嵌入式系统/7-链接文件作用时间及原理/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/09/嵌入式系统/7-链接文件作用时间及原理/" itemprop="url">7-链接文件作用时间及原理</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-09T20:39:57+08:00">2020-10-09 20:39:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <ol>
-<li>一个</li>
-</ol>
-<p>开发C语言程序需要经过四个步骤：预编译、编译、链接、运行</p>
-<p>预编译</p>
-<p>预编译对源码中所有的预处理语句进行处理，例如： #include语句所包含的文件内容替换掉语句本身，所有已定义的宏被展开。根据#ifdef，#if等语句的条件是否成立取舍相应的部分，预处理之后源码中不再包含预处理语句。GCC预处理可以生成.i的文件。</p>
-<p>编译</p>
-<p>这一阶段，编译器对源码进行词法分析、语法分析、优化等操作，最后生成汇编代码。</p>
-<p>汇编</p>
-<p>这一阶段使用汇编器对汇编代码进行处理，生成机器语言代码，保存在后缀为.o的目标文件中。当程序有多个代码文件构成时，每个文件都要先完成汇编工作，生成.o目标文件后，才能进入下一步的链接工作。</p>
-<p>链接</p>
-<p>经过汇编以后的机器代码还不能直接运行。为了使操作系统能够正确加载可执行文件，文件中必须包含固定格式的信息头，还必须与系统提供的启动代码链接起来才能正常运行，这些都是又链接器来完成的。</p>
-<p>在STM32L431RC芯片中，链接的工作由链接文件.ld来完成，链接文件的主要功能就是将多个目标文件(.o)和库文件(.a)链接成一个可执行的文件。</p>
-<p>链接文件中主要有以下三个部分：链接配置、内存布局定义、段链接定义</p>
-<p>链接配置中设定一些符号变量的定义、入口地址、输出格式等</p>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/嵌入式系统/" rel="tag"><i class="fas fa-tags"></i>嵌入式系统</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
   
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right" aria-label="下一页"></i></a>
@@ -876,21 +856,21 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">26</a></div>
+      <div><a href="/archives/">28</a></div>
     </div>
     
     
     
     <div class="categories-count count-block">
       <div class="site-count-title">分类</div>
-      <div><a href="/categories/">10</a></div>
+      <div><a href="/categories/">11</a></div>
     </div>
     
     
     
     <div class="tags-count count-block">
       <div class="site-count-title">标签</div>
-      <div><a href="/tags/">8</a></div>
+      <div><a href="/tags/">9</a></div>
     </div>
     
     
