@@ -204,6 +204,114 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/10/嵌入式系统/9-位带区-别名区功能与用法详解/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/12/10/嵌入式系统/9-位带区-别名区功能与用法详解/" itemprop="url">9-位带区-别名区功能与用法详解</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-12-10T10:43:36+08:00">2020-12-10 10:43:36</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="位带区与别名区介绍"><a href="#位带区与别名区介绍" class="headerlink" title="位带区与别名区介绍"></a>位带区与别名区介绍</h1><p>位带区与别名区组合使用形成了位带操作，首先对为什么要引进位带操作进行简介。</p>
+<h2 id="1-位带操作的意义"><a href="#1-位带操作的意义" class="headerlink" title="1.位带操作的意义"></a>1.位带操作的意义</h2><p>​        在MCU编程中，通常情况下，对RAM1及外设寄存器的操作，只能对整个字执行“读-改-写”操作，而只对字中某位的操作则需要位带操作的支持。</p>
+<h2 id="2-位带操作概述"><a href="#2-位带操作概述" class="headerlink" title="2.位带操作概述"></a>2.位带操作概述</h2><p>​        位带操作实质是一种内存映射关系，系统将“位带区”的存储单元按“位”映射到对应的“别名区”的32位字上，“别名区”中的一个32位地址，对应“位带区”一个地址中的一个位。按“字”访问“别名区”的存储单元时，就相当于访问“位带区”对应“位”，即通过对“别名区”地址的访问等同于对真实地址的某个位的访问。</p>
+<p>​        </p>
+<h2 id="3-位带操作应用案例解析"><a href="#3-位带操作应用案例解析" class="headerlink" title="3.位带操作应用案例解析"></a>3.位带操作应用案例解析</h2><p>以SRAM1中目标地址为0x2000_0300，修改其第二位为“0”为例：一般情况下，修改内存中的一位不影响其他位。</p>
+<p>​        ①不使用位带操作方法</p>
+<p>​        需要对待修改的字执行“读-改-写”操作，即读内存赋给临时变量，然后对临时变量进行修改，最后将临时变量结果写回内存。具体方法如下：</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//读一个字：读取0x20000300~0x20000303中内容到临时变量temp中</span></span><br><span class="line">    temp = (*(<span class="keyword">volatile</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>*)(<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>)<span class="number">0x20000300</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//改一个位：将temp中的第2位清0(从左向右为31--0)</span></span><br><span class="line">    temp = temp &amp; <span class="number">0xFFFFFFFB</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment">//写一个字：将temp写回目标地址</span></span><br><span class="line">    (*(<span class="keyword">volatile</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>*)(<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>)<span class="number">0x20000300</span>) = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        在AHL-GEC-IDE中对上述代码反汇编进行对比，可以发现使用位带操作比原有“读-改-写”方法的代码空间要小，执行效率更高。通过“别名区”的写操作就可以实现对SRAM1中位的操作，将位操作的“读-改-写”过程就变为了只有“写”的操作，提高了程序的运行效率。</p>
+<p>一般情况下，“位带区”中修改一位的机器码：</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">__main:</span><br><span class="line">	//&quot;位带区&quot;读一个字</span><br><span class="line">	temp = (*(volatile unsigned long int*)(unsigned long int)0x20000300);</span><br><span class="line">	800e5d4:	4b0a	ldr r3,[pc,#40]</span><br><span class="line">	800e5d6:	681b	ldr r3,[r3,#0]</span><br><span class="line">	800e5d8:	607b	str r3,[r7,#4]</span><br><span class="line">	</span><br><span class="line">	//改一个位</span><br><span class="line">	temp = temp &amp; 0xFFFFFFFB;</span><br><span class="line">	800e5e2:	4a07</span><br><span class="line">	800e5e4:	687b</span><br><span class="line">	800e5e6:	6013</span><br><span class="line">	</span><br><span class="line">	//位带区写一个字</span><br><span class="line">	(*(volatile unsigned long int*)(unsigned long int)0x20000300) = temp;</span><br><span class="line">	800e5e2:	4a07</span><br><span class="line">	800e5e4:	687b</span><br><span class="line">	800e5e6:	6013</span><br></pre></td></tr></table></figure>
+
+<p>​        ②使用位带操作方法</p>
+<p>​        如果使用位带操作将“位带区”地址为0x2000_0300的内存单元第2位变成“0”。仅需一步写操作就可以实现。</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    (*(<span class="keyword">volatile</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>*)(<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>)<span class="number">0x22006008</span>) = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//"别名区"的地址0x20006008通过公式 0x22000000 + ((0x20000300 - 0x20000000) * 32) + (2 * 4)</span></span><br><span class="line">    <span class="comment">//3*32 = 96  96/16 = 6 --&gt; 0x20000300对应 0x22006000，再加上2位偏移地址即成为0x22006008</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">地址</th>
+<th align="center">bit7</th>
+<th align="center">bit6</th>
+<th align="center">bit5</th>
+<th align="center">bit4</th>
+<th align="center">bit3</th>
+<th align="center">bit2</th>
+<th align="center">bit1</th>
+<th align="center">bit0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0x20000300</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+</tr>
+<tr>
+<td align="center">0x20000301</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+<td align="center">0/1</td>
+</tr>
+</tbody></table>
+<p>​        Tips：每个地址包含了8个bit位，在无符号整数中，0x20000300地址中存放的数是从0到255，在有符号整数中，0x20000300地址中存放的数是从-128到127，也就是一个byte位，short占据两个地址(byte)，所以在无符号整数中可以表示0-65535，有符号整数中可以表示-32768到32767，int占据四个地址(byte)，所以在无符号整数中可以表示0-4294967296，在有符号整数中可以表示-2147483648-2147483647。</p>
+<p>​        在位带操作下，0x20000300中被映射到一个32个地址，这个地址下的每一个比特位都对应别名区的4个地址，0x20000300的bit0被映射成了0x20006000，bit1被映射成了0x20006004，bit2被映射成了0x20006008，bit3被映射成了0x2000600C，bit4被映射成了0x20006010，bit5被映射成了0x20006014，bit6被映射成了0x20006018，bit7被映射成了0x2000601C，0x20000301的bit0被映射成了0x20000620，以此类推。。。。。。</p>
+<p>​        从上面的特性可以知道，位带区的一个字节会被映射称32个地址，即1位映射为4个地址(32位)，那么一个48K的”位带区“就需要一个32×48K的”别名区“进行位带操作，一个1MB的”位带区“就需要一个32×1MB的”别名区“进行位带操作。</p>
+<p>4.</p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/嵌入式系统/" rel="tag"><i class="fas fa-tags"></i>嵌入式系统</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/28/构件整理/3-数据传输模块DMA/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
@@ -721,63 +829,6 @@
     </footer>
   </article>
   
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/一百个A类问题/第二个A类问题-STM32全局变量/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/一百个A类问题/第二个A类问题-STM32全局变量/" itemprop="url">第二个A类问题-STM32全局变量</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T13:58:57+08:00">2020-10-10 13:58:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/一百个A类问题/" itemprop="url" rel="index"><span itemprop="name">一百个A类问题</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="全局变量赋值后未被改变"><a href="#全局变量赋值后未被改变" class="headerlink" title="全局变量赋值后未被改变"></a>全局变量赋值后未被改变</h1><p>出现问题的原因：全局变量只被声明而未被定义</p>
-<p>已采取的方法：在使用的地方对全局变量进行定义</p>
-<p>结果：已解决</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//include.h文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（2）【不动】全局变量一处声明多处使用处理方法代码段</span></span><br><span class="line"><span class="comment">//    为下面声明全局变量，使用前缀G_VAR_PREFIX宏定义做准备</span></span><br><span class="line"><span class="comment">//    GLOBLE_VAR在main.c中有宏定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GLOBLE_VAR		 <span class="comment">//main.c文件中包含本头文件时，全局变量不加“extern”前缀</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> G_VAR_PREFIX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span>                    <span class="comment">//其他文件中包含本头文件时，全局变量自动加“extern”前缀</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> G_VAR_PREFIX extern</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">G_VAR_PREFIX vuint_8 gState;</span><br></pre></td></tr></table></figure>
-
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//photo.h文件--使用全局变量的文件</span></span><br><span class="line">vuint_8 gState;     <span class="comment">//定义后使用即可解决问题</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/一百个A类问题/" rel="tag"><i class="fas fa-tags"></i>一百个A类问题</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
   
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right" aria-label="下一页"></i></a>
@@ -813,7 +864,7 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">31</a></div>
+      <div><a href="/archives/">32</a></div>
     </div>
     
     

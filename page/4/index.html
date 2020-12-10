@@ -204,6 +204,93 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/16/C#相关知识/C＃进阶系列第一章-委托/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2019/07/16/C#相关知识/C＃进阶系列第一章-委托/" itemprop="url">C＃进阶系列第一章_委托</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2019-07-16T22:06:04+08:00">2019-07-16 22:06:04</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C-相关知识/" itemprop="url" rel="index"><span itemprop="name">C#相关知识</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <p>#<strong><em>C#系列之委托</em></strong></p>
+<p>##<strong>什么是委托？</strong></p>
+<p>​        委托，也叫做匿名方法。我们知道，面向对象语言的三大特点其中一个就是封闭性，用户不需要知道函数内部是怎么实现的，只需要调用函数、传入参数就可以直接使用。所以，我们对于一些功能类似，实现方法相同的语句块，我们可以将其作为参数传入。</p>
+<hr>
+<p>##<strong>为什么要用委托？</strong></p>
+<p>首先，我们看一个例子：</p>
+<p>写一个返回最大值的方法</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">static int Max(List&lt;int&gt; nums)</span><br><span class="line">&#123;</span><br><span class="line">	int max = nums[0];</span><br><span class="line">	foreach(var num in nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(num &gt; max)</span><br><span class="line">       		max = num;</span><br><span class="line">	&#125;</span><br><span class="line">	return max;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;));//输出最大值</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        那怎么写一个返回最小值的方法呢,我们只需要把num &gt; max 这个判断条件改为num &lt; max(max只是个名字而已，不用纠结含义),但每次去修改函数就破坏了封装性，那么我们最开始想到的方法就是枚举。</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">enum 返回值</span><br><span class="line">&#123;</span><br><span class="line">	max,</span><br><span class="line">	min,</span><br><span class="line">&#125;</span><br><span class="line">static int Max(List&lt;int&gt; nums,返回值 retType)</span><br><span class="line">&#123;</span><br><span class="line">	int max = nums[0];</span><br><span class="line">	foreach(var num in nums)</span><br><span class="line">	&#123;</span><br><span class="line">		switch(retType)</span><br><span class="line">		&#123;</span><br><span class="line">			case 返回值.max:</span><br><span class="line">			if(num &gt;max)</span><br><span class="line">				max = num;</span><br><span class="line">			break;</span><br><span class="line">			case 返回值.min:</span><br><span class="line">			if(num &lt;max)</span><br><span class="line">			max = num;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return max;	</span><br><span class="line">&#125;</span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;,返回值.min));	</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        但这种方法还是有问题，如果我们要增加平均值函数，我们就又需要修改函数中的代码。<br>​        我们知道面向对象编程其中一个特点就是封闭性，而我们每次新增功能都需要修改函数中的代码，这样就破坏了函数的封闭性。</p>
+<p>再看一个例子</p>
+<p>比如，遍历List，挑选出&gt;=10的元素</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums)</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(num &gt;= 10)</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果增加一个功能，遍历一下偶数<br>那就是把num &gt;= 10 改为 num % 2 == 0</p>
+<p>num &gt;= 10 和 num % 2 == 0有什么共同点？<br> <strong>1.两者返回值都是bool值</strong><br> <strong>2.两者只需要传入一个参数num</strong></p>
+<p>那么我们可以尝试把这个函数写成function(num)<br>static bool function(int num)<br>{<br>        return num &gt;= 10;<br>}<br>但是这种方法依旧没有封装住，为什么？<br>        因为这个函数不是作为函数参数传入进来，而是作为函数调用传入进来，这样每次功能需求变化的时候，我们每次都要修改function里面的内容，或者另外写function2(num),无论哪种方法都无法封装住，那么我们每次需要增加新功能时都需要修改代码，当代码工程量比较大时，代码维护工作量很大。那么我们是不是可以用一个匿名函数(也就是每次不需要修改名字)，就可以避免修改函数中的代码来达到封装的效果呢？那么，委托就可以如此。</p>
+<hr>
+<p>##<strong>委托要怎么做呢？</strong></p>
+<p>委托需要以下三步：<br>声明委托类型：delegate bool Function(int num);<br>修改形参列表：static  List<int> Traverse(List<int> nums,Function function)<br>传入委托：var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, GreaterThan10);</int></int></int></p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">delegate bool Function(int num);//声明委托类型</span><br><span class="line">static Function GreaterThan10 = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line">static Function IsEven = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line"></span><br><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums,Function function)//修改形参列表</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(function(num))</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	var list = Traverse(new List&lt;int&gt;() &#123;1,2,3,4,5,6,7&#125;, GreaterThan10);//传入委托</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;,返回值.min));</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>##<strong>Lambda是对委托的化简写法</strong></p>
+<p>###<strong>语句Lambda</strong><br>(type var,…) =&gt;{ … }<br>(var, …) =&gt; { … }<br>Var =&gt; { … }<br>() =&gt; { … }</p>
+<p>###<strong>表达式Lambda</strong><br>没有{},但是只能有一条语句</p>
+<p>既然GreaterThan10 = delegate(int num) { return num &gt;= 10;}<br>那我们直接可以把<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>GreaterThan10</strong>)写成：<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>delegate(int num) { return num &gt;= 10;}</strong>);</int></int></p>
+<p>继续化简<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>(int num) =&gt; { return num &gt;= 10;}</strong>);<br>再继续化简<br>既然申明delegate bool Function(int num)时已经声明num为int类型，那我们为什么还要再写int num？<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7},<strong>(num) =&gt; { return num &gt;= 10;}</strong>);<br>当需要且仅需要一个参数时，我们连括号都可以省了<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>num =&gt; { return num &gt;= 10;}</strong>);<br>当只有一个参数，一条语句时<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>num =&gt; return num &gt;= 10</strong>);<br>当没有参数时<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>() =&gt; { return num &gt;= 10;}</strong>);</int></int></int></int></int></p>
+<hr>
+<p>##<strong>系统自带的泛型委托</strong></p>
+<p>Action<t>  例 List<t>.ForEach()<br>Func<t>     例 List<t>.Sum()<br>Predicate<t>  例 List<t>.FindAll()<br>                          例 List<t>.Find()</t></t></t></t></t></t></t></p>
+<p>###<strong>Action泛型委托</strong></p>
+<p>Action是无返回值的委托</p>
+<p>Action action = delegate void xx();<br>public delegate void Action<t1>(T1 t);<br>list.ForEach(i =&gt;Console.WriteLine(i));<br>list.ForEach(i =&gt;{Console.WriteLine(i)});</t1></p>
+<p>###<strong>Func泛型委托</strong></p>
+<p>Func是有返回值的委托<br>list.Sum(n =&gt; {if(n &lt;= 0) return 0; else return n)}</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">static Func&lt;int,bool&gt; GreaterThan10 = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line">static Func&lt;int,bool&gt; IsEven = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line"></span><br><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums,Func&lt;int,bool&gt; function)</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(function(num))</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>###<strong>Predicate 谓词—返回bool值的委托</strong></p>
+<p>list.FindAll(n =&gt; n &lt; 0);</p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/Arduino相关知识/Arduino第一章-程序安装/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
@@ -288,7 +375,7 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">31</a></div>
+      <div><a href="/archives/">32</a></div>
     </div>
     
     

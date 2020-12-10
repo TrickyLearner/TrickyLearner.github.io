@@ -204,6 +204,108 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/26/嵌入式系统/5-汇编指令总结/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/09/26/嵌入式系统/5-汇编指令总结/" itemprop="url">5-汇编指令总结</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-09-26T14:35:50+08:00">2020-09-26 14:35:50</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="1-伪指令"><a href="#1-伪指令" class="headerlink" title="1. 伪指令"></a>1. 伪指令</h2><p>1.1 指令概念</p>
+<p>​        指令是指指令系统的各条指令，<strong>每一条指令在源程序汇编时都要产生可供计算机执行的指令代码</strong>（即目标代码），每一条指令语句是表示计算机具有的一个基本能力。</p>
+<p>1.2 伪指令概念</p>
+<p>​        伪指令是用于对汇编过程进行控制的指令，<strong>该类指令并不是可执行指令，没有机器代码，只用于汇编过程中为汇编程序提供汇编信息</strong>。例如，提供如下信息：哪些是指令、哪些是数据及数据的字长、程序的起始地址和结束地址等。伪指令有2个特点：</p>
+<p>（1）由于是伪<strong>“指令”</strong>，因而它只存在于汇编语言中。高级语言中不叫指令，叫语句；</p>
+<p>（2）由于是<strong>“伪”</strong>指令，也即“假”指令，因而不是可执行指令，不会产生机器代码，不会占用ROM空间，只用于汇编过程中为汇编程序提供汇编信息。</p>
+<p>1.3 常用指令总结</p>
+<p>​        在嵌入式开发中，汇编程序常常用于非常关键的地方，比如<strong>系统启动时初始化，进出中断时的环境保护，恢复</strong>等对性能有要求的地方。</p>
+<p>​        ARM指令集可分为六大类，分别是数据处理指令、Load/Store指令、跳转指令、程序状态寄存器处理指令、协处理器指令和异常产生指令。</p>
+<p>​        ARM的寻址方式可分为立即寻址、寄存器寻址、寄存器间接寻址、基址加偏址寻址、堆栈寻址、块拷贝寻址、相对寻址。</p>
+<p>1.3.1 相对跳转指令：B、BL</p>
+<p>（1）B与BL指令的作用是什么？</p>
+<p>​        B与BL指令的作用： 实现程序跳转，也就是调用子程序。</p>
+<p>（2）B与BL指令的区别是什么？</p>
+<p>​        B指令： 简单的程序跳转，跳转到目标号处执行。</p>
+<p>​        BL指令：带链接程序跳转，也就是要带返回地址。在发生跳转前，将当前PC-4保存到R14中。</p>
+<p>​                         也就是将返回地址存在R14中，所以可以在子程序返回时只要MOV PC，LR即可</p>
+<p>（3）B{条件} &lt;地址&gt;</p>
+<p>​        B—Branch</p>
+<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b funa</span><br><span class="line">....</span><br><span class="line">funa:</span><br><span class="line">	b funb</span><br><span class="line">....</span><br><span class="line">funb:</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+
+<p>（4）BL{条件}&lt;地址&gt;</p>
+<p>​        BL—Branch withLink</p>
+<p>（5）BX{条件}&lt;地址&gt;</p>
+<p>​        BX—Branch and eXchange_Instructions(计算机中一般不用E，例如执行权限EXE，用X代表)</p>
+<p>​        BX用法：</p>
+<p>​        BX  Rn</p>
+<p>​        BX是跳转指令，Rn是寄存器，如果Rn的位0为1，则进入Thumb状态；如果Rn的位为0，这进入ARM状态。（原因：ARM指令的后两位始终为0，而Thumb指令的后一位始终为0，因此采用位0来表示ARM指令与Thumb指令的切换标志位。）</p>
+<p>​        1、ARM状态：32位，ARM状态执行字对齐的32位ARM指令。</p>
+<p>​        2、Thumb状态，16位，执行半字对齐的16位指令。</p>
+<p>​        3、用BX Rn指令来进行两种状态的切换：</p>
+<p>​        注：1、ARM和Thumb两种状态之间的切换不影响处理器的工作模式和寄存器的内容。</p>
+<p>​                2、ARM处理器在处理异常时，不管处理器处于什么状态，则都将切换到ARM状态。</p>
+<p>1.3.2 数据传送指令mov，地址读取伪指令ldr</p>
+<p>​        mov指令可以把一个寄存器的值赋给另外一个寄存器，或者把一个常数赋给寄存器。</p>
+<p>​        mov  r1,  r2</p>
+<p>​        mov  r1,  #1024</p>
+<p>​        mov传送的常数必须能用立即数表示。当不能用立即数表示时，可以用ldr命令来赋值。Tips：ldr时伪命令，不是真实存在的指令，编译器会把他扩展成真正的指令；如果该常数能用“立即数”来表示，则使用mov指令，否则编译时将该常数保存在某个位置，使用内存读取指令把它读出来。</p>
+<p>1.3.3 内存访问指令ldr、str、ldm、stm</p>
+<p>1.3.4 加减指令</p>
+<p>​        add  r1,  r2,  #1</p>
+<p>​        sub  r1,  r2,  #1</p>
+<p>1.3.5 程序状态寄存器的访问指令msr，mrs</p>
+<p>1.3.6 异常中断指令</p>
+<p>1.3.7 其他伪指令</p>
+<p>​    （1）.extern main</p>
+<p>​        ‘.extern’定义一个外部符号（可以是变量也可以是函数），上面的代码表示文本文件中引用的main是一个外部函数。</p>
+<p>​    （2）.text</p>
+<p>​        ‘.text’表示下面的语句都属于代码段</p>
+<p>​    （3）.global _start</p>
+<p>​              _start:</p>
+<p>​        ‘.global’将本文件中的某个程序标号定义为全局的，如’_start’就是个全局函数</p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/编程语言/" rel="tag"><i class="fas fa-tags"></i>编程语言</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/24/嵌入式系统/4-启动文件分析/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
@@ -854,93 +956,6 @@
     </footer>
   </article>
   
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/16/C#相关知识/C＃进阶系列第一章-委托/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2019/07/16/C#相关知识/C＃进阶系列第一章-委托/" itemprop="url">C＃进阶系列第一章_委托</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2019-07-16T22:06:04+08:00">2019-07-16 22:06:04</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C-相关知识/" itemprop="url" rel="index"><span itemprop="name">C#相关知识</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <p>#<strong><em>C#系列之委托</em></strong></p>
-<p>##<strong>什么是委托？</strong></p>
-<p>​        委托，也叫做匿名方法。我们知道，面向对象语言的三大特点其中一个就是封闭性，用户不需要知道函数内部是怎么实现的，只需要调用函数、传入参数就可以直接使用。所以，我们对于一些功能类似，实现方法相同的语句块，我们可以将其作为参数传入。</p>
-<hr>
-<p>##<strong>为什么要用委托？</strong></p>
-<p>首先，我们看一个例子：</p>
-<p>写一个返回最大值的方法</p>
-<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">static int Max(List&lt;int&gt; nums)</span><br><span class="line">&#123;</span><br><span class="line">	int max = nums[0];</span><br><span class="line">	foreach(var num in nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(num &gt; max)</span><br><span class="line">       		max = num;</span><br><span class="line">	&#125;</span><br><span class="line">	return max;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;));//输出最大值</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        那怎么写一个返回最小值的方法呢,我们只需要把num &gt; max 这个判断条件改为num &lt; max(max只是个名字而已，不用纠结含义),但每次去修改函数就破坏了封装性，那么我们最开始想到的方法就是枚举。</p>
-<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">enum 返回值</span><br><span class="line">&#123;</span><br><span class="line">	max,</span><br><span class="line">	min,</span><br><span class="line">&#125;</span><br><span class="line">static int Max(List&lt;int&gt; nums,返回值 retType)</span><br><span class="line">&#123;</span><br><span class="line">	int max = nums[0];</span><br><span class="line">	foreach(var num in nums)</span><br><span class="line">	&#123;</span><br><span class="line">		switch(retType)</span><br><span class="line">		&#123;</span><br><span class="line">			case 返回值.max:</span><br><span class="line">			if(num &gt;max)</span><br><span class="line">				max = num;</span><br><span class="line">			break;</span><br><span class="line">			case 返回值.min:</span><br><span class="line">			if(num &lt;max)</span><br><span class="line">			max = num;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return max;	</span><br><span class="line">&#125;</span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;,返回值.min));	</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        但这种方法还是有问题，如果我们要增加平均值函数，我们就又需要修改函数中的代码。<br>​        我们知道面向对象编程其中一个特点就是封闭性，而我们每次新增功能都需要修改函数中的代码，这样就破坏了函数的封闭性。</p>
-<p>再看一个例子</p>
-<p>比如，遍历List，挑选出&gt;=10的元素</p>
-<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums)</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(num &gt;= 10)</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果增加一个功能，遍历一下偶数<br>那就是把num &gt;= 10 改为 num % 2 == 0</p>
-<p>num &gt;= 10 和 num % 2 == 0有什么共同点？<br> <strong>1.两者返回值都是bool值</strong><br> <strong>2.两者只需要传入一个参数num</strong></p>
-<p>那么我们可以尝试把这个函数写成function(num)<br>static bool function(int num)<br>{<br>        return num &gt;= 10;<br>}<br>但是这种方法依旧没有封装住，为什么？<br>        因为这个函数不是作为函数参数传入进来，而是作为函数调用传入进来，这样每次功能需求变化的时候，我们每次都要修改function里面的内容，或者另外写function2(num),无论哪种方法都无法封装住，那么我们每次需要增加新功能时都需要修改代码，当代码工程量比较大时，代码维护工作量很大。那么我们是不是可以用一个匿名函数(也就是每次不需要修改名字)，就可以避免修改函数中的代码来达到封装的效果呢？那么，委托就可以如此。</p>
-<hr>
-<p>##<strong>委托要怎么做呢？</strong></p>
-<p>委托需要以下三步：<br>声明委托类型：delegate bool Function(int num);<br>修改形参列表：static  List<int> Traverse(List<int> nums,Function function)<br>传入委托：var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, GreaterThan10);</int></int></int></p>
-<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">delegate bool Function(int num);//声明委托类型</span><br><span class="line">static Function GreaterThan10 = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line">static Function IsEven = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line"></span><br><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums,Function function)//修改形参列表</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(function(num))</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Static void Main(string[]  args)</span><br><span class="line">&#123;</span><br><span class="line">	var list = Traverse(new List&lt;int&gt;() &#123;1,2,3,4,5,6,7&#125;, GreaterThan10);//传入委托</span><br><span class="line">	Console.WriteLine(Max(new List&lt;int&gt;()&#123;1,2,3,4,5&#125;,返回值.min));</span><br><span class="line">	Console.ReadLine();//暂停，让程序结果能让使用者看到</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>##<strong>Lambda是对委托的化简写法</strong></p>
-<p>###<strong>语句Lambda</strong><br>(type var,…) =&gt;{ … }<br>(var, …) =&gt; { … }<br>Var =&gt; { … }<br>() =&gt; { … }</p>
-<p>###<strong>表达式Lambda</strong><br>没有{},但是只能有一条语句</p>
-<p>既然GreaterThan10 = delegate(int num) { return num &gt;= 10;}<br>那我们直接可以把<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>GreaterThan10</strong>)写成：<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>delegate(int num) { return num &gt;= 10;}</strong>);</int></int></p>
-<p>继续化简<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>(int num) =&gt; { return num &gt;= 10;}</strong>);<br>再继续化简<br>既然申明delegate bool Function(int num)时已经声明num为int类型，那我们为什么还要再写int num？<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7},<strong>(num) =&gt; { return num &gt;= 10;}</strong>);<br>当需要且仅需要一个参数时，我们连括号都可以省了<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>num =&gt; { return num &gt;= 10;}</strong>);<br>当只有一个参数，一条语句时<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>num =&gt; return num &gt;= 10</strong>);<br>当没有参数时<br>var list = Traverse(new List<int>() {1,2,3,4,5,6,7}, <strong>() =&gt; { return num &gt;= 10;}</strong>);</int></int></int></int></int></p>
-<hr>
-<p>##<strong>系统自带的泛型委托</strong></p>
-<p>Action<t>  例 List<t>.ForEach()<br>Func<t>     例 List<t>.Sum()<br>Predicate<t>  例 List<t>.FindAll()<br>                          例 List<t>.Find()</t></t></t></t></t></t></t></p>
-<p>###<strong>Action泛型委托</strong></p>
-<p>Action是无返回值的委托</p>
-<p>Action action = delegate void xx();<br>public delegate void Action<t1>(T1 t);<br>list.ForEach(i =&gt;Console.WriteLine(i));<br>list.ForEach(i =&gt;{Console.WriteLine(i)});</t1></p>
-<p>###<strong>Func泛型委托</strong></p>
-<p>Func是有返回值的委托<br>list.Sum(n =&gt; {if(n &lt;= 0) return 0; else return n)}</p>
-<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">static Func&lt;int,bool&gt; GreaterThan10 = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line">static Func&lt;int,bool&gt; IsEven = delegate(int num) &#123; return num &gt;= 10;&#125;; </span><br><span class="line"></span><br><span class="line">static  List&lt;int&gt; Traverse(List&lt;int&gt; nums,Func&lt;int,bool&gt; function)</span><br><span class="line">&#123;</span><br><span class="line">	Var list = new List&lt;int&gt;();</span><br><span class="line">	foreach(var num int nums)</span><br><span class="line">	&#123;</span><br><span class="line">		If(function(num))</span><br><span class="line">		&#123;</span><br><span class="line">			List.Add(num);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>###<strong>Predicate 谓词—返回bool值的委托</strong></p>
-<p>list.FindAll(n =&gt; n &lt; 0);</p>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-    </footer>
-  </article>
-  
   
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-angle-right" aria-label="下一页"></i></a>
@@ -976,7 +991,7 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">31</a></div>
+      <div><a href="/archives/">32</a></div>
     </div>
     
     
