@@ -240,17 +240,18 @@
 <p>​                主机模式下，当SCL为高电平时，SDA由高电平向低电平跳变，产生<strong>开始信号</strong>或<strong>重新开始信号</strong>; SDA由低电平向高电平跳变，则产生<strong>结束信号</strong>。当SCL为低电平时，SDA拉高表示信号”1”，SDA拉低则表示信号”0”。</p>
 <p>​                从机模式下，当主机发送了8位数据后，第9个时钟周期出现，主发送器必须在这一时钟位上释放数据线，由接收设备拉低SDA电平来产生<strong>应答信号</strong>。</p>
 <p>​    2.串行时钟线SCL</p>
-<p>​            SCL处于高电平时，由SDA线拉低/拉高产生(重新)开始信号/停止信号；SCL处于低电平时，由SDA线拉低/拉高产生信号”1”/信号”0”。</p>
+<p>​            SCL处于高电平时，由SDA线拉低/拉高产生(重新)开始信号/停止信号；SCL处于低电平时，由SDA线拉低/拉高产生信号”1”/信号”0”。由于开始信号的需要SCL处于高电平时才能产生，所以SCL线和SDA线平时都处于高电平。</p>
 <h2 id="IIC的信号类型"><a href="#IIC的信号类型" class="headerlink" title="IIC的信号类型"></a>IIC的信号类型</h2><p>​        IIC总线在传送数据过程中共有4种类型信号，分别是开始信号、停止信号、重新开始信号和应答信号。</p>
 <p>​    1.开始信号</p>
 <p>​            当SCL为高电平时，SDA由高电平向低电平跳变，产生开始信号。当总线空闲的时候，主机通过发送开始信号(START)建立通信。</p>
 <p>​            (Tips：总线空闲时，SDA和SCL线都处于高电平)</p>
 <p>​    2.停止信号</p>
-<p>​            当SCL为高电平时，SDA由低电平向高电平跳变，产生停止信号。主机通过发送停止信号，结束时钟信号和数据通信。SDA和SCL都将被复位为高电平状        态。</p>
+<p>​            当SCL为高电平时，SDA由低电平向高电平跳变，产生停止信号。主机通过发送停止信号，结束时钟信号和数据通信。SDA和SCL都将被复位为高电平状态。</p>
 <p>​    3.重新开始信号</p>
 <p>​            在IIC总线上，主机可以在调用一个没有产生STOP信号后，产生一个开始信号。主机通过使用一个重复开始信号来和另一个从机通信或者同一个从机的不同模式通信。由主机发送一个开始信号启动一次通信后，在首次发送停止信号之前，主机通过发送重新开始信号，可以转换与当前从机的通信模式，或是切换到与另一个从机通信。</p>
 <p>​    4.应答信号</p>
 <p>​            接收数据的IC在接收到8位数据后，向发送数据的主机IC发出的特定的低电平脉冲。每一个数据字节后面都要跟一位应答信号，表示已收到数据。</p>
+<h2 id="IIC的通信过程"><a href="#IIC的通信过程" class="headerlink" title="IIC的通信过程"></a>IIC的通信过程</h2><p>主机向从机写一个字节数据或者读一个字节数据的过程基本是类似的，唯一不同的就是产生开始信号后数据方向位的不同，0表示主机发送数据，1表示主机读取数据。读/写一个数据时，主机首先产生START信号，然后紧跟着发送一个从机地址(7位)，查询相应的从机，紧接着的第8位是数据方向位(R/W)–(1/0)，这时候主机要等待从机的应答信号，当主机收到应答信号时，发送给从机一个位置参数，告诉从机主机的数据在从机接收数组中存放的位置，继续等待从机的应答信号，然后继续等待从机的响应信号，当主机收到响应信号时，发送一个字节的数据，继续等待从机的响应信号</p>
 
     </main>
     <footer class="post-footer">
@@ -302,7 +303,7 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">28</a></div>
+      <div><a href="/archives/">31</a></div>
     </div>
     
     
@@ -316,7 +317,7 @@
     
     <div class="tags-count count-block">
       <div class="site-count-title">标签</div>
-      <div><a href="/tags/">9</a></div>
+      <div><a href="/tags/">10</a></div>
     </div>
     
     
@@ -340,7 +341,7 @@
     <hr>
     <div class="post-toc sidebar-item" id="toc-div">
       <div><i class="fas fa-list-ol"></i>文章目录</div>
-      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#IIC的组成"><span class="toc-text">IIC的组成</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#IIC的信号类型"><span class="toc-text">IIC的信号类型</span></a></li></ol></div>
+      <div class="post-toc-content"><ol class="list-group toc"><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#IIC的组成"><span class="toc-text">IIC的组成</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#IIC的信号类型"><span class="toc-text">IIC的信号类型</span></a></li><li class="toc-item toc-level-2"><a class="list-group-item toc-link" href="#IIC的通信过程"><span class="toc-text">IIC的通信过程</span></a></li></ol></div>
     </div>
     
     
