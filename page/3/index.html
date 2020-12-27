@@ -204,6 +204,715 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/17/构件整理/2-通信模块IIC/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/17/构件整理/2-通信模块IIC/" itemprop="url">2-通信模块IIC</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-17T22:11:07+08:00">2020-11-17 22:11:07</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构件整理/" itemprop="url" rel="index"><span itemprop="name">构件整理</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h2 id="IIC的组成"><a href="#IIC的组成" class="headerlink" title="IIC的组成"></a>IIC的组成</h2><p>​        IIC系统中只需要用到的两根线为串行数据线(Serial DAta , SDA)，串行时钟线(Serial CLock , SCL)。SDA和SCL管脚都是漏极开路输出结构，因此在实际使用时，SDA和SCK信号线都必须要加上拉电阻Rp(Pull-Up Resistor)。连接时需要共地以保持数据的一致性。</p>
+<p>​    1.串行数据线SDA</p>
+<p>​            SDA具备两种功能</p>
+<p>​                主机模式下，当SCL为高电平时，SDA由高电平向低电平跳变，产生<strong>开始信号</strong>或<strong>重新开始信号</strong>; SDA由低电平向高电平跳变，则产生<strong>结束信号</strong>。当SCL为低电平时，SDA拉高表示信号”1”，SDA拉低则表示信号”0”。</p>
+<p>​                从机模式下，当主机发送了8位数据后，第9个时钟周期出现，主发送器必须在这一时钟位上释放数据线，由接收设备拉低SDA电平来产生<strong>应答信号</strong>。</p>
+<p>​    2.串行时钟线SCL</p>
+<p>​            SCL处于高电平时，由SDA线拉低/拉高产生(重新)开始信号/停止信号；SCL处于低电平时，由SDA线拉低/拉高产生信号”1”/信号”0”。由于开始信号的需要SCL处于高电平时才能产生，所以SCL线和SDA线平时都处于高电平。</p>
+<h2 id="IIC的信号类型"><a href="#IIC的信号类型" class="headerlink" title="IIC的信号类型"></a>IIC的信号类型</h2><p>​        IIC总线在传送数据过程中共有4种类型信号，分别是开始信号、停止信号、重新开始信号和应答信号。</p>
+<p>​    1.开始信号</p>
+<p>​            当SCL为高电平时，SDA由高电平向低电平跳变，产生开始信号。当总线空闲的时候，主机通过发送开始信号(START)建立通信。</p>
+<p>​            (Tips：总线空闲时，SDA和SCL线都处于高电平)</p>
+<p>​    2.停止信号</p>
+<p>​            当SCL为高电平时，SDA由低电平向高电平跳变，产生停止信号。主机通过发送停止信号，结束时钟信号和数据通信。SDA和SCL都将被复位为高电平状态。</p>
+<p>​    3.重新开始信号</p>
+<p>​            在IIC总线上，主机可以在调用一个没有产生STOP信号后，产生一个开始信号。主机通过使用一个重复开始信号来和另一个从机通信或者同一个从机的不同模式通信。由主机发送一个开始信号启动一次通信后，在首次发送停止信号之前，主机通过发送重新开始信号，可以转换与当前从机的通信模式，或是切换到与另一个从机通信。</p>
+<p>​    4.应答信号</p>
+<p>​            接收数据的IC在接收到8位数据后，向发送数据的主机IC发出的特定的低电平脉冲。每一个数据字节后面都要跟一位应答信号，表示已收到数据。</p>
+<h2 id="IIC的通信过程"><a href="#IIC的通信过程" class="headerlink" title="IIC的通信过程"></a>IIC的通信过程</h2><p>主机向从机写一个字节数据或者读一个字节数据的过程基本是类似的，唯一不同的就是产生开始信号后数据方向位的不同，0表示主机发送数据，1表示主机读取数据。读/写一个数据时，主机首先产生START信号，然后紧跟着发送一个从机地址(7位)，查询相应的从机，紧接着的第8位是数据方向位(R/W)–(1/0)，这时候主机要等待从机的应答信号，当主机收到应答信号时，发送给从机一个位置参数，告诉从机主机的数据在从机接收数组中存放的位置，继续等待从机的应答信号，然后继续等待从机的响应信号，当主机收到响应信号时，发送一个字节的数据，继续等待从机的响应信号</p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/16/会议总结/20201116会议总结/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/16/会议总结/20201116会议总结/" itemprop="url">20201116会议总结</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-16T11:39:57+08:00">2020-11-16 11:39:57</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/会议总结/" itemprop="url" rel="index"><span itemprop="name">会议总结</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="20201116会议要点总结"><a href="#20201116会议要点总结" class="headerlink" title="20201116会议要点总结"></a>20201116会议要点总结</h1><h2 id="会议精神："><a href="#会议精神：" class="headerlink" title="会议精神："></a>会议精神：</h2><p>1.学习有输入，也要有输出。</p>
+<p>2.研究生要具备科学研究能力。</p>
+<p>3.学习不能浮在面上，需要问题不了嗯躲着走。</p>
+<p>4.学习要深入到细节，没有细节就没有现代科学</p>
+<p>5.传感器老化问题，神经网络回归、所有老化问题都会被数学问题解决，滤波问题的重要性。</p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/会议总结/" rel="tag"><i class="fas fa-tags"></i>会议总结</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/14/学习备忘录/第10周/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/14/学习备忘录/第10周/" itemprop="url">第10周</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-14T19:42:36+08:00">2020-11-14 19:42:36</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习备忘录/" itemprop="url" rel="index"><span itemprop="name">学习备忘录</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="第10周-学习备忘录"><a href="#第10周-学习备忘录" class="headerlink" title="第10周-学习备忘录"></a>第10周-学习备忘录</h1><table>
+<thead>
+<tr>
+<th align="center">日期</th>
+<th align="center">星期</th>
+<th align="center">时间记录</th>
+<th align="center">学习内容</th>
+<th align="center">日合计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">11.9</td>
+<td align="center">1</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">组会<br>ESP32网页版人脸识别</td>
+<td align="center">EEESP7</td>
+</tr>
+<tr>
+<td align="center">11.10</td>
+<td align="center">2</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">ESP32网页版人脸识别</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.11</td>
+<td align="center">3</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">ESP32-SPI传输<br>SPI原理学习</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.12</td>
+<td align="center">4</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">AHL-GEC-IDE界面设计<br>ESP32-SPI传输<br>SPI原理学习</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.13</td>
+<td align="center">5</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">AHL-GEC-IDE界面设计<br>ESP32-SPI传输<br>SPI原理学习</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.14</td>
+<td align="center">6</td>
+<td align="center">9:00:11:30<br>14:00-17:30</td>
+<td align="center">AHL-GEC-IDE界面设计<br>ESP32-SPI传输<br>SPI原理学习</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">11.15</td>
+<td align="center">7</td>
+<td align="center">无</td>
+<td align="center">无</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">周合计时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">周平均时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/学习备忘录/" rel="tag"><i class="fas fa-tags"></i>学习备忘录</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/07/学习备忘录/第9周/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/07/学习备忘录/第9周/" itemprop="url">第9周</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-07T19:42:32+08:00">2020-11-07 19:42:32</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习备忘录/" itemprop="url" rel="index"><span itemprop="name">学习备忘录</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="第9周-学习备忘录"><a href="#第9周-学习备忘录" class="headerlink" title="第9周-学习备忘录"></a>第9周-学习备忘录</h1><table>
+<thead>
+<tr>
+<th align="center">日期</th>
+<th align="center">星期</th>
+<th align="center">时间记录</th>
+<th align="center">学习内容</th>
+<th align="center">日合计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">11.2</td>
+<td align="center">1</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">会议<br>AI-EORS图像数据采集软件wifi版制作</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.3</td>
+<td align="center">2</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">AI-EORS图像数据采集软件wifi版制作</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.4</td>
+<td align="center">3</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">AI-EORS图像数据采集软件wifi版制作</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.5</td>
+<td align="center">4</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">AI-EORS图像数据采集软件wifi版制作</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.6</td>
+<td align="center">5</td>
+<td align="center">9:00:11:30<br>14:00-17:30<br>19:00-20:00</td>
+<td align="center">ESP32网页版视频传输学习</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">11.7</td>
+<td align="center">6</td>
+<td align="center">9:00:11:30<br>14:00-17:30</td>
+<td align="center">ESP32网页版视频传输学习</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">11.8</td>
+<td align="center">7</td>
+<td align="center">无</td>
+<td align="center">无</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">周合计时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">周平均时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/学习备忘录/" rel="tag"><i class="fas fa-tags"></i>学习备忘录</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/31/学习备忘录/第8周/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/10/31/学习备忘录/第8周/" itemprop="url">第8周</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-31T19:42:28+08:00">2020-10-31 19:42:28</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习备忘录/" itemprop="url" rel="index"><span itemprop="name">学习备忘录</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="第8周-学习备忘录"><a href="#第8周-学习备忘录" class="headerlink" title="第8周-学习备忘录"></a>第8周-学习备忘录</h1><table>
+<thead>
+<tr>
+<th align="center">日期</th>
+<th align="center">星期</th>
+<th align="center">时间记录</th>
+<th align="center">学习内容</th>
+<th align="center">日合计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">10.26</td>
+<td align="center">1</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.27</td>
+<td align="center">2</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.28</td>
+<td align="center">3</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.29</td>
+<td align="center">4</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.30</td>
+<td align="center">5</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛收尾</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.31</td>
+<td align="center">6</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛收尾</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">11.1</td>
+<td align="center">7</td>
+<td align="center">无</td>
+<td align="center">无</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">周合计时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">周平均时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/学习备忘录/" rel="tag"><i class="fas fa-tags"></i>学习备忘录</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/29/构件整理/1-通信模块SPI/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/10/29/构件整理/1-通信模块SPI/" itemprop="url">1-通信模块SPI</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-29T22:11:07+08:00">2020-10-29 22:11:07</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构件整理/" itemprop="url" rel="index"><span itemprop="name">构件整理</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h2 id="SPI的组成"><a href="#SPI的组成" class="headerlink" title="SPI的组成"></a>SPI的组成</h2><p>​        SPI系统中四根线为<strong>串行时钟引脚SCK</strong>、<strong>从机选择引脚SS(Slave Select)</strong>、<strong>主出从入引脚MOSI</strong>、<strong>主入从出引脚MISO</strong>，如果从机不需要向主机发送消息的情况下，可以不需要主入从出引脚MISO。</p>
+<p>​    1.串行时钟引脚SCK</p>
+<p>​            SCK用于控制主机和从机之间的数据传输。时钟信号由主机提供，从主机的SCK引脚输出给从机的SCK引脚，由主机控制传输的速度。一次传输中，从主机SCK引脚中输出自动产生的8个时钟周期信号，SCK信号的一个沿跳变进行一位数据移位传输。</p>
+<p>​    2.从机选择引脚SS</p>
+<p>​            在主机方式下工作，引脚SS为高电平；在从机方式下工作，引脚SS设置为低，则表示主机选中了该从机，引脚SS设置为高，表示主机未选中该从机。</p>
+<p>​            在一个主MCU带多个从属MCU的系统中，主MCU的引脚SS直接接高电平，从机MCU的引脚SS接主机的IO口，由主机输出低/高电平表明主机是/否选中该从机。</p>
+<p>​    3.主出从入引脚MOSI</p>
+<p>​            主机发出启动信号开始，主机将要传送的数据装入8位移位寄存器，同时产生8个时钟信号依次从SCK引脚送出，在SCK信号的控制下，主机中的8位移位寄存器中的数据依次从MOSI引脚送出到从机的MOSI引脚再送到从机的8位移位寄存器。</p>
+<p>​    4.主入从出引脚MISO</p>
+<p>​            主机发出启动信号开始，从机收到启动信号后，从机将要传送的数据装入8位寄存器，根据主机发过来的时钟信号，在SCK信号的控制下，从机中的8位移位寄存器中的数据依次从MISO引脚送出到主机的MISO引脚再送到主机的8位寄存器。</p>
+<h2 id="SPI的时序"><a href="#SPI的时序" class="headerlink" title="SPI的时序"></a>SPI的时序</h2><p>​        由于SPI的数据传输是在时钟信号SCK(同步信号)的控制下完成的，就会产生不取数的时候空闲电平的选择以及什么时候去取数的问题。空闲电平为低，那么SPI的时钟极性CPOL就为0，空闲电平为高，那么SPI的时钟极性CPOL就为1。当数据采样是在第一个边沿，时钟相位则为0，数据采样在第二个边沿时，时钟相位为1。根据这两个性质的选择，就会有4种可能情况。</p>
+<p>​    1.CPOL  = 0，CPHA = 0</p>
+<p><img src="C:%5CUsers%5CEMBEDDED_JJL%5CDesktop%5CSPI%E6%97%B6%E5%BA%8F.gif" alt="SPI时序图"></p>
+<p>​        平时处于低电平，在数据上线半个周期后，处于稳定状态时，接收方此时开始采集数据，再半个周期后，时钟信号又达低电平，此时可以更换数据，在半个小时后的上升沿时又采集一次数据，以此类推。这种模式决定接收方会在时钟的上升沿时取数。</p>
+<p>​        </p>
+<p>​        2.CPOL = 1，CPHA = 0</p>
+<p>​        与第一种的区别是，该情况下平时处于高电平，同样接收方会在数据上线半个周期后开始取数。这种模式决定接收方会在时钟的下降沿时取数。</p>
+<p>​        3.CPOL = 0，CPHA = 1</p>
+<p>​        与第一种的区别时，该情况下接收方会在第二个跳变沿开始取数，那么此时数据不需要提前上线，由于平时是低电平，第一次跳变沿为上升沿，第二次跳变沿为下降沿。所以这种模式决定接收方会在时钟的下降沿时取数。</p>
+<p>​        4.CPOL = 1， CPHA = 1</p>
+<p>​        与第一种模式相反，平时处于高电平，接收方会在第二个跳变沿开始取数，数据不提前上线，第二个跳变沿为上升沿。这种模式就会决定接收方会在时钟的上升沿时取数。</p>
+<h2 id="SPI构件设计"><a href="#SPI构件设计" class="headerlink" title="SPI构件设计"></a>SPI构件设计</h2><p>​        SPI构件主要有初始化SPI_init，发送一字节数据SPI_send1，发送多个字节数据SPI_sendN，接收一字节数据SPI_receive1，接收多个字节数据SPI_receiveN，打开SPI接收中断SPI_enable_re_int，关闭SPI接收中断SPI_disable_re_int。</p>
+<p>​        在从机不回发的情况下，主机主要使用到的函数有SPI_init，SPI_sendN(N*SPI_send1)。</p>
+<p>​                                                  从机主要使用到的函数有SPI_init，SPI_receiveN(N*SPI_receive1)，SPI_enable_re_int，SPI_disable_re_int。</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//For Example</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//【*】将芯片中SPI0作为主机进行数据发送，SPI1作为从机进行数据接收，会有如下代码。</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//【1】初始化SPI0为主机模式，波特率6000，时钟极性0，时钟相位0</span></span><br><span class="line">    SPI_init(SPI_0,<span class="number">1</span>,<span class="number">6000</span>,<span class="number">0</span>,<span class="number">0</span>);  <span class="comment">//第一个1代表是主机模式，第二个6000代表波特率为6000，第三个0代表时钟极性为0，第四个0代表时钟相位为0</span></span><br><span class="line">    <span class="comment">//【2】初始化SPI1为从机模式，波特率6000，时钟极性0，时钟相位0</span></span><br><span class="line">    SPI_init(SPI_1,<span class="number">0</span>,<span class="number">6000</span>,<span class="number">0</span>,<span class="number">0</span>);  <span class="comment">//第一个0代表是从机模式，第二个6000代表波特率为6000，第三个0代表时钟极性为0，第四个0代表时钟相位为0</span></span><br><span class="line">    <span class="comment">//【3】打开SPI1的接收中断</span></span><br><span class="line">    SPI_enable_re_int(SPI_1);</span><br><span class="line">    <span class="comment">//【4】主循环通过SPI发送一个数据</span></span><br><span class="line">    <span class="keyword">for</span>(;;)</span><br><span class="line">    &#123;</span><br><span class="line">        SPI_send1(SPI_0,TransferTemp);</span><br><span class="line">        TransferTemp++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Handler</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//【*】当有数据发送过来时，会产生中断，此时接收一个数据即可</span></span><br><span class="line">    </span><br><span class="line">    uint_8 redata;</span><br><span class="line">    redata = SPI_receive1(SPI_1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>各函数主要功能设计如下：</p>
+<p>SPI_init</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_init</span><span class="params">(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> MSTR, <span class="keyword">uint16_t</span> BaudRate, <span class="keyword">uint8_t</span> CPOL, <span class="keyword">uint8_t</span> CPHA)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> BaudRate_High;</span><br><span class="line">    <span class="keyword">uint8_t</span> BaudRate_Low;</span><br><span class="line">    <span class="keyword">uint8_t</span> BaudRate_Mode;</span><br><span class="line">    <span class="comment">//【1】根据传入的No的值选择对应的模块/引脚组</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(No &lt; <span class="number">0</span> || No &gt; <span class="number">1</span>)</span><br><span class="line">        No = <span class="number">0</span>;		<span class="comment">//如果通道号传错，则强制选择0号模块，提高检错能力</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(No == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【1】打开SPI0模块时钟</span></span><br><span class="line">        BSET(SIM_SCGC4_SPI0_SHIFT,SIM_SCGC4);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【2】根据引脚组的不同将对应引脚组复用为SPI0功能</span></span><br><span class="line">        <span class="meta">#<span class="meta-keyword">if</span>(SPI_0_GROUP == 1)</span></span><br><span class="line">        PORTD_PCR0 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTD_PCR1 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTD_PCR2 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTD_PCR3 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        <span class="meta">#<span class="meta-keyword">if</span>(SPI_0_GROUP == 2)</span></span><br><span class="line">        PORTA_PCR14 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTA_PCR15 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTA_PCR16 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTA_PCR17 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        <span class="meta">#<span class="meta-keyword">if</span>(SPI_0_GROUP == 3)</span></span><br><span class="line">        PORTC_PCR4 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTC_PCR5 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTC_PCR6 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        PORTC_PCR7 = (<span class="number">0</span>|PORT_PCR_MUX(<span class="number">0x02</span>));</span><br><span class="line">        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【3】将SPI控制寄存器1清零</span></span><br><span class="line">        SPI0_C1 = <span class="number">0x00</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【4】对SPI控制寄存器1的相应位进行赋值进行功能选择</span></span><br><span class="line">        <span class="comment">//【4.1】对使能位赋值使能SPI模块</span></span><br><span class="line">        BSET(SPI_C1_SPE_SHIFT, SPI0_C1);</span><br><span class="line">        <span class="comment">//【4.2】对主从机选择位赋值进行主从机的选择</span></span><br><span class="line">        (MSTR == <span class="number">1</span>)?BSET(SPI_C1_MSTR_SHIFT, SPI0_C1):BSET(SPI_C1_SPIE_SHIFT, SPI0_C1);<span class="comment">//主机置1，从机则打开中断准备接收数据</span></span><br><span class="line">        <span class="comment">//【4.3】对时钟极性位赋值进行时钟极性的选择</span></span><br><span class="line">        (CPOL == <span class="number">0</span>)?BCLR(SPI_C1_CPOL_SHIFT, SPI0_C1):BSET(SPI_C1_CPOL_SHIFT, SPI0_C1);<span class="comment">//极性为0则赋值为0，极性为1则赋值为1</span></span><br><span class="line">        <span class="comment">//【4.4】对时钟相位位赋值进行时钟相位的选择</span></span><br><span class="line">        (CPHA == <span class="number">0</span>)?BCLR(SPI_C1_CPHA_SHIFT, SPI0_C1):BSET(SPI_C1_CPHA_SHIFT, SPI0_C1);<span class="comment">//相位为0则赋值为0，相位为1则赋值为1</span></span><br><span class="line">        <span class="comment">//【4.5】对选择输出使能位进行赋值配置模块输出方式</span></span><br><span class="line">        BSET(SPI_C1_SSOE_SHIFT, SPI0_C1);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【5】将SPI控制寄存器2清零</span></span><br><span class="line">        SPI0_C2 = <span class="number">0x00</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【6】对SPI控制寄存器2的相应位进行赋值进行功能选择</span></span><br><span class="line">        <span class="keyword">if</span>(MSTR == <span class="number">1</span>) BSET(SPI_C2_MODFEN_SHIFT, SPI0_C2);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【7】清空波特率寄存器</span></span><br><span class="line">        SPI_BR = <span class="number">0x00</span>U;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//【8】重新设置波特率</span></span><br><span class="line">        BaudRate_High = <span class="number">0</span>;</span><br><span class="line">        BaudRate_Low = <span class="number">0</span>;</span><br><span class="line">        BaudRate_Mode = <span class="number">12000</span>/BaudRate;</span><br><span class="line">        <span class="keyword">while</span>(BaudRate_Mode%<span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            BaudRate_Mode = BaudRate_Mode/<span class="number">2</span>;</span><br><span class="line">            BaudRate_Low++;</span><br><span class="line">        &#125;</span><br><span class="line">        BaudRate_High = --BaudRate_Mode;</span><br><span class="line">        SPI0_BR = BaudRate_High&lt;&lt;<span class="number">4</span>;</span><br><span class="line">        SPI0_BR |= BaudRate_Low;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【*】与上面类似， 从SPI_0的设置变为对SPI_1的设置</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_send1</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">uint_8 <span class="title">SPI_send1</span><span class="params">(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> i;</span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    <span class="comment">//【2】判断状态寄存器中的发送区状态，有数据状态为1，无数据状态为0。此时等待状态为0</span></span><br><span class="line">    <span class="keyword">while</span>(!(SPI_S_REG(baseadd)&amp;SPI_S_SPTEF_MASK));</span><br><span class="line">    <span class="comment">//【3】将数据放入数据寄存器</span></span><br><span class="line">    SPI_D_REG(baseadd) = data;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">0xFFF0</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>((SPI_S_REG(baseadd)&amp;SPI_S_SPTEF_MASK))		<span class="comment">//放入数据后状态发送区状态为1，即代表成功。</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_sendN</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_sendN</span><span class="params">(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> n, <span class="keyword">uint8_t</span> data[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">uint32_t</span> k; </span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(k = <span class="number">0</span>; k &lt; n; k++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【*】重复步骤：Step1.判断发送区状态		Step2.放入数据		Step3.清除发送区状态</span></span><br><span class="line">        <span class="keyword">while</span>(!(SPI_S_REG(baseadd)&amp;SPI_S_SPTEF_MASK));		<span class="comment">//Step1</span></span><br><span class="line">        SPI_D_REG(baseadd) = data[k];		<span class="comment">//Step2</span></span><br><span class="line">        SPI_S_REG(baseadd) != SPI_S_SPTEF_MASK;		<span class="comment">//Step3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_receive1</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint8_t</span> SPI_receive1(<span class="keyword">uint8_t</span> No)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    <span class="comment">//【2】判断接收区寄存器状态，有数据状态为1，无数据状态为0。</span></span><br><span class="line">    <span class="keyword">while</span>(!(SPI_S_REG(baseadd) &amp; SPI_S_SPRF_MASK));</span><br><span class="line">    <span class="comment">//【3】数据寄存器取数后，接收区状态从1被修改为0</span></span><br><span class="line">    <span class="keyword">return</span> SPI_D_REG(baseadd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SPI_receiveN</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint8_t</span> SPI_receive1(<span class="keyword">uint8_t</span> No, <span class="keyword">uint8_t</span> n, <span class="keyword">uint8_t</span> data[])</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//【1】利用封装好的SPI_baseadd获得基地址</span></span><br><span class="line">    SPI_MemMapPtr baseadd = SPI_baseadd(No);</span><br><span class="line">    <span class="keyword">uint32_t</span> m = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(m &lt; n)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//【*】重复步骤：Step1.判断接收区区状态		Step2.取出数据(取出数据后接收区状态会变成0)</span></span><br><span class="line">        <span class="keyword">if</span>(SPI_S_REG(baseadd) &amp; SPI_S_SPRF_MASK)</span><br><span class="line">        &#123;</span><br><span class="line">            data[m] = SPI_D_REG(baseadd);</span><br><span class="line">            m++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SPI寄存器"><a href="#SPI寄存器" class="headerlink" title="SPI寄存器"></a>SPI寄存器</h2><p>​        SPI需要用到6个8位寄存器，其中含有两个控制寄存器，一个波特率寄存器，一个状态寄存器，一个数据寄存器，一个匹配寄存器。</p>
+<p>​            1.<strong>两个控制寄存器SPIx_C1，SPIx_C2</strong>中，SPIx_C1主要负责SPI使能控制、中断使能和配置选项(主从模式选择、时钟极性位选择、时钟相位位选择、移位器方向选择)。SPIx_C2。。。。。。</p>
+<p>​            2.<strong>波特率寄存器SPIx_BR</strong>。该寄存器用于位一个SPI主机设定标器和位速率分频因子。该寄存器的8位分别为D7(保留位)，D6-D4(SPPR-SPI波特率预分频系数)，通过这三位位段可以得到SPI波特率预分频系数。SPPR[2:0]所表示的十进制数为x(0-7)，则预分频系数SPPR=x+1(1-8)。输入为总线速率时钟(BUSCLK)，输出驱动SPI波特率系数的输入。以及D3-D0(SPR-SPI波特率系数)，通过这四位位段可以得到波特率系数。SPR[3:0]所表示的十进制数为y(0-7)，则波特率系数SPR=2^(y+1)(2-256)。其输入来自SPI波特率预分频器，输出是主模式的SPI波特率时钟。</p>
+<p>​            SPI主模式波特率 =  f_BUSCLK /(SPPR×SPR)，其中f_BUSCLK为总线时钟，SPPR和SPR可分别由SPI波特率预分频系数和SPI波特率系数得出。</p>
+<p>​            3.<strong>状态寄存器SPIx_S</strong>。该寄存器主要用于SPI发送和接收缓存区满空的判断和设置，其中4个只读状态位(D7-D4)。D7位<em>SPRF(SPI Receive Flag)为SPI接收缓冲器满标志</em>。在一次SPI传输完成时，SPRF被置位，表明接收到的数据可以从SPI数据寄存器(SPI_D)读取。当SPRF被置位时，通过读SPRF，然后读取SPI数据寄存器，可将其清除。<em>D6位SPMF(SPI Match Flag)为SPI匹配标志</em>。表明接收数据缓冲区的值是否与匹配寄存器中的值相同，硬件值与软件值进行比对。<em>D5位SPTEF(SPI Transmit Empty Flag)位SPI发送缓冲器空标志</em>。表明发送缓冲区是否为空。通过读取SPIx_S,可将其清除。并且在向SPIx_D写数据之前，需要清SPTEF位，否则写入无效。在DMA方式下，产生DMA请求后，SPTEF自动清除0。<em>D4位MODF为主模式故障标志</em>。。。。。。</p>
+<p>​            4.<strong>数据寄存器SPIx_D</strong>。读取该寄存器将返回从接收数据缓冲器中读取的数据。写该寄存器将会把数据写入发送数据缓冲器。当SPI被设置为主模式时，写入数据到传输数据缓冲器发起一次SPI传输。除非SPI发送缓冲器空标志(SPTEF)被置位，数据不应被写入到发送数据缓冲器，表明发送缓冲器内有空间来排列一个新的发送字节。在SPRF置位后且另以传输完成之前的任意时刻，数据都可以从SPID中被读取。在一个新的传输完成前，从接收数据缓冲器读出数据失败，将会引起一个接收丢包状态，并且新传输的数据也会丢失。</p>
+<p>​            5.<strong>匹配寄存器SPIx_M</strong>。此寄存器存储硬件比较值，用来与SPI接收数据缓冲区中的值进行比较。当SPI接收数据缓冲区收到的值等于此硬件比较值时，<em>SPI匹配标志(SPMF)</em>置位。</p>
+<h2 id="GPIO模拟SPI"><a href="#GPIO模拟SPI" class="headerlink" title="GPIO模拟SPI"></a>GPIO模拟SPI</h2><p>​        利用GPIO模拟SPI主要通过对使用四个GPIO引脚分别对应SS引脚、SCLK引脚、MOSI引脚、MISO引脚，利用延时函数模拟时钟周期，进行对SPI通信的模拟</p>
+<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	SS		GPIO0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SCLK	GPIO1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MOSI	GPIO2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MISO	GPIO3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OUTPUT		1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INPUT		0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Set_GPIO_Direction(SS, OUTPUT);</span><br><span class="line">    Set_GPIO_Direction(SCLK, OUTPUT);</span><br><span class="line">    Set_GPIO_Direction(MOSI, OUTPUT);</span><br><span class="line">    Set_GPIO_Direction(MISO, INPUT);</span><br><span class="line">    </span><br><span class="line">    Set_GPIO_Value(SCLK, <span class="number">0</span>);</span><br><span class="line">    Set_GPIO_Value(MOSI, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SS_Enable</span><span class="params">(<span class="keyword">int</span> enable)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(enable)	Set_GPIO_Value(SS, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">else</span>		Set_GPIO_Value(SS, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Write1</span><span class="params">(<span class="keyword">uint8_t</span> ch)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">7</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">0</span>);</span><br><span class="line">        Set_GPIO_Value(MOSI, ch&amp;(<span class="number">1</span>&lt;&lt;i));</span><br><span class="line">        Delay();</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">1</span>);</span><br><span class="line">        Delay();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> SPI_Read1()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">uint8_t</span> ch;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">0</span>);</span><br><span class="line">        Delay();</span><br><span class="line">        Set_GPIO_Value(SCLK, <span class="number">1</span>);</span><br><span class="line">        ch = (ch&lt;&lt;<span class="number">1</span>) | Get_GPIO_Value(MISO);</span><br><span class="line">        Delay();</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">return</span> ch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Write</span><span class="params">(<span class="keyword">uint8_t</span>* buf, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    SS_Enable(<span class="number">1</span>);</span><br><span class="line">    Delay();  </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) SPI_Write1(buf[i]);</span><br><span class="line">    Delay();</span><br><span class="line">    SS_Enable(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SPI_Read</span><span class="params">(<span class="keyword">uint8_t</span>* buf, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    SS_Enable(<span class="number">1</span>);</span><br><span class="line">    Delay();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) buf[i] = SPI_Read1();</span><br><span class="line">    Delay();</span><br><span class="line">    SS_Enable(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </main>
+    <footer class="post-footer">
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/24/学习备忘录/第7周/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
+        <meta itemprop="description" content="学IT中骑车最快的">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/10/24/学习备忘录/第7周/" itemprop="url">第7周</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-24T19:42:23+08:00">2020-10-24 19:42:23</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习备忘录/" itemprop="url" rel="index"><span itemprop="name">学习备忘录</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="第7周-学习备忘录"><a href="#第7周-学习备忘录" class="headerlink" title="第7周-学习备忘录"></a>第7周-学习备忘录</h1><table>
+<thead>
+<tr>
+<th align="center">日期</th>
+<th align="center">星期</th>
+<th align="center">时间记录</th>
+<th align="center">学习内容</th>
+<th align="center">日合计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">10.19</td>
+<td align="center">1</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.20</td>
+<td align="center">2</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.21</td>
+<td align="center">3</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.22</td>
+<td align="center">4</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.23</td>
+<td align="center">5</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.24</td>
+<td align="center">6</td>
+<td align="center">9:00-21:30</td>
+<td align="center">比赛</td>
+<td align="center">12.5</td>
+</tr>
+<tr>
+<td align="center">10.25</td>
+<td align="center">7</td>
+<td align="center">无</td>
+<td align="center">无</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">周合计时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">周平均时间</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/学习备忘录/" rel="tag"><i class="fas fa-tags"></i>学习备忘录</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/17/学习备忘录/第6周/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
@@ -504,484 +1213,9 @@
     </footer>
   </article>
   
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/一百个A类问题/第二个A类问题-STM32全局变量/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/一百个A类问题/第二个A类问题-STM32全局变量/" itemprop="url">第二个A类问题-STM32全局变量</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T13:58:57+08:00">2020-10-10 13:58:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/一百个A类问题/" itemprop="url" rel="index"><span itemprop="name">一百个A类问题</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="全局变量赋值后未被改变"><a href="#全局变量赋值后未被改变" class="headerlink" title="全局变量赋值后未被改变"></a>全局变量赋值后未被改变</h1><p>出现问题的原因：全局变量只被声明而未被定义</p>
-<p>已采取的方法：在使用的地方对全局变量进行定义</p>
-<p>结果：已解决</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//include.h文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（2）【不动】全局变量一处声明多处使用处理方法代码段</span></span><br><span class="line"><span class="comment">//    为下面声明全局变量，使用前缀G_VAR_PREFIX宏定义做准备</span></span><br><span class="line"><span class="comment">//    GLOBLE_VAR在main.c中有宏定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GLOBLE_VAR		 <span class="comment">//main.c文件中包含本头文件时，全局变量不加“extern”前缀</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> G_VAR_PREFIX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span>                    <span class="comment">//其他文件中包含本头文件时，全局变量自动加“extern”前缀</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> G_VAR_PREFIX extern</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">G_VAR_PREFIX vuint_8 gState;</span><br></pre></td></tr></table></figure>
-
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//photo.h文件--使用全局变量的文件</span></span><br><span class="line">vuint_8 gState;     <span class="comment">//定义后使用即可解决问题</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/一百个A类问题/" rel="tag"><i class="fas fa-tags"></i>一百个A类问题</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/嵌入式系统/8-编译优化等级详解/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/嵌入式系统/8-编译优化等级详解/" itemprop="url">8-编译优化等级O0-O1详解</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T13:36:57+08:00">2020-10-10 13:36:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="Gcc-编译优化简介"><a href="#Gcc-编译优化简介" class="headerlink" title="Gcc 编译优化简介"></a>Gcc 编译优化简介</h1><p>​        gcc 提供了为了满足用户不同程度的的优化需要，提供了近百种优化选项。用来对<strong>编译时间，目标文件长度，执行效率</strong>这个三维模型进行不同的取舍和平衡。优化的方法不一而足，总体上将有以下几类：</p>
-<p>​        1）精简操作指令；</p>
-<p>​        2）尽量满足cpu的流水操作；</p>
-<p>​        3）通过对程序行为地猜测，重新调整代码的执行顺序；</p>
-<p>​        4）充分使用寄存器；</p>
-<p>​        5）对简单的调用进行展开等等。</p>
-<h1 id="Gcc-优化等级详解"><a href="#Gcc-优化等级详解" class="headerlink" title="Gcc 优化等级详解"></a>Gcc 优化等级详解</h1><p>​        gcc提供了从<strong>O0-O3</strong>以及<strong>Os</strong>这几种不同的优化级别供大家选择，在这些选项中，包含了大部分有效的编译优化选项，并且可以在这个基础上，对某些选项进行屏蔽或添加，从而大大降低了使用的难度，毕竟，在一定基础上进行取舍，比万事从头开始要好得多。下面着重围绕这几个不同的级别进行简单介绍。</p>
-<h2 id="O0：-不做任何优化，这是默认的编译选项。"><a href="#O0：-不做任何优化，这是默认的编译选项。" class="headerlink" title="-O0： 不做任何优化，这是默认的编译选项。"></a>-O0： 不做任何优化，这是默认的编译选项。</h2><h2 id="O1-：-对程序做部分编译优化，"><a href="#O1-：-对程序做部分编译优化，" class="headerlink" title="-O1 ： 对程序做部分编译优化，"></a>-O1 ： 对程序做部分编译优化，</h2><p>​        对于大函数,优化编译占用稍微多的时间和相当大的内存。使用本项优化，编译器会尝试减小生成代码的尺寸，以及缩短执行时间，但并不执行需要占用大量编译时间的优化。</p>
-<p>​        打开的优化选项：</p>
-<p>​        1.<strong>l -fdefer-pop</strong>：延迟栈的弹出时间。当完成一个函数调用，参数并不马上从栈中弹出，而是在多个函数被调用后，一次性弹出。</p>
-<p>​        这一优化选项主要是减少因函数调用后弹出参数所使用的时间，函数调用结束之后，不会立即将参数弹出，后续函数使用栈不多的时候，这个优化并不会影响函数的执行，只是相当于减少了栈的空间，若后续函数所需栈空间不够的时候，系统会把栈内堆积的参数一次性全部释放，这样就大大减少了栈弹出的时间。—提高了函数的执行效率</p>
-<p>​        2.<strong>l -fmerge-constants</strong>：尝试横跨编译单元合并同样的常量(string constants and floating point constants) </p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">e.g: </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> str1[] = <span class="string">"Hello"</span>;</span><br><span class="line">    <span class="keyword">char</span> str2[] = <span class="string">"Hello"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        编译器发现str1和str2所用的常量都是”Hello”，那么编译器不会给向内存申请两个地址，只会申请一个地址存放”Hello”，然后两个指针指向的字符串是同一个”Hello”的地址。—减少了目标文件长度。</p>
-<p>​        3.<strong>l -fthread-jumps</strong>：如果某个跳转分支的目的地存在另一个条件比较,而且该条件比较包含在前一个比较语句之内,那么执行本项优化.根据条件是true或者false,前面那条分支重定向到第二条分支的目的地或者紧跟在第二条分支后面. —提高执行效率</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">e.g:</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">if</span>(i &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">		<span class="comment">//i &gt; 0的跳转分支的目的地的条件为i &lt; 10,这个条件包含在i &gt; 0,</span></span><br><span class="line">        <span class="comment">//那么会执行-fthread-jumps优化</span></span><br><span class="line">        <span class="keyword">if</span>(i &lt; <span class="number">10</span>)  </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d"</span>,i);<span class="comment">//如果0 &lt; i &lt; 10,则会直接跳转到这句话</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果i &gt; 10 ,则会直接跳转到这</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">==&gt;<span class="comment">//经过-fthread-jumps优化后，函数的功能会类似于如下形式</span></span><br><span class="line"><span class="keyword">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">if</span>(i &gt; <span class="number">0</span> &amp;&amp; i &lt; <span class="number">10</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        4.<strong>l -floop-optimize</strong>：执行循环优化,将常量表达式从循环中移除，简化判断循环的条件，并且optionally do strength-reduction，或者将循环打开等。在大型复杂的循环中，这种优化比较显著。</p>
-<p>—提高执行效率</p>
-<p><code>*（常量表达式就是表达式里面只有常量的式子，比如1+2是常量表达式，如果定义a为常量1，那么a+2也是常量表达式）*</code></p>
-<figure class="hljs highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">e.g: </span><br><span class="line"><span class="comment">//1.移除常量表达式</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//将常量表达式从循环中移除</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a = <span class="number">5</span>; <span class="comment">//编译器会将这个常量表达式直接移除        </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2.循环打开/循环展开</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">delete</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">==&gt;<span class="comment">//循环打开后</span></span><br><span class="line"><span class="keyword">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">100</span> ; i += <span class="number">5</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">delete</span>(i);</span><br><span class="line">        <span class="keyword">delete</span>(i+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">delete</span>(i+<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">delete</span>(i+<span class="number">3</span>);</span><br><span class="line">        <span class="keyword">delete</span>(i+<span class="number">4</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        循环打开后，新程序只需要进行20次迭代，而不是100次。之后，只需要采用20%的跳转和条件分支，并且在多次迭代中表示可能显着减少。循环管理开销。为了产生最佳效益，不应在需要指针运算的展开代码中指定变量。这通常需要“基础加偏移”寻址，而不是索引引用。</p>
-<p>​        5.<strong>l -fif-conversion</strong>：尝试将条件跳转转换为等价的无分支型式。优化实现方式包括条件移动，min，max，设置标志，以及abs指令，以及一些算术技巧等。</p>
-<figure class="hljs highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">e.g: </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">3</span>, j = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">if</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; j &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">==&gt;<span class="comment">//优化后</span></span><br><span class="line"><span class="keyword">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">3</span>, j = <span class="number">5</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; min(i,j) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        6.<strong>l -fif-conversion2</strong>基本意义相同。—提高执行效率</p>
-<p>​        7.<strong>l -fdelayed-branch</strong>：这种技术试图根据指令周期时间重新安排指令。 它还试图把尽可能多的指令移动到条件分支前, 以便最充分的利用处理器的治理缓存。—提高执行效率</p>
-<p>​        在执行程序时，为了提高性能，编译器和处理器常常会对指令做重排序。重排序分以下3种类型：</p>
-<p>​        (1)<strong>编译器优化的重排序</strong>：编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</p>
-<p>​        (2)<strong>指令级并行的重排序</strong>：现代处理器采用了指令级并行技术来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</p>
-<p>​        (3)<strong>内存系统的重排序</strong>：由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">e.g:</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">    a++;</span><br><span class="line">    b++;</span><br><span class="line">    b++;</span><br><span class="line">    b++;</span><br><span class="line">    a++;</span><br><span class="line">    b++;</span><br><span class="line">&#125;</span><br><span class="line">==&gt;<span class="comment">//编译器会在不改变功能的情况下重新安排执行顺序</span></span><br><span class="line"><span class="keyword">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">    a++;</span><br><span class="line">    a++;</span><br><span class="line">    b++;</span><br><span class="line">    b++;</span><br><span class="line">    b++;</span><br><span class="line">    b++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这样子让a不需要进缓存等待b执行，加快程序速度</span></span><br><span class="line"></span><br><span class="line">e.g: 指令移动到条件分支前未想到合适例子</span><br></pre></td></tr></table></figure>
-
-<p>​        8.<strong>l -fguess-branch-probability</strong>：当没有可用的profiling feedback或__builtin_expect时，编译器采用随机模式猜测分支被执行的可能性，并移动对应汇编代码的位置，这有可能导致不同的编译器会编译出迥然不同的目标代码。 </p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">e.g:</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(__builtin_expect(x,<span class="number">0</span>))  <span class="comment">//if(__builtin_expect(x,0))==if(x==0),期望x！=0这个条件不成立，不希望程序走这条分支，所以执行func的可能性小</span></span><br><span class="line">   &#123;</span><br><span class="line">       func();</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">   &#123;</span><br><span class="line">       <span class="comment">//do something</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">e.g:</span><br><span class="line"><span class="keyword">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">if</span>(__builtin_expect(ptr != <span class="literal">NULL</span>,<span class="number">1</span>))  <span class="comment">//期望 ptr !=NULL这个条件成立(1), 更希望走这条分支，所以执行func()的可能性小</span></span><br><span class="line">   &#123;</span><br><span class="line">       <span class="comment">//do something</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">   &#123;</span><br><span class="line">       func();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​        9.<strong>l -fcprop-registers</strong>：因为在函数中把寄存器分配给变量, 所以编译器执行第二次检查以便减少调度依赖性(两个段要求使用相同的寄存器)并且删除不必要的寄存器复制操作。</p>
-<p>​        </p>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/嵌入式系统/" rel="tag"><i class="fas fa-tags"></i>嵌入式系统</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/模块开发/2-WiFi模块开发第二部分/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/模块开发/2-WiFi模块开发第二部分/" itemprop="url">2-WiFi模块开发第二部分</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T11:39:57+08:00">2020-10-10 11:39:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块开发/" itemprop="url" rel="index"><span itemprop="name">模块开发</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="常用AT指令总结"><a href="#常用AT指令总结" class="headerlink" title="常用AT指令总结"></a>常用AT指令总结</h1><p>进入AT指令模式:    <strong>+++</strong><br>退出AT指令模式，进WIFI的透传模式:    <strong>AT+CIPSENDRAW\r</strong><br>重启模块:    <strong>AT+REBOOT\r</strong><br>设置串口回显打开:    <strong>AT+UARTE=ON\r</strong><br>设置串口回显关闭:    <strong>AT+UARTE=OFF\r</strong><br>设置 Station 名称 和 密码:    <strong>AT+WJAP=Seventeen,jjljjl123789\r</strong><br>查询当前Station模式的IP地址，子网掩码和网关:    <strong>AT+WJAPIP?\r</strong><br>查询当前Station连接状态:    <strong>AT+WJAPS\r</strong><br>断开当前Station连接:    <strong>AT+WJAPQ\r</strong><br>STATION模式下，启动一个tcp client:    <strong>AT+CIPSTART=1,tcp_client,192.168.31.244,8888\r</strong><br>断开id=0的连接:    <strong>AT+CIPSTOP=0\r</strong><br>查询id=0的连接状态:    <strong>AT+CIPSTATUS=0\r</strong><br>id=0连接，tcp client发来的数据下发至串口:     <strong>AT+CIPRECV=0,53588\r</strong></p>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/模块开发/" rel="tag"><i class="fas fa-tags"></i>模块开发</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/模块开发/3-WiFi模块开发第三部分/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/模块开发/3-WiFi模块开发第三部分/" itemprop="url">3-WiFi模块开发第三部分</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T11:39:57+08:00">2020-10-10 11:39:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块开发/" itemprop="url" rel="index"><span itemprop="name">模块开发</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="WiFi主要使用函数"><a href="#WiFi主要使用函数" class="headerlink" title="WiFi主要使用函数"></a>WiFi主要使用函数</h1><h2 id="1-连接WiFi"><a href="#1-连接WiFi" class="headerlink" title="1.连接WiFi"></a>1.连接WiFi</h2><p>​        通过发送AT指令让EMW3072连接WiFi，WiFi连接成功后，EMW3072芯片会回发”STATION_UP”，收到这个回发信息后，芯片就设定已经连接上WiFi。</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_linktossid</span></span><br><span class="line"><span class="comment">//功能概要：接入指定wifi接入点</span></span><br><span class="line"><span class="comment">//参数说明：ssid:接入点名称,password:密码</span></span><br><span class="line"><span class="comment">//函数返回：接入是否成功=0成功，=1错误，=2无返回数据</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_linktossid(<span class="keyword">uint8_t</span>* ssid,<span class="keyword">uint8_t</span>* password)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="keyword">uint8_t</span> cmd[<span class="number">40</span>],flag;</span><br><span class="line">	<span class="comment">//2.设置帧尾</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"STATION_UP"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"ERROR"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,<span class="string">"AT+WJAP="</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)ssid);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">","</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)password);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"\r"</span>);</span><br><span class="line">	<span class="comment">//3.发送指令</span></span><br><span class="line">	flag=wifi_send_cmd(cmd);</span><br><span class="line">	<span class="keyword">if</span>(flag==WIFI_NORESPONSE)</span><br><span class="line">		wifi_send_cmd((<span class="keyword">uint8_t</span>*)<span class="string">"AT+WJAP=?\r"</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strstr</span>((<span class="keyword">char</span>*)WIFI_CMD,<span class="string">"STATION_UP"</span>)!=<span class="literal">NULL</span>)</span><br><span class="line">		flag=WIFI_OK;</span><br><span class="line">	<span class="keyword">if</span>(flag==WIFI_OK)</span><br><span class="line">		WIFI_AP_STATE=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> (flag);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-连接服务器"><a href="#2-连接服务器" class="headerlink" title="2.连接服务器"></a>2.连接服务器</h2><p>​        连接WiFi成功后，芯片通过发送AT指令让EMW3072连接服务器，连接服务器成功后，EMW3072芯片会回发”SERVER,CONNECTED”</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_con_srv</span></span><br><span class="line"><span class="comment">//功能概要：与服务器建立连接</span></span><br><span class="line"><span class="comment">//参数说明：ip:服务器IP地址,port:端口号（均为字符串格式）,</span></span><br><span class="line"><span class="comment">//       格式"xxx.xxx.xxx.xxx",xxx取值范围0-255</span></span><br><span class="line"><span class="comment">//函数返回：=0连接成功,=1连接失败,=2处于发送模式</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_con_srv(<span class="keyword">uint8_t</span>* ip,<span class="keyword">uint8_t</span>* port)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="keyword">uint8_t</span> flag,cmd[<span class="number">100</span>];</span><br><span class="line">	<span class="comment">//1.检测wifi模块当前状态是否处于发送模式</span></span><br><span class="line">	<span class="keyword">if</span>(WIFI_SEND_STATE==<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">	<span class="comment">//2.检测输入的ip地址是否合法</span></span><br><span class="line">	<span class="keyword">if</span>(!wifi_check_ip(ip))</span><br><span class="line">		<span class="keyword">return</span> WIFI_ERROR;</span><br><span class="line">	<span class="comment">//3.检测输入的port值是否合法</span></span><br><span class="line">	<span class="keyword">if</span>(!wifi_check_port(port))</span><br><span class="line">	    <span class="keyword">return</span> WIFI_ERROR;</span><br><span class="line">	<span class="comment">//4.设置帧尾</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"SERVER,CONNECTED"</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"\r\nERROR"</span>);</span><br><span class="line">	<span class="comment">//5.断开已有连接</span></span><br><span class="line">	wifi_disconnect();</span><br><span class="line">	<span class="comment">//6.拼接指令</span></span><br><span class="line"></span><br><span class="line">	port[<span class="number">5</span>]=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//AT+CIPSTART=1,tcp_client,192.168.31.244,8888\r</span></span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)WIFI_START);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"1,tcp_client,"</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)(ip));</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">","</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)(port));</span><br><span class="line">	<span class="built_in">strcat</span>(((<span class="keyword">char</span>*)cmd),<span class="string">"\r"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//7.发送指令</span></span><br><span class="line">	flag=wifi_send_cmd(cmd);</span><br><span class="line">	<span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-接收返回信息"><a href="#3-接收返回信息" class="headerlink" title="3.接收返回信息"></a>3.接收返回信息</h2><p>​        接收返回信息函数是每个AT指令发送后都需要用到的函数，根据发出的命令存储不同的返回信息供芯片判断发送指令成功与否。</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_int_re</span></span><br><span class="line"><span class="comment">//功能概要：中断接收字符</span></span><br><span class="line"><span class="comment">//参数说明：ch:要接受的字符，*dataLen:存储接收到的数据长度，</span></span><br><span class="line"><span class="comment">//      *data:将接收到的数据存放到该数组中;</span></span><br><span class="line"><span class="comment">//函数返回：无</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">wifi_int_re</span><span class="params">(<span class="keyword">uint8_t</span> ch,<span class="keyword">uint16_t</span> *dataLen, <span class="keyword">uint8_t</span> *data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//定义局部变量</span></span><br><span class="line">	<span class="comment">//1.WIFI_ACKSTOP大于零时接收指令回信</span></span><br><span class="line">	<span class="keyword">switch</span>(WIFI_RECVSTOP)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="comment">//数据接收模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">0</span>:uecom_recv(ch,dataLen,data);</span><br><span class="line">	    	<span class="keyword">break</span>;</span><br><span class="line">	    <span class="comment">//命令返回接收模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">1</span>:<span class="keyword">if</span>(WIFI_CMDLENGTH&lt;<span class="number">400</span>)</span><br><span class="line">               &#123;</span><br><span class="line"> 	               wifi_returncheck(ch);</span><br><span class="line"> 	               WIFI_CMD[WIFI_CMDLENGTH+<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">               &#125;</span><br><span class="line">	    	   <span class="keyword">break</span>;</span><br><span class="line">	    <span class="comment">//重启模式</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">2</span>:WIFI_BOOTFLAG = wifi_rebootcheck(ch);</span><br><span class="line">	           <span class="keyword">if</span>(WIFI_BOOTFLAG)</span><br><span class="line">	        	   WIFI_RECVSTOP = <span class="number">0</span>;</span><br><span class="line">	           <span class="keyword">break</span>;                        <span class="comment">//重启等待</span></span><br><span class="line">	    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">	    <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-发送消息"><a href="#4-发送消息" class="headerlink" title="4. 发送消息"></a>4. 发送消息</h2><p>​        芯片通过这个函数发送消息，函数会将你想要发送的消息进行二次组帧以确保信息的稳定性和安全性。</p>
-<figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="comment">//函数名称：wifi_sendN</span></span><br><span class="line"><span class="comment">//功能概要：连接建立后，向服务器发送N个字符,如果是第一次发送,会开启发送模式,开启</span></span><br><span class="line"><span class="comment">//发送模式后部分函数会不可用,具体请看各函数说明</span></span><br><span class="line"><span class="comment">//参数说明：data:需要发送的字符,length:数据长度,IMSI:本机的IMSI号</span></span><br><span class="line"><span class="comment">//函数返回：发送是否成功=0成功,=1开启发送模式失败</span></span><br><span class="line"><span class="comment">//======================================================================</span></span><br><span class="line"><span class="keyword">uint8_t</span> wifi_sendN(<span class="keyword">uint8_t</span>* data,<span class="keyword">uint16_t</span> length,<span class="keyword">uint8_t</span>* IMSI)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">uint8_t</span> buf[<span class="number">400</span>], cmd[<span class="number">20</span>], strlength[<span class="number">5</span>];</span><br><span class="line">	<span class="keyword">if</span>(WIFI_SEND_STATE==<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//3.拼接发送请求帧尾</span></span><br><span class="line">		<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_OK_STOP,<span class="string">"OK"</span>);</span><br><span class="line">		<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)WIFI_ERR_STOP,<span class="string">"ERROR"</span>);</span><br><span class="line">		WIFI_SEND_STATE=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	wifi_frameEncode(IMSI,data,length,buf,&amp;length);</span><br><span class="line">	<span class="comment">//5.发送内容</span></span><br><span class="line">	itoa(length,(<span class="keyword">char</span>*)strlength,<span class="number">10</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>((<span class="keyword">char</span>*)cmd,<span class="string">"AT+CIPSEND=1,"</span>);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,(<span class="keyword">char</span>*)strlength);</span><br><span class="line">	<span class="built_in">strcat</span>((<span class="keyword">char</span>*)cmd,<span class="string">"\r"</span>);</span><br><span class="line">	uart_send_string(UART_WIFI,(<span class="keyword">uint8_t</span>*)cmd);</span><br><span class="line">	uart_sendN(UART_WIFI,length,buf);</span><br><span class="line">	<span class="keyword">return</span> WIFI_OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/模块开发/" rel="tag"><i class="fas fa-tags"></i>模块开发</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/模块开发/4-WiFi模块开发第四部分/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/模块开发/4-WiFi模块开发第四部分/" itemprop="url">4-WiFi模块开发第四部分</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T11:39:57+08:00">2020-10-10 11:39:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块开发/" itemprop="url" rel="index"><span itemprop="name">模块开发</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="代码用例"><a href="#代码用例" class="headerlink" title="代码用例"></a>代码用例</h1><h2 id="利用封装好的函数连接WiFi"><a href="#利用封装好的函数连接WiFi" class="headerlink" title="利用封装好的函数连接WiFi"></a>利用封装好的函数连接WiFi</h2><figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">comm_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    wifi_reset();</span><br><span class="line">    <span class="keyword">for</span>(;;)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(wifi_linktossid((<span class="keyword">uint8_t</span>*)gFlashData.UE_SSID,(<span class="keyword">uint8_t</span>*)gFlashData.UE_PSSWD)==WIFI_OK)</span><br><span class="line">        &#123;</span><br><span class="line">        	<span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        LCD_ShowString(<span class="number">6</span>,<span class="number">300</span>,BLUE,GRAY,    <span class="string">"WiFi Initing... "</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\r\nWiFi Initing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="利用封装好的函数连接服务器"><a href="#利用封装好的函数连接服务器" class="headerlink" title="利用封装好的函数连接服务器"></a>利用封装好的函数连接服务器</h2><figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(;;)</span><br><span class="line">&#123;</span><br><span class="line">    mflag = wifi_con_srv((<span class="keyword">uint8_t</span>*)gFlashData.serverIP,(<span class="keyword">uint8_t</span>*)gFlashData.serverPort);</span><br><span class="line">    <span class="keyword">if</span>(mflag!=WIFI_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        LCD_ShowString(<span class="number">6</span>,<span class="number">300</span>,BLUE,GRAY,    <span class="string">"WiFi Connecting... "</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\r\nWiFi Connecting...\r\n"</span>);</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="发送流程"><a href="#发送流程" class="headerlink" title="发送流程"></a>发送流程</h2><figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">Send_Procedure_Branch:</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4133394</span>; i++) <span class="keyword">continue</span>;</span><br><span class="line">    mSendFreq++;</span><br><span class="line">    LCD_ShowString(<span class="number">49</span>,<span class="number">209</span>,BLUE,GRAY,(<span class="keyword">char</span> *)gTimeString);</span><br><span class="line">    gpio_reverse(LIGHT_RED);</span><br><span class="line">    <span class="keyword">if</span> (mSendFreq-mSendFreqOld&gt;=<span class="number">30</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        mSendFreqOld=mSendFreq;</span><br><span class="line">        mSendFlag = <span class="number">1</span>;                         <span class="comment">//发送标志置1；</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\r\n%d 秒时间到，发送一帧数据！\r\n"</span>,<span class="number">30</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    mj=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (mi=<span class="number">0</span>;mi&lt;<span class="number">3000</span>;mi++)</span><br><span class="line">        mj=mj+gpio_get(GPIO_TSI);</span><br><span class="line">    <span class="keyword">if</span> (mj&lt;<span class="number">2000</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        mTsi++;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\r\n触摸次数 = %d\r\n"</span>, mTsi);</span><br><span class="line">        LCD_ShowString(<span class="number">40</span>,<span class="number">189</span>,BLUE,GRAY,(<span class="keyword">char</span> *)IntConvertToStr(mTsi,mString));</span><br><span class="line">        <span class="keyword">if</span> ((mTsi-gUserData.touchNum)&gt;=<span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            mSendFlag = <span class="number">1</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\r\n触摸三次，发送一帧数据！\r\n"</span>);</span><br><span class="line">            gUserData.touchNum=mTsi;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\r\n触摸次数 ============= %d\n"</span>, mTsi);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(mSendFlag == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        userData_get(&amp;gUserData);</span><br><span class="line">        <span class="comment">//（2.3.2）根据命令，获得需要发送的数据</span></span><br><span class="line">        <span class="keyword">if</span>(gFlashData.frameCmd[<span class="number">0</span>]==<span class="string">'U'</span>&amp;&amp;gFlashData.frameCmd[<span class="number">1</span>]==<span class="string">'0'</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            mSendLen = mUserLen;</span><br><span class="line">            ArrayCpy(gUserData.cmd,gFlashData.frameCmd,<span class="number">2</span>);</span><br><span class="line">            ArrayCpy(mSendData,(<span class="keyword">uint8_t</span> *)&amp;gUserData,mSendLen);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(gFlashData.frameCmd[<span class="number">0</span>]==<span class="string">'U'</span>&amp;&amp;gFlashData.frameCmd[<span class="number">1</span>]==<span class="string">'1'</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ArrayCpy(mSendData,gFlashData.frameCmd,<span class="number">2</span>);</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">2</span>,gUserData.IMSI,<span class="number">15</span>);</span><br><span class="line">            <span class="comment">//【20200816】</span></span><br><span class="line">            main_TimeStamp();   <span class="comment">//给gUserData.currentTime赋值</span></span><br><span class="line"></span><br><span class="line">            ArrayCpy(mSendData+<span class="number">17</span>,(<span class="keyword">uint8_t</span> *)&amp;gUserData.currentTime,<span class="number">8</span>);</span><br><span class="line"></span><br><span class="line">            ArrayCpy(mSendData+<span class="number">25</span>,(<span class="keyword">uint8_t</span> *)&amp;gUserData.mcuTemp,<span class="number">4</span>);</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">29</span>,(<span class="keyword">uint8_t</span> *)&amp;gUserData.signalPower,<span class="number">1</span>);</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">30</span>,(<span class="keyword">uint8_t</span> *)&amp;gUserData.bright,<span class="number">2</span>);</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">32</span>,(<span class="keyword">uint8_t</span> *)&amp;gUserData.touchNum,<span class="number">2</span>);</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">34</span>,gUserData.lbs_location,<span class="number">25</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        mflag = wifi_sendN(mSendData,mSendLen,gUserData.IMSI);</span><br><span class="line">        <span class="keyword">if</span>(!mflag)</span><br><span class="line">        &#123;</span><br><span class="line">            LCD_ShowString(<span class="number">6</span>,<span class="number">300</span>,BLUE,GRAY,(<span class="keyword">char</span> *)<span class="string">"WiFi Send Successfully       "</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\r\nWiFi Send Successfully\r\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">goto</span> Send_ClearMark_Procedure_Branch;</span><br></pre></td></tr></table></figure>
-
-<h2 id="回发流程"><a href="#回发流程" class="headerlink" title="回发流程"></a>回发流程</h2><figure class="hljs highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">PostBack_Procedure_Branch:</span><br><span class="line">    mRecvCount++;</span><br><span class="line">    mflag = <span class="number">0xff</span>;</span><br><span class="line">    mSendLen = <span class="number">0</span>;</span><br><span class="line">    mWriteFlashFlag = <span class="number">0</span>;</span><br><span class="line">    mLCD_RefreshFlag=<span class="number">1</span>;</span><br><span class="line">    LCD_ShowString(<span class="number">6</span>,<span class="number">300</span>,BLUE,GRAY,<span class="string">"AHL Recv one frame          "</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\r\n收到一帧\n"</span>);</span><br><span class="line">    ArrayCpy(mCmd,gcRecvBuf,<span class="number">2</span>);</span><br><span class="line">    ArrayCpy(mSendData,gcRecvBuf,<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span>(mCmd[<span class="number">0</span>]==<span class="string">'A'</span>)        	<span class="comment">//读取flash中的信息</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'0'</span>)		<span class="comment">//读取flash中的所有信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            mSendLen = mFlashLen+<span class="number">2</span>;</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">2</span>,(<span class="keyword">uint8_t</span>*)(&amp;gFlashData),mFlashLen);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'1'</span>)	<span class="comment">//读取flash中的产品信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            mSendLen = <span class="number">145</span>;</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">2</span>,gFlashData.equipName,mSendLen<span class="number">-2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'2'</span>)	<span class="comment">//读取flash中的服务器信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            mSendLen = <span class="number">22</span>;</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">2</span>,gFlashData.serverIP,mSendLen<span class="number">-2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'3'</span>)	<span class="comment">//读取用户存入flash的信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            mSendLen = <span class="number">10</span>;</span><br><span class="line">            ArrayCpy(mSendData+<span class="number">2</span>,(<span class="keyword">uint8_t</span>*)(&amp;gFlashData.sendFrequencySec),mSendLen<span class="number">-2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">0</span>]==<span class="string">'B'</span>)   	<span class="comment">//更改flash中的信息</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'0'</span>)		<span class="comment">//更改flash中的所有信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)(gFlashData.equipName),(<span class="keyword">uint8_t</span>*)&amp;(gcRecvBuf[<span class="number">2</span>]),mFlashLen);</span><br><span class="line">            mWriteFlashFlag = <span class="number">1</span>;</span><br><span class="line">            mSendLen = <span class="number">9</span>;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)mSendData+<span class="number">2</span>,(<span class="keyword">uint8_t</span> *)<span class="string">"success"</span>,mSendLen<span class="number">-2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'1'</span>)	<span class="comment">//更改flash中的产品信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)(gFlashData.equipName),(<span class="keyword">uint8_t</span>*)&amp;(gcRecvBuf[<span class="number">2</span>]),<span class="number">124</span>);</span><br><span class="line">            mWriteFlashFlag = <span class="number">1</span>;</span><br><span class="line">            mSendLen = <span class="number">9</span>;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)mSendData+<span class="number">2</span>,(<span class="keyword">uint8_t</span> *)<span class="string">"success"</span>,mSendLen<span class="number">-2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'2'</span>)	<span class="comment">//更改flash中的服务器信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)(gFlashData.serverIP),(<span class="keyword">uint8_t</span>*)&amp;(gcRecvBuf[<span class="number">2</span>]),<span class="number">30</span>);</span><br><span class="line">            mWriteFlashFlag = <span class="number">1</span>;</span><br><span class="line">            mSendLen = <span class="number">9</span>;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)mSendData+<span class="number">2</span>,(<span class="keyword">uint8_t</span> *)<span class="string">"success"</span>,mSendLen<span class="number">-2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'3'</span>)	<span class="comment">//更改用户存入flash的信息</span></span><br><span class="line">        &#123;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)(&amp;gFlashData.sendFrequencySec),(<span class="keyword">uint8_t</span>*)&amp;(gcRecvBuf[<span class="number">2</span>]),<span class="number">8</span>);</span><br><span class="line">            mWriteFlashFlag = <span class="number">1</span>;</span><br><span class="line">            mSendLen = <span class="number">9</span>;</span><br><span class="line">            ArrayCpy((<span class="keyword">uint8_t</span> *)mSendData+<span class="number">2</span>,(<span class="keyword">uint8_t</span> *)<span class="string">"success"</span>,mSendLen<span class="number">-2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(mCmd[<span class="number">0</span>]==<span class="string">'U'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'0'</span>)		<span class="comment">//获取“U0”命令要发送的数据</span></span><br><span class="line">        &#123;</span><br><span class="line">            ArrayCpy(gFlashData.frameCmd,mCmd,<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">if</span>(gcRecvLen == mUserLen)       <span class="comment">//若为整帧数据</span></span><br><span class="line">            &#123;</span><br><span class="line">                mSendLen = gcRecvLen;</span><br><span class="line">                mWriteFlashFlag  =<span class="number">1</span>;</span><br><span class="line">                ArrayCpy((<span class="keyword">uint8_t</span>*)(&amp;gUserData),gcRecvBuf,mUserLen);</span><br><span class="line">                ArrayCpy(gFlashData.equipName,gUserData.equipName,<span class="number">30</span>);</span><br><span class="line">                ArrayCpy(gFlashData.equipID,gUserData.equipID,<span class="number">20</span>);</span><br><span class="line">                ArrayCpy(gFlashData.equipType,gUserData.equipType,<span class="number">20</span>);</span><br><span class="line">                ArrayCpy(gFlashData.vendor,gUserData.vendor,<span class="number">30</span>);</span><br><span class="line">                ArrayCpy(gFlashData.userName,gUserData.userName,<span class="number">20</span>);</span><br><span class="line">                ArrayCpy(gFlashData.phone,gUserData.phone,<span class="number">11</span>);</span><br><span class="line">                ArrayCpy(gFlashData.serverIP,gUserData.serverIP,<span class="number">15</span>);</span><br><span class="line">                ArrayCpy(gFlashData.serverPort,gUserData.serverPort,<span class="number">5</span>);</span><br><span class="line">                gFlashData.sendFrequencySec = gUserData.sendFrequencySec;</span><br><span class="line">                gFlashData.resetCount = gUserData.resetCount;</span><br><span class="line">                ArrayCpy(gFlashData.frameCmd,gUserData.cmd,<span class="number">2</span>);</span><br><span class="line">                <span class="comment">//【画瓢处2】-执行操作</span></span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">strcmp</span>((<span class="keyword">char</span>*)gUserData.surplusInfo,(<span class="keyword">char</span>*)<span class="string">"LIGHT_ON"</span>) == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    gpio_set(LIGHT_BLUE,LIGHT_ON);</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"LIGHT_ON"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">strcmp</span>((<span class="keyword">char</span>*)gUserData.surplusInfo,(<span class="keyword">char</span>*)<span class="string">"LIGHT_OFF"</span>) == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    gpio_set(LIGHT_BLUE,LIGHT_OFF);</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"LIGHT_OFF"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(mCmd[<span class="number">1</span>]==<span class="string">'1'</span>)		<span class="comment">//获取“U1”命令要发送的数据</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(gcRecvLen == <span class="number">59</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ArrayCpy(gUserData.cmd,gcRecvBuf,<span class="number">2</span>);</span><br><span class="line">                ArrayCpy(gUserData.IMSI,gcRecvBuf+<span class="number">2</span>,<span class="number">15</span>);</span><br><span class="line">                ArrayCpy((<span class="keyword">uint8_t</span> *)&amp;gUserData.currentTime,gcRecvBuf+<span class="number">17</span>,<span class="number">8</span>);</span><br><span class="line">                ArrayCpy((<span class="keyword">uint8_t</span> *)&amp;gUserData.mcuTemp,gcRecvBuf+<span class="number">25</span>,<span class="number">4</span>);</span><br><span class="line">                ArrayCpy((<span class="keyword">uint8_t</span> *)&amp;gUserData.signalPower,gcRecvBuf+<span class="number">29</span>,<span class="number">1</span>);</span><br><span class="line">                ArrayCpy((<span class="keyword">uint8_t</span> *)&amp;gUserData.bright,gcRecvBuf+<span class="number">30</span>,<span class="number">2</span>);</span><br><span class="line">                ArrayCpy((<span class="keyword">uint8_t</span> *)&amp;gUserData.touchNum,gcRecvBuf+<span class="number">32</span>,<span class="number">2</span>);</span><br><span class="line">                ArrayCpy(gUserData.lbs_location,gcRecvBuf+<span class="number">34</span>,<span class="number">25</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mSendLen&gt;<span class="number">0</span>)                      <span class="comment">//若有需要发送的数据</span></span><br><span class="line">    &#123;</span><br><span class="line">        mflag = wifi_sendN(mSendData,mSendLen,gUserData.IMSI);</span><br><span class="line">    &#125;</span><br><span class="line">    gcRecvLen = <span class="number">0</span>;                    <span class="comment">//接收数据长度清零，表明已经读取</span></span><br><span class="line">    <span class="keyword">if</span>(mflag==<span class="number">0</span>)</span><br><span class="line">        LCD_ShowString(<span class="number">6</span>,<span class="number">300</span>,BLUE,GRAY,<span class="string">"AHL Reply Successfully      "</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(mflag == <span class="number">0xff</span>)</span><br><span class="line">        LCD_ShowString(<span class="number">6</span>,<span class="number">300</span>,BLUE,GRAY,<span class="string">"AHL Recv Successfully       "</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        LCD_ShowString(<span class="number">6</span>,<span class="number">300</span>,BLUE,GRAY,<span class="string">"Send Error:Send Data Not OK "</span>);</span><br><span class="line">    <span class="comment">//判断是否需要写flash</span></span><br><span class="line">    <span class="keyword">if</span>(mWriteFlashFlag == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        flash_read_logic((<span class="keyword">uint8_t</span>*)gcRecvBuf,(MCU_SECTOR_NUM<span class="number">-1</span>),<span class="number">0</span>,MCU_SECTORSIZE);</span><br><span class="line">        flash_erase(MCU_SECTOR_NUM<span class="number">-1</span>);</span><br><span class="line">        ArrayCpy(((<span class="keyword">uint8_t</span>*)gcRecvBuf+<span class="number">28</span>),(<span class="keyword">uint8_t</span>*)(&amp;gFlashData),mFlashLen);</span><br><span class="line">        flash_write((MCU_SECTOR_NUM<span class="number">-1</span>),<span class="number">0</span>,MCU_SECTORSIZE,(<span class="keyword">uint8_t</span>*)gcRecvBuf);</span><br><span class="line"></span><br><span class="line">        mWriteFlashFlag = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">if</span> (mLCD_RefreshFlag==<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        LCD_Showfirst();                <span class="comment">//更新LCD上的显示</span></span><br><span class="line">        mLCD_RefreshFlag=<span class="number">0</span>;</span><br><span class="line">        <span class="comment">//补充显示显示设备的IMSI号、基站位置信息、接收次数</span></span><br><span class="line">        LCD_ShowString(<span class="number">60</span>,<span class="number">85</span>,BLUE,GRAY,(<span class="keyword">char</span> *)mRetdata+<span class="number">20</span>);</span><br><span class="line">        LCD_ShowString(<span class="number">60</span>,<span class="number">131</span>,BLUE,GRAY,(<span class="keyword">char</span> *)mLBS);  <span class="comment">//基站位置</span></span><br><span class="line">        LCD_ShowString(<span class="number">90</span>,<span class="number">251</span>,BLUE,GRAY,(<span class="keyword">char</span> *)IntConvertToStr(mRecvCount,mString));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/模块开发/" rel="tag"><i class="fas fa-tags"></i>模块开发</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/09/嵌入式系统/7-链接文件作用时间及原理/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/09/嵌入式系统/7-链接文件作用时间及原理/" itemprop="url">7-链接文件作用时间及原理</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-09T20:39:57+08:00">2020-10-09 20:39:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <ol>
-<li>一个</li>
-</ol>
-<p>开发C语言程序需要经过四个步骤：预编译、编译、链接、运行</p>
-<p>预编译</p>
-<p>预编译对源码中所有的预处理语句进行处理，例如： #include语句所包含的文件内容替换掉语句本身，所有已定义的宏被展开。根据#ifdef，#if等语句的条件是否成立取舍相应的部分，预处理之后源码中不再包含预处理语句。GCC预处理可以生成.i的文件。</p>
-<p>编译</p>
-<p>这一阶段，编译器对源码进行词法分析、语法分析、优化等操作，最后生成汇编代码。</p>
-<p>汇编</p>
-<p>这一阶段使用汇编器对汇编代码进行处理，生成机器语言代码，保存在后缀为.o的目标文件中。当程序有多个代码文件构成时，每个文件都要先完成汇编工作，生成.o目标文件后，才能进入下一步的链接工作。</p>
-<p>链接</p>
-<p>经过汇编以后的机器代码还不能直接运行。为了使操作系统能够正确加载可执行文件，文件中必须包含固定格式的信息头，还必须与系统提供的启动代码链接起来才能正常运行，这些都是又链接器来完成的。</p>
-<p>在STM32L431RC芯片中，链接的工作由链接文件.ld来完成，链接文件的主要功能就是将多个目标文件(.o)和库文件(.a)链接成一个可执行的文件。</p>
-<p>链接文件中主要有以下三个部分：链接配置、内存布局定义、段链接定义</p>
-<p>链接配置中设定一些符号变量的定义、入口地址、输出格式等</p>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/嵌入式系统/" rel="tag"><i class="fas fa-tags"></i>嵌入式系统</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/08/嵌入式系统/6-STM32链接文件各部分解析/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="奥特曼&猪猪侠&闪电小子&葫芦娃">
-        <meta itemprop="description" content="学IT中骑车最快的">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/08/嵌入式系统/6-STM32链接文件各部分解析/" itemprop="url">6-STM32链接文件各部分解析</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-08T15:05:57+08:00">2020-10-08 15:05:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式系统/" itemprop="url" rel="index"><span itemprop="name">嵌入式系统</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h2 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h2><figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/* Entry Point */</span><br><span class="line">ENTRY(Reset_Handler)</span><br><span class="line"></span><br><span class="line">/* Highest address of the user mode stack */</span><br><span class="line">_estack = 0x20010000;	/* end of &quot;RAM&quot; Ram type memory【1】-0x2000ffff */</span><br><span class="line"></span><br><span class="line">_Min_Heap_Size = 0x200 ;	/* required amount of heap  */</span><br><span class="line">_Min_Stack_Size = 0x400 ;	/* required amount of stack */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MCU_SECTORSIZE =2048; </span><br><span class="line"></span><br><span class="line">MCU_FLASH_ADDR_START = 0x8000000;    /*STM32L432RC的FLASH起始地址*/</span><br><span class="line">GEC_USER_SECTOR_START  =0;          /* 26=USER程序开始扇区号，0=自启动【2】-26 */  </span><br><span class="line">GEC_USER_SECTOR_END =127;            /*USER程序结束扇区号 */</span><br><span class="line">GEC_USER_RAM_START =0x20000000;      /*USER RAM区域起始地址  【3】-0x20002000*/</span><br><span class="line">GEC_USER_RAM_END  =0x20010000;       /*USER RAM区域结束地址  */</span><br></pre></td></tr></table></figure>
-
-<p>ENTRY(Reset_Handler)</p>
-<p>—–指定入口地址</p>
-<p>_estack = 0x20010000 </p>
-<p>—–指定RAM的结束地址（起始地址为0x20000000，说明RAM区大小为64K）</p>
-<p>_Min_Heap_Size = 0x200 </p>
-<p>—–指定堆的大小为512B</p>
-<p>_Min_Stack_Size = 0x400 </p>
-<p>—–指定栈的大小为1KB</p>
-<p>MCU_SECTORSIZE =2048</p>
-<p>—–指定扇区大小</p>
-<p>MCU_FLASH_ADDR_START = 0x8000000</p>
-<p>—–指定Flash起始地址</p>
-<p>GEC_USER_SECTOR_START  =0</p>
-<p>—–指定用户区起始扇区号</p>
-<p>GEC_USER_SECTOR_END =127</p>
-<p>—–指定用户区结束扇区号</p>
-<p>GEC_USER_RAM_START =0x20000000</p>
-<p>—–指定用户RAM开始地址</p>
-<p>GEC_USER_RAM_END  =0x20010000</p>
-<p>—–指定用户RAM结束地址</p>
-<h2 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h2><figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">	/*USER程序放置处。*/</span><br><span class="line">	USER_INTVEC(rx) : ORIGIN =MCU_FLASH_ADDR_START + MCU_SECTORSIZE * GEC_USER_SECTOR_START , LENGTH = MCU_SECTORSIZE</span><br><span class="line">    </span><br><span class="line">    FLASH (rx) : ORIGIN = MCU_FLASH_ADDR_START + MCU_SECTORSIZE * (GEC_USER_SECTOR_START + 1) , LENGTH = MCU_SECTORSIZE * (GEC_USER_SECTOR_END - GEC_USER_SECTOR_START )</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    /*USER的RAM空间。*/</span><br><span class="line">    /* RAM  (rwx) : ORIGIN = GEC_USER_RAM_START , LENGTH = GEC_USER_RAM_END - GEC_USER_RAM_START */</span><br><span class="line">    RAM  (rwx) : ORIGIN = GEC_USER_RAM_START + 0x188, LENGTH = GEC_USER_RAM_END - GEC_USER_RAM_START - 0x188  /*【4】*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>MEMORY给出了地址的划分</strong></p>
-<p>这里的名字USER_INTVEC，FLASH，USER指的是一段地址，ORIGIN是起始地址，LENGTH是该段地址的长度。仔细观察可以发现，在下一部分SECTIONS中每段结束后会有 &gt;USER_INTVEC，&gt;FLASH，&gt;USER，这个意思是将程序的各个内容放在USER_INTVEC，FLASH，USER所指的地址中。</p>
-<h2 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h2><figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">  /* The startup code into &quot;FLASH&quot; Rom type memory */</span><br><span class="line">  .isr_vector :</span><br><span class="line">  &#123;</span><br><span class="line">    . = ALIGN(8);</span><br><span class="line">    KEEP(*(.isr_vector)) /* Startup code */</span><br><span class="line">    . = ALIGN(8);</span><br><span class="line">  &#125; &gt;USER_INTVEC</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>SECTIONS实际上指定了程序的各个内容该如何放置在FLASH或者RAM中。</strong></p>
-<p>. = ALIGN(8);</p>
-<p>—–  .表示当前地址，. = ALIGN(8)表示从<strong>当前地址开始后面的存储进行8字节对齐</strong></p>
-<p>KEEP(*(.isr_vector))</p>
-<p>—– KEEP防止所有.isr_vector段被过滤掉，防止被优化</p>
-<p>&gt;USER_INTVEC</p>
-<p>—– 将.isr_vector段的内容放置在USER_INTVEC中</p>
-<p>一般的程序中包含常见的几个段：</p>
-<p>text(存放程序)</p>
-<p>rodata(存放被初始化的数据)</p>
-<p>data(表示初始化不为0的变量)</p>
-<p>bss(表示初始化值为默认的全局变量)</p>
-<p>text,rodata放在flash中，data中的初始化值作为rodata放在flash中</p>
-<p>变量在ram中占有空间，bss占ram空间</p>
-<figure class="hljs highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.malloc :</span><br><span class="line">&#123;</span><br><span class="line">. = ALIGN(4);</span><br><span class="line">__MALLOC_SYMBOLS = .;       /* create a global symbol at ccmram start */</span><br><span class="line">*(.malloc)</span><br><span class="line">*(.malloc*)</span><br><span class="line"></span><br><span class="line">. = ALIGN(4);</span><br><span class="line">__EMALLOC_SYMBOLS = .;       /* create a global symbol at ccmram end */</span><br><span class="line">&#125; &gt;MALLOC AT&gt; FLASH</span><br><span class="line">/*结尾跳过*/</span><br></pre></td></tr></table></figure>
-
-<p>段可以自定义，如上面写的malloc段，由于编译obj过程中不会生成用户自定义的段，因此在源码中需要指定需要特殊处理的段</p>
-<p>结尾的<code>&gt;MALLOC</code>指上面花括号内的内容都放在第二部分中定义的MALLOC空间中。如果没有<code>AT&gt; FLASH</code>，那么编译bin文件时地址是连续的</p>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/嵌入式系统/" rel="tag"><i class="fas fa-tags"></i>嵌入式系统</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-angle-right" aria-label="下一页"></i></a>
   </nav>
   
   
@@ -1014,21 +1248,21 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">49</a></div>
+      <div><a href="/archives/">56</a></div>
     </div>
     
     
     
     <div class="categories-count count-block">
       <div class="site-count-title">分类</div>
-      <div><a href="/categories/">12</a></div>
+      <div><a href="/categories/">13</a></div>
     </div>
     
     
     
     <div class="tags-count count-block">
       <div class="site-count-title">标签</div>
-      <div><a href="/tags/">11</a></div>
+      <div><a href="/tags/">12</a></div>
     </div>
     
     
