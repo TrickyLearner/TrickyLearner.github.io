@@ -204,6 +204,105 @@
   
   <article class="article post card" itemscope itemtype="http://schema.org/Article">
     <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/23/一百个A类问题/第三个A类问题-Arduino-UDP通信问题/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="姜家乐">
+        <meta itemprop="description" content="嵌入式学习札记">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/23/一百个A类问题/第三个A类问题-Arduino-UDP通信问题/" itemprop="url">第三个A类问题-Arduino_UDP通信问题</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-23T11:16:02+08:00">2020-11-23 11:16:02</time></span>
+        </span>
+        
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      <h1 id="Arduino-UDP通信问题"><a href="#Arduino-UDP通信问题" class="headerlink" title="Arduino_UDP通信问题"></a>Arduino_UDP通信问题</h1><h2 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1.问题描述"></a>1.问题描述</h2><p>在Arduino-ESP32编写的UDP通信中，利用udp.write(data,len)发送图片会出现图片显示不全</p>
+<h2 id="2-问题出现原因"><a href="#2-问题出现原因" class="headerlink" title="2.问题出现原因"></a>2.问题出现原因</h2><p>Arduino-ESP32封装的UDP函数udp.write(data,len)中的data无论是多大的数据，函数只会发送前1436个数据，这样导致每次只传输图片数据流的前1436个数据，后面所有的数据被遗弃。</p>
+<h2 id="3-问题解决办法"><a href="#3-问题解决办法" class="headerlink" title="3.问题解决办法"></a>3.问题解决办法</h2><p>当需要传输数据量比较大的数据时，可以将数据分片发送，设置每片的数据大小为1430或者其他大小，然后一片一片发送，接收端需要对应对一片数据进行判断。判断的方法一般有一下几种：</p>
+<p>​            ① 接收端根据发送端进行的切片数量开启同样数量的端口来接收发送段的数据</p>
+<p>​            比如需要传输1920×1080的视频，通过一个端口进行数据发送会导致画面出现卡顿现象，可以通过将一个图片等宽截成20份通过20个链路发送过来，这样传过来的视频会比较流畅。还可以通过并行加速技术提高速度。</p>
+<p>​            ② 发送端一片一片的发送数据，接收方只需要一个端口进行数据接收</p>
+<p>​            当需要发送的视频流对画质的要求不高时，我们不需要开启多个端口同时进行接收，一个端口即可完成图片的传输，此时可以将图片切片发送，接收端将收到的多片数据拼接还原出图片，这种方法需要加上开始接收的标记和停止接收的标记。</p>
+
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/一百个A类问题/" rel="tag"><i class="fas fa-tags"></i>一百个A类问题</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/21/学习备忘录/第11周/">
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="姜家乐">
+        <meta itemprop="description" content="嵌入式学习札记">
+        <meta itemprop="image" content="/images/avatar.png">
+      </span>
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="LEARNING NOTES">
+      </span>
+    </div>
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name headline">
+        <a class="post-title-link post-title-link-external" href="/2020/11/21/学习备忘录/第11周/" itemprop="url">第11周</a>
+      </h1>
+      <div class="post-meta">
+        
+        <span class="post-date">
+          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-11-21T19:42:41+08:00">2020-11-21 19:42:41</time></span>
+        </span>
+        
+        
+        
+        <span class="post-meta-divider divider">|</span>
+        
+        <span class="post-categories">
+          
+          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习备忘录/" itemprop="url" rel="index"><span itemprop="name">学习备忘录</span></a></span>
+        </span>
+        
+        
+      </div>
+    </header>
+    <main class="post-main" itemprop="articleBody">
+      
+      
+      
+    </main>
+    <footer class="post-footer">
+      
+      <div class="post-tags">
+        
+        <a class="post-tag button" href="/tags/学习备忘录/" rel="tag"><i class="fas fa-tags"></i>学习备忘录</a>
+        
+      </div>
+      
+    </footer>
+  </article>
+  
+  <article class="article post card" itemscope itemtype="http://schema.org/Article">
+    <div class="post-block">
       <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/17/构件整理/2-通信模块IIC/">
       <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
         <meta itemprop="name" content="姜家乐">
@@ -1035,184 +1134,6 @@
     </footer>
   </article>
   
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/12/会议总结/20201012会议总结/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="姜家乐">
-        <meta itemprop="description" content="嵌入式学习札记">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/12/会议总结/20201012会议总结/" itemprop="url">20201012会议总结</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-12T11:39:57+08:00">2020-10-12 11:39:57</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/会议总结/" itemprop="url" rel="index"><span itemprop="name">会议总结</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="20201012会议要点总结"><a href="#20201012会议要点总结" class="headerlink" title="20201012会议要点总结"></a>20201012会议要点总结</h1><h2 id="遇到问题，要珍惜问题"><a href="#遇到问题，要珍惜问题" class="headerlink" title="遇到问题，要珍惜问题"></a>遇到问题，要珍惜问题</h2><p>每遇到一个问题，就放弃一个问题，就永远不会成长，遇到一个问题，解决一个问题，能力就会提升一步。</p>
-<h2 id="论文一页纸"><a href="#论文一页纸" class="headerlink" title="论文一页纸"></a>论文一页纸</h2><p>每周负责的人需要写出一页论文相关的内容</p>
-<h2 id="每件事情都要做到底"><a href="#每件事情都要做到底" class="headerlink" title="每件事情都要做到底"></a>每件事情都要做到底</h2><p>每件事情都要做到底，做10件未完成的事情不如做一件完成的事情</p>
-<h2 id="研究生要会做也要会写"><a href="#研究生要会做也要会写" class="headerlink" title="研究生要会做也要会写"></a>研究生要会做也要会写</h2><p>研究生要有做事的能力，也要学会总结，否则知识就会散掉。</p>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/会议总结/" rel="tag"><i class="fas fa-tags"></i>会议总结</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
-  <article class="article post card" itemscope itemtype="http://schema.org/Article">
-    <div class="post-block">
-      <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/学习备忘录/第5周/">
-      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <meta itemprop="name" content="姜家乐">
-        <meta itemprop="description" content="嵌入式学习札记">
-        <meta itemprop="image" content="/images/avatar.png">
-      </span>
-      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="LEARNING NOTES">
-      </span>
-    </div>
-    <header class="post-header">
-      <h1 class="post-title" itemprop="name headline">
-        <a class="post-title-link post-title-link-external" href="/2020/10/10/学习备忘录/第5周/" itemprop="url">第5周</a>
-      </h1>
-      <div class="post-meta">
-        
-        <span class="post-date">
-          <i class="far fa-calendar-plus"></i><span><time title="post-date" itemprop="dateCreated datePublished" datetime="2020-10-10T22:00:03+08:00">2020-10-10 22:00:03</time></span>
-        </span>
-        
-        
-        
-        <span class="post-meta-divider divider">|</span>
-        
-        <span class="post-categories">
-          
-          <i class="far fa-folder-open"></i><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习备忘录/" itemprop="url" rel="index"><span itemprop="name">学习备忘录</span></a></span>
-        </span>
-        
-        
-      </div>
-    </header>
-    <main class="post-main" itemprop="articleBody">
-      
-      <h1 id="第5周-学习备忘录"><a href="#第5周-学习备忘录" class="headerlink" title="第5周-学习备忘录"></a>第5周-学习备忘录</h1><table>
-<thead>
-<tr>
-<th align="center">日期</th>
-<th align="center">星期</th>
-<th align="center">时间记录</th>
-<th align="center">学习内容</th>
-<th align="center">日合计</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">10.5</td>
-<td align="center">1</td>
-<td align="center">无</td>
-<td align="center">无</td>
-<td align="center">无</td>
-</tr>
-<tr>
-<td align="center">10.6</td>
-<td align="center">2</td>
-<td align="center">无</td>
-<td align="center">无</td>
-<td align="center">无</td>
-</tr>
-<tr>
-<td align="center">10.7</td>
-<td align="center">3</td>
-<td align="center">无</td>
-<td align="center">无</td>
-<td align="center">无</td>
-</tr>
-<tr>
-<td align="center">10.8</td>
-<td align="center">4</td>
-<td align="center">9:00-21:30</td>
-<td align="center">比赛</td>
-<td align="center">12.5</td>
-</tr>
-<tr>
-<td align="center">10.9</td>
-<td align="center">5</td>
-<td align="center">9:00-21:30</td>
-<td align="center">比赛</td>
-<td align="center">12.5</td>
-</tr>
-<tr>
-<td align="center">10.10</td>
-<td align="center">6</td>
-<td align="center">9:00-21:30</td>
-<td align="center">比赛</td>
-<td align="center">12.5</td>
-</tr>
-<tr>
-<td align="center">10.11</td>
-<td align="center">7</td>
-<td align="center">无</td>
-<td align="center">无</td>
-<td align="center">无</td>
-</tr>
-<tr>
-<td align="center">周合计时间</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">周平均时间</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-
-      
-    </main>
-    <footer class="post-footer">
-      
-      <div class="post-tags">
-        
-        <a class="post-tag button" href="/tags/学习备忘录/" rel="tag"><i class="fas fa-tags"></i>学习备忘录</a>
-        
-      </div>
-      
-    </footer>
-  </article>
-  
   
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-angle-right" aria-label="下一页"></i></a>
@@ -1248,21 +1169,21 @@
     
     <div class="archives-count count-block">
       <div class="site-count-title">归档</div>
-      <div><a href="/archives/">56</a></div>
+      <div><a href="/archives/">58</a></div>
     </div>
     
     
     
     <div class="categories-count count-block">
       <div class="site-count-title">分类</div>
-      <div><a href="/categories/">13</a></div>
+      <div><a href="/categories/">14</a></div>
     </div>
     
     
     
     <div class="tags-count count-block">
       <div class="site-count-title">标签</div>
-      <div><a href="/tags/">12</a></div>
+      <div><a href="/tags/">13</a></div>
     </div>
     
     
@@ -1326,7 +1247,7 @@
     <div class="footer-container">
       <div class="footer-left">
         <div class="copyright">
-          <span class="author">姜家乐</span><span class="year"><i class="far fa-copyright"></i>2020</span>
+          <span class="author">姜家乐</span><span class="year"><i class="far fa-copyright"></i>2021</span>
         </div>
         
         <div class="busuanzi">
